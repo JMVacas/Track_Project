@@ -272,6 +272,11 @@ namespace Track_Project
             Explorador explorador = new Explorador();
         }
 
+        private void Add_Track_Click(object sender, EventArgs e)
+        {
+
+        }
+
         private void exportarMapaToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Explorador explorador = new Explorador();

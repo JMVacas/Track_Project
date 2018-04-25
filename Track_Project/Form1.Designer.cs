@@ -33,6 +33,7 @@ namespace Track_Project
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.Posicion_Cursor = new System.Windows.Forms.LinkLabel();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.Paleta = new System.Windows.Forms.PictureBox();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.Archivo_Menu = new System.Windows.Forms.ToolStripMenuItem();
@@ -40,10 +41,9 @@ namespace Track_Project
             this.cargarTrayectoriaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Exportar_Trayectoria_Menu1 = new System.Windows.Forms.ToolStripMenuItem();
             this.exportarMapaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewAllTracsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.Mouse_Button = new System.Windows.Forms.ToolStripButton();
             this.Select_Origin_Button = new System.Windows.Forms.ToolStripButton();
             this.Line_Button = new System.Windows.Forms.ToolStripButton();
@@ -52,16 +52,16 @@ namespace Track_Project
             this.Delete_Last = new System.Windows.Forms.ToolStripButton();
             this.Mathematical_Edition = new System.Windows.Forms.ToolStripButton();
             this.Color_Select = new System.Windows.Forms.ToolStripButton();
-            this.DTA = new System.Windows.Forms.PictureBox();
-            this.Paleta = new System.Windows.Forms.PictureBox();
             this.Add_Track = new System.Windows.Forms.ToolStripButton();
-            this.Select_Track = new System.Windows.Forms.ToolStripSplitButton();
+            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
+            this.DTA = new System.Windows.Forms.PictureBox();
+            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Paleta)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DTA)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Paleta)).BeginInit();
             this.SuspendLayout();
             // 
             // Posicion_Cursor
@@ -86,6 +86,22 @@ namespace Track_Project
             this.panel3.Size = new System.Drawing.Size(770, 427);
             this.panel3.TabIndex = 21;
             // 
+            // Paleta
+            // 
+            this.Paleta.BackColor = System.Drawing.SystemColors.Control;
+            this.Paleta.ImageLocation = "";
+            this.Paleta.Location = new System.Drawing.Point(0, 0);
+            this.Paleta.Name = "Paleta";
+            this.Paleta.Size = new System.Drawing.Size(770, 416);
+            this.Paleta.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.Paleta.TabIndex = 18;
+            this.Paleta.TabStop = false;
+            this.Paleta.Click += new System.EventHandler(this.Paleta_Click);
+            this.Paleta.Paint += new System.Windows.Forms.PaintEventHandler(this.Paleta_Paint);
+            this.Paleta.MouseLeave += new System.EventHandler(this.Paleta_MouseLeave);
+            this.Paleta.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Paleta_MouseMove);
+            this.Paleta.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Paleta_MouseUp);
+            // 
             // trackBar1
             // 
             this.trackBar1.LargeChange = 2;
@@ -104,7 +120,8 @@ namespace Track_Project
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Archivo_Menu,
-            this.optionsToolStripMenuItem});
+            this.optionsToolStripMenuItem,
+            this.viewToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1000, 24);
@@ -150,31 +167,6 @@ namespace Track_Project
             this.exportarMapaToolStripMenuItem.Text = "Exportar Mapa";
             this.exportarMapaToolStripMenuItem.Click += new System.EventHandler(this.exportarMapaToolStripMenuItem_Click);
             // 
-            // toolStrip1
-            // 
-            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.Mouse_Button,
-            this.Select_Origin_Button,
-            this.Line_Button,
-            this.Curve_Button,
-            this.Borrar_Todo_Strip,
-            this.Delete_Last,
-            this.Mathematical_Edition,
-            this.Color_Select,
-            this.Add_Track,
-            this.Select_Track});
-            this.toolStrip1.Location = new System.Drawing.Point(967, 24);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.toolStrip1.Size = new System.Drawing.Size(33, 511);
-            this.toolStrip1.TabIndex = 25;
-            this.toolStrip1.Text = "toolStrip1";
-            // 
-            // colorDialog1
-            // 
-            this.colorDialog1.SolidColorOnly = true;
-            // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -192,6 +184,26 @@ namespace Track_Project
             this.viewAllTracsToolStripMenuItem.Text = "View All Tracks";
             this.viewAllTracsToolStripMenuItem.ToolTipText = "Check for viewing all track simultanisusly";
             // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.Right;
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.Mouse_Button,
+            this.Select_Origin_Button,
+            this.Line_Button,
+            this.Curve_Button,
+            this.Borrar_Todo_Strip,
+            this.Delete_Last,
+            this.Mathematical_Edition,
+            this.Color_Select,
+            this.Add_Track});
+            this.toolStrip1.Location = new System.Drawing.Point(976, 24);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
+            this.toolStrip1.Size = new System.Drawing.Size(24, 511);
+            this.toolStrip1.TabIndex = 25;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
             // Mouse_Button
             // 
             this.Mouse_Button.CheckOnClick = true;
@@ -199,7 +211,7 @@ namespace Track_Project
             this.Mouse_Button.Image = ((System.Drawing.Image)(resources.GetObject("Mouse_Button.Image")));
             this.Mouse_Button.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.Mouse_Button.Name = "Mouse_Button";
-            this.Mouse_Button.Size = new System.Drawing.Size(30, 20);
+            this.Mouse_Button.Size = new System.Drawing.Size(21, 20);
             this.Mouse_Button.Text = "Mouse tool, click here for add a line";
             this.Mouse_Button.Click += new System.EventHandler(this.Mouse_Button_Click);
             // 
@@ -280,6 +292,20 @@ namespace Track_Project
             this.Color_Select.ToolTipText = "Select the color of the lines";
             this.Color_Select.Click += new System.EventHandler(this.Color_Select_Click);
             // 
+            // Add_Track
+            // 
+            this.Add_Track.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.Add_Track.Image = ((System.Drawing.Image)(resources.GetObject("Add_Track.Image")));
+            this.Add_Track.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.Add_Track.Name = "Add_Track";
+            this.Add_Track.Size = new System.Drawing.Size(30, 20);
+            this.Add_Track.Text = "Add a track";
+            this.Add_Track.Click += new System.EventHandler(this.Add_Track_Click);
+            // 
+            // colorDialog1
+            // 
+            this.colorDialog1.SolidColorOnly = true;
+            // 
             // DTA
             // 
             this.DTA.ImageLocation = "C:\\Users\\Juan\\Documents\\Visual Studio 2017\\Projects\\Track_Project\\Track_Project\\R" +
@@ -291,40 +317,11 @@ namespace Track_Project
             this.DTA.TabIndex = 12;
             this.DTA.TabStop = false;
             // 
-            // Paleta
+            // viewToolStripMenuItem
             // 
-            this.Paleta.BackColor = System.Drawing.SystemColors.Control;
-            this.Paleta.ImageLocation = "";
-            this.Paleta.Location = new System.Drawing.Point(0, 0);
-            this.Paleta.Name = "Paleta";
-            this.Paleta.Size = new System.Drawing.Size(770, 416);
-            this.Paleta.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.Paleta.TabIndex = 18;
-            this.Paleta.TabStop = false;
-            this.Paleta.Click += new System.EventHandler(this.Paleta_Click);
-            this.Paleta.Paint += new System.Windows.Forms.PaintEventHandler(this.Paleta_Paint);
-            this.Paleta.MouseLeave += new System.EventHandler(this.Paleta_MouseLeave);
-            this.Paleta.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Paleta_MouseMove);
-            this.Paleta.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Paleta_MouseUp);
-            // 
-            // Add_Track
-            // 
-            this.Add_Track.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.Add_Track.Image = ((System.Drawing.Image)(resources.GetObject("Add_Track.Image")));
-            this.Add_Track.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.Add_Track.Name = "Add_Track";
-            this.Add_Track.Size = new System.Drawing.Size(30, 20);
-            this.Add_Track.Text = "Add a track";
-            // 
-            // Select_Track
-            // 
-            this.Select_Track.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.Select_Track.Image = ((System.Drawing.Image)(resources.GetObject("Select_Track.Image")));
-            this.Select_Track.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.Select_Track.Name = "Select_Track";
-            this.Select_Track.Size = new System.Drawing.Size(30, 20);
-            this.Select_Track.Text = "toolStripSplitButton1";
-            this.Select_Track.ToolTipText = "Select a track of the list";
+            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.viewToolStripMenuItem.Text = "View";
             // 
             // Form1
             // 
@@ -344,13 +341,13 @@ namespace Track_Project
             this.Text = "Form1";
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Form1_KeyDown);
             this.panel3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.Paleta)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DTA)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Paleta)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -381,7 +378,7 @@ namespace Track_Project
         private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem viewAllTracsToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton Add_Track;
-        private System.Windows.Forms.ToolStripSplitButton Select_Track;
+        private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
     }
 }
 

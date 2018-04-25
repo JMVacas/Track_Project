@@ -29,6 +29,7 @@ namespace Track_Project
         private Point Punto_Seleccionado_1 = new Point(), Punto_Seleccionado_2 = new Point(), Punto_Cero = new Point(), Mouse_Position = new Point();
         private bool Preview_Linea, View_Equal_Point;
         private int Index_x, Index_y, Posicion_x, Posicion_y;
+        private List <Tracks> tracks = new List<Tracks>();
         public Color Line_Color = Color.DarkRed;
         Double Zoom = 5;
         public static Bitmap Map;

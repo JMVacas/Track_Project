@@ -408,12 +408,25 @@ namespace Track_Project
                 return false;
             }
         }
+        /// <summary>
+        /// It makes a rectangle that informs that you are close to a point and it will put your next point over the selected point
+        /// </summary>
+        /// <param name="pen"></param>
+        /// <param name="point"></param>
+        /// <param name="g"></param>
+        /// <param name="height"></param>
+        /// <param name="width"></param>
         public void DrawRectangle(Pen pen, Point point, ref Graphics g, int height=8, int width=8)
         {
             point.X -= width / 2;
             point.Y -= height / 2;
             g.DrawRectangle(pen, point.X, point.Y, width, height);
         }
+        /// <summary>
+        /// Make the next point to be perpendicular or horizontal if the angle is next to 0 or 90º
+        /// </summary>
+        /// <param name="point"></param>
+        /// <param name="last_point"></param>
         public void CalculatePointAngle(ref Point point, Point last_point)
         {
             double Angle = CalculateAngle(ref point, ref last_point);
@@ -421,12 +434,18 @@ namespace Track_Project
             {
                 point.X = last_point.X;
             }
-            else if ((Angle < 10 && Angle > 350) || (Angle < 190 && Angle > 170) )
+            else if ((Angle < 10 && Angle > -10) || (Angle < 190 && Angle > 170) )
             {
                 point.Y = last_point.Y;
             }
 
         }
+        /// <summary>
+        /// Calculate angle between 2 points
+        /// </summary>
+        /// <param name="point"></param>
+        /// <param name="last_point"></param>
+        /// <returns></returns>
         private double CalculateAngle(ref Point point, ref Point last_point)
         {
             return Math.Atan2(last_point.Y - point.Y, last_point.X - point.X) * 180 / Math.PI;

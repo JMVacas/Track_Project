@@ -43,6 +43,8 @@ namespace Track_Project
             this.exportarMapaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewAllTracsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deteleTrackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripComboBox1 = new System.Windows.Forms.ToolStripComboBox();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.Mouse_Button = new System.Windows.Forms.ToolStripButton();
@@ -56,14 +58,14 @@ namespace Track_Project
             this.Add_Track = new System.Windows.Forms.ToolStripButton();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.DTA = new System.Windows.Forms.PictureBox();
-            this.deteleTrackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripComboBox1 = new System.Windows.Forms.ToolStripComboBox();
+            this.Track_Caption = new System.Windows.Forms.PictureBox();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Paleta)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DTA)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Track_Caption)).BeginInit();
             this.SuspendLayout();
             // 
             // Posicion_Cursor
@@ -72,7 +74,7 @@ namespace Track_Project
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Posicion_Cursor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
             this.Posicion_Cursor.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.Posicion_Cursor.Font = new System.Drawing.Font("Adobe Fangsong Std R", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Posicion_Cursor.Font = new System.Drawing.Font("Adobe Fangsong Std R", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.Posicion_Cursor.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.Posicion_Cursor.LinkColor = System.Drawing.Color.Red;
             this.Posicion_Cursor.Location = new System.Drawing.Point(263, 468);
@@ -201,12 +203,24 @@ namespace Track_Project
             this.viewAllTracsToolStripMenuItem.Text = "View All Tracks";
             this.viewAllTracsToolStripMenuItem.ToolTipText = "Check for viewing all track simultanisusly";
             // 
+            // deteleTrackToolStripMenuItem
+            // 
+            this.deteleTrackToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripComboBox1});
+            this.deteleTrackToolStripMenuItem.Name = "deteleTrackToolStripMenuItem";
+            this.deteleTrackToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.deteleTrackToolStripMenuItem.Text = "Detele track";
+            // 
+            // toolStripComboBox1
+            // 
+            this.toolStripComboBox1.Name = "toolStripComboBox1";
+            this.toolStripComboBox1.Size = new System.Drawing.Size(121, 23);
+            // 
             // viewToolStripMenuItem
             // 
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.viewToolStripMenuItem.Text = "View";
-            this.viewToolStripMenuItem.Click += new System.EventHandler(this.viewToolStripMenuItem_Click);
             // 
             // toolStrip1
             // 
@@ -342,24 +356,24 @@ namespace Track_Project
             this.DTA.TabIndex = 12;
             this.DTA.TabStop = false;
             // 
-            // deteleTrackToolStripMenuItem
+            // Track_Caption
             // 
-            this.deteleTrackToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripComboBox1});
-            this.deteleTrackToolStripMenuItem.Name = "deteleTrackToolStripMenuItem";
-            this.deteleTrackToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.deteleTrackToolStripMenuItem.Text = "Detele track";
-            // 
-            // toolStripComboBox1
-            // 
-            this.toolStripComboBox1.Name = "toolStripComboBox1";
-            this.toolStripComboBox1.Size = new System.Drawing.Size(121, 23);
+            this.Track_Caption.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.Track_Caption.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.Track_Caption.Location = new System.Drawing.Point(806, 27);
+            this.Track_Caption.Name = "Track_Caption";
+            this.Track_Caption.Size = new System.Drawing.Size(129, 416);
+            this.Track_Caption.TabIndex = 26;
+            this.Track_Caption.TabStop = false;
+            this.Track_Caption.Paint += new System.Windows.Forms.PaintEventHandler(this.Track_Caption_Paint);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1000, 535);
+            this.Controls.Add(this.Track_Caption);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.trackBar1);
             this.Controls.Add(this.Posicion_Cursor);
@@ -382,6 +396,7 @@ namespace Track_Project
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DTA)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Track_Caption)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -415,6 +430,7 @@ namespace Track_Project
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deteleTrackToolStripMenuItem;
         private System.Windows.Forms.ToolStripComboBox toolStripComboBox1;
+        private System.Windows.Forms.PictureBox Track_Caption;
     }
 }
 

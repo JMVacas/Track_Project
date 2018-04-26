@@ -9,7 +9,7 @@ namespace Track_Project
 {
     public class Picasso
     {
-        private const int Grid_Division = 40;
+        protected const int Grid_Division = 40;
         /*La mision de esta funcion es poder seleccionar 2 puntos cuando haces click sobre ellos en una forma Picture_Box
          * @arg1: Variable punto_Seleccionado_1, que se guardara el primer punto que este en la linea y se haga click
          * @arg2: Lo mismo que la primera variable
@@ -119,7 +119,7 @@ namespace Track_Project
          * @arg6 Booleano para comprobar si hay que dibujar la preview 
          * @arg7 Graficos necesarios para dibujar
          * */
-        public void Pintar_Lineas(ref List<List<Point>> lineas, ref Pen pen, ref List<Point> points, ref System.Windows.Forms.PictureBox Paleta, ref System.Windows.Forms.ToolStripButton Herramienta_Dibujo, ref System.Windows.Forms.ToolStripButton Linea, ref bool Preview_Linea,  Double Zoom, ref int Posicion_x, ref int Posicion_y, ref Point Mouse_Position)
+        public void Pintar_Lineas(ref List<List<Point>> lineas, ref Pen pen, ref List<Point> points, ref System.Windows.Forms.PictureBox Paleta, ref System.Windows.Forms.ToolStripButton Herramienta_Dibujo, ref System.Windows.Forms.ToolStripButton Linea, ref bool Preview_Linea, ref Point Mouse_Position)
         {
             try
             {
@@ -259,7 +259,7 @@ namespace Track_Project
                 }
             }
         }
-        private int Get_line_Index(Point point, ref List<List<Point>> lineas, ref int i, int radio = 10)
+        protected int Get_line_Index(Point point, ref List<List<Point>> lineas, ref int i, int radio = 10)
         {
             return lineas[i].FindIndex(x => (x.X > point.X - radio && x.X < point.X + radio) && (x.Y > point.Y - radio && x.Y < point.Y + radio));
         }

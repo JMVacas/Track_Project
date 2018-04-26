@@ -31,6 +31,7 @@ namespace Track_Project
         private int Index_x, Index_y, Posicion_x, Posicion_y;
         private List <Tracks> tracks = new List<Tracks>();
         public Color Line_Color = Color.DarkRed;
+        private readonly SolidBrush[] Tracks_Color = new SolidBrush[]{ new SolidBrush(Color.Brown), new SolidBrush(Color.Aqua), new SolidBrush(Color.DarkGreen), new SolidBrush(Color.DarkMagenta), new SolidBrush(Color.DarkTurquoise), new SolidBrush(Color.DarkOrange) };
         Double Zoom = 5;
         public static Bitmap Map;
         private List<Ultima_Operacion> ultima_operacion = new List<Ultima_Operacion>();
@@ -54,12 +55,21 @@ namespace Track_Project
             g.TranslateTransform(Posicion_x, Posicion_y);
             Picasso picasso = new Picasso(g);
             if (Map!=null)
-            g.DrawImage(Map, 0, 0, Paleta.Width, Paleta.Height);
-            
+                g.DrawImage(Map, 0, 0, Paleta.Width, Paleta.Height);
+            if(tracks.Count>0)
+            {
+                for (int i =0; i< viewToolStripMenuItem.DropDownItems.Count; i++)
+                {
+                   if( ((ToolStripMenuItem)viewToolStripMenuItem.DropDownItems[i]).Checked)
+                    {
+                        tracks[i].Draw_tracks();
+                    }
+                }
+            }
             ///Paint Grid
             picasso.Draw_Grill(ref Origen, Zoom, Paleta.Height, Paleta.Width);
                 ///Pintar Lineas
-                picasso.Pintar_Lineas(ref lineas, ref pen, ref points, ref Paleta, ref Mouse_Button, ref Line_Button, ref Preview_Linea, 1/Zoom, ref Posicion_x, ref Posicion_y, ref Mouse_Position);
+            picasso.Pintar_Lineas(ref lineas, ref pen, ref points, ref Paleta, ref Mouse_Button, ref Line_Button, ref Preview_Linea, ref Mouse_Position);
                 
                 ///Pintar Puntos
                 brush.Color = Color.Green;
@@ -274,29 +284,43 @@ namespace Track_Project
 
         private void Add_Track_Click(object sender, EventArgs e)
         {
-            Tracks track = new Tracks
-            {
-                Curves = Puntos_Curva,
-                Lines = lineas,
-                Line_Color = Line_Color,
-                Name = "Track" + tracks.Count.ToString()
-            };
+            Tracks track = new Tracks(
+                 lineas,
+                 Puntos_Curva,
+                 Tracks_Color[tracks.Count],
+                "Track" + (tracks.Count + 1).ToString());
+            MessageBox.Show(this, track.Name + " has been added", "track added", MessageBoxButtons.OK, MessageBoxIcon.Information);
             tracks.Add(track);
-        }
-
-        private void viewToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            foreach (Tracks track in tracks)
+            viewToolStripMenuItem.DropDownItems.Add(track.Name, null, Tracks_View_OnClickHandler);
+            for (int i = 0; i < viewToolStripMenuItem.DropDownItems.Count; i++)
             {
-                ToolStripMenuItem toolStrip = new ToolStripMenuItem(track.Name);
-                toolStrip.Owner =
+                ((ToolStripMenuItem)viewToolStripMenuItem.DropDownItems[i]).CheckOnClick = true;
             }
+
+
         }
 
         private void exportarMapaToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Explorador explorador = new Explorador();
             explorador.Guardar_Explorador(ref Map);
+        }
+
+        private void Track_Caption_Paint(object sender, PaintEventArgs e)
+        {
+            Graphics g = e.Graphics;
+            Track_Caption.Text = "";
+            Font font = new Font(FontFamily.Families.First(s => s.Name.Contains("Adobe")), 24f, FontStyle.Bold);
+            int j = new int();
+            for (int i = 0; i < viewToolStripMenuItem.DropDownItems.Count; i++)
+            {
+                if (((ToolStripMenuItem)viewToolStripMenuItem.DropDownItems[i]).Checked)
+                {
+                    
+                    g.DrawString(tracks[i].Name + "\n", font , Tracks_Color[i], 0, j*24);
+                    j++;
+                }
+            }
         }
 
         private void Color_Select_Click(object sender, EventArgs e)
@@ -379,6 +403,13 @@ namespace Track_Project
             Preview_Linea = false;
             Paleta.Invalidate();
             Paleta.Update();
+        }
+        private void Tracks_View_OnClickHandler(object sender, EventArgs e)
+        {
+            // var result = MessageBox.Show(this, "Doing this action will delete all the active work\n Do you want to continue", "Warning", MessageBoxButtons.OKCancel);
+            Track_Caption.Invalidate();
+            Track_Caption.Update();
+            Track_Caption.Refresh();
         }
 
     }

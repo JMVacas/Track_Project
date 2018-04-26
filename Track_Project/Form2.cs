@@ -181,6 +181,6 @@ namespace Track_Project
                 Curve_Data.Rows.RemoveAt(Curve_Data.Rows.Count - 1);
             }
             Paleta.Refresh();
-        }
+        }   
     }
 }

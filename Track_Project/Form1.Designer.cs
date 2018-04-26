@@ -43,6 +43,7 @@ namespace Track_Project
             this.exportarMapaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewAllTracsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.Mouse_Button = new System.Windows.Forms.ToolStripButton();
             this.Select_Origin_Button = new System.Windows.Forms.ToolStripButton();
@@ -55,7 +56,8 @@ namespace Track_Project
             this.Add_Track = new System.Windows.Forms.ToolStripButton();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.DTA = new System.Windows.Forms.PictureBox();
-            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deteleTrackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripComboBox1 = new System.Windows.Forms.ToolStripComboBox();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Paleta)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
@@ -66,6 +68,8 @@ namespace Track_Project
             // 
             // Posicion_Cursor
             // 
+            this.Posicion_Cursor.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.Posicion_Cursor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
             this.Posicion_Cursor.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.Posicion_Cursor.Font = new System.Drawing.Font("Adobe Fangsong Std R", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -73,12 +77,15 @@ namespace Track_Project
             this.Posicion_Cursor.LinkColor = System.Drawing.Color.Red;
             this.Posicion_Cursor.Location = new System.Drawing.Point(263, 468);
             this.Posicion_Cursor.Name = "Posicion_Cursor";
-            this.Posicion_Cursor.Size = new System.Drawing.Size(359, 57);
+            this.Posicion_Cursor.Size = new System.Drawing.Size(311, 47);
             this.Posicion_Cursor.TabIndex = 19;
             this.Posicion_Cursor.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // panel3
             // 
+            this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel3.AutoScroll = true;
             this.panel3.Controls.Add(this.Paleta);
             this.panel3.Location = new System.Drawing.Point(27, 27);
@@ -88,12 +95,15 @@ namespace Track_Project
             // 
             // Paleta
             // 
+            this.Paleta.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.Paleta.BackColor = System.Drawing.SystemColors.Control;
             this.Paleta.ImageLocation = "";
-            this.Paleta.Location = new System.Drawing.Point(0, 0);
+            this.Paleta.Location = new System.Drawing.Point(3, 0);
             this.Paleta.Name = "Paleta";
             this.Paleta.Size = new System.Drawing.Size(770, 416);
-            this.Paleta.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.Paleta.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.Paleta.TabIndex = 18;
             this.Paleta.TabStop = false;
             this.Paleta.Click += new System.EventHandler(this.Paleta_Click);
@@ -104,6 +114,8 @@ namespace Track_Project
             // 
             // trackBar1
             // 
+            this.trackBar1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.trackBar1.AutoSize = false;
             this.trackBar1.LargeChange = 2;
             this.trackBar1.Location = new System.Drawing.Point(658, 478);
             this.trackBar1.Maximum = 12;
@@ -118,13 +130,17 @@ namespace Track_Project
             // 
             // menuStrip1
             // 
+            this.menuStrip1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.menuStrip1.Dock = System.Windows.Forms.DockStyle.None;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Archivo_Menu,
             this.optionsToolStripMenuItem,
             this.viewToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1000, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(173, 24);
             this.menuStrip1.TabIndex = 24;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -170,7 +186,8 @@ namespace Track_Project
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.viewAllTracsToolStripMenuItem});
+            this.viewAllTracsToolStripMenuItem,
+            this.deteleTrackToolStripMenuItem});
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
             this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
             this.optionsToolStripMenuItem.Text = "Options";
@@ -180,9 +197,16 @@ namespace Track_Project
             this.viewAllTracsToolStripMenuItem.AutoToolTip = true;
             this.viewAllTracsToolStripMenuItem.CheckOnClick = true;
             this.viewAllTracsToolStripMenuItem.Name = "viewAllTracsToolStripMenuItem";
-            this.viewAllTracsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.viewAllTracsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.viewAllTracsToolStripMenuItem.Text = "View All Tracks";
             this.viewAllTracsToolStripMenuItem.ToolTipText = "Check for viewing all track simultanisusly";
+            // 
+            // viewToolStripMenuItem
+            // 
+            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.viewToolStripMenuItem.Text = "View";
+            this.viewToolStripMenuItem.Click += new System.EventHandler(this.viewToolStripMenuItem_Click);
             // 
             // toolStrip1
             // 
@@ -197,10 +221,10 @@ namespace Track_Project
             this.Mathematical_Edition,
             this.Color_Select,
             this.Add_Track});
-            this.toolStrip1.Location = new System.Drawing.Point(976, 24);
+            this.toolStrip1.Location = new System.Drawing.Point(976, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.toolStrip1.Size = new System.Drawing.Size(24, 511);
+            this.toolStrip1.Size = new System.Drawing.Size(24, 535);
             this.toolStrip1.TabIndex = 25;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -222,7 +246,7 @@ namespace Track_Project
             this.Select_Origin_Button.Image = ((System.Drawing.Image)(resources.GetObject("Select_Origin_Button.Image")));
             this.Select_Origin_Button.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.Select_Origin_Button.Name = "Select_Origin_Button";
-            this.Select_Origin_Button.Size = new System.Drawing.Size(30, 20);
+            this.Select_Origin_Button.Size = new System.Drawing.Size(21, 20);
             this.Select_Origin_Button.Text = "Modify the origin of the coordenates";
             this.Select_Origin_Button.Click += new System.EventHandler(this.Select_Origin_Button_Click);
             // 
@@ -233,7 +257,7 @@ namespace Track_Project
             this.Line_Button.Image = ((System.Drawing.Image)(resources.GetObject("Line_Button.Image")));
             this.Line_Button.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.Line_Button.Name = "Line_Button";
-            this.Line_Button.Size = new System.Drawing.Size(30, 20);
+            this.Line_Button.Size = new System.Drawing.Size(21, 20);
             this.Line_Button.Text = "Draw a line with two points";
             this.Line_Button.Click += new System.EventHandler(this.Line_Button_Click);
             // 
@@ -244,7 +268,7 @@ namespace Track_Project
             this.Curve_Button.Image = ((System.Drawing.Image)(resources.GetObject("Curve_Button.Image")));
             this.Curve_Button.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.Curve_Button.Name = "Curve_Button";
-            this.Curve_Button.Size = new System.Drawing.Size(30, 20);
+            this.Curve_Button.Size = new System.Drawing.Size(21, 20);
             this.Curve_Button.Text = "Draw a Curve, you need to select two points, of the defining points of the lines";
             this.Curve_Button.Click += new System.EventHandler(this.Curve_Button_Click);
             // 
@@ -254,7 +278,7 @@ namespace Track_Project
             this.Borrar_Todo_Strip.Image = ((System.Drawing.Image)(resources.GetObject("Borrar_Todo_Strip.Image")));
             this.Borrar_Todo_Strip.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.Borrar_Todo_Strip.Name = "Borrar_Todo_Strip";
-            this.Borrar_Todo_Strip.Size = new System.Drawing.Size(30, 20);
+            this.Borrar_Todo_Strip.Size = new System.Drawing.Size(21, 20);
             this.Borrar_Todo_Strip.Text = "toolStripButton1";
             this.Borrar_Todo_Strip.ToolTipText = "Delete every draw in the scrreen";
             this.Borrar_Todo_Strip.Click += new System.EventHandler(this.toolStripButton1_Click_1);
@@ -265,7 +289,7 @@ namespace Track_Project
             this.Delete_Last.Image = ((System.Drawing.Image)(resources.GetObject("Delete_Last.Image")));
             this.Delete_Last.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.Delete_Last.Name = "Delete_Last";
-            this.Delete_Last.Size = new System.Drawing.Size(30, 20);
+            this.Delete_Last.Size = new System.Drawing.Size(21, 20);
             this.Delete_Last.Text = "toolStripButton2";
             this.Delete_Last.ToolTipText = "Delete last draw in the screen";
             this.Delete_Last.Click += new System.EventHandler(this.Delete_Last_Click);
@@ -276,7 +300,7 @@ namespace Track_Project
             this.Mathematical_Edition.Image = ((System.Drawing.Image)(resources.GetObject("Mathematical_Edition.Image")));
             this.Mathematical_Edition.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.Mathematical_Edition.Name = "Mathematical_Edition";
-            this.Mathematical_Edition.Size = new System.Drawing.Size(30, 20);
+            this.Mathematical_Edition.Size = new System.Drawing.Size(21, 20);
             this.Mathematical_Edition.Text = "toolStripButton3";
             this.Mathematical_Edition.ToolTipText = "Edit mathematically ol the drawings";
             this.Mathematical_Edition.Click += new System.EventHandler(this.Mathematical_Edition_Click);
@@ -287,7 +311,7 @@ namespace Track_Project
             this.Color_Select.Image = ((System.Drawing.Image)(resources.GetObject("Color_Select.Image")));
             this.Color_Select.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.Color_Select.Name = "Color_Select";
-            this.Color_Select.Size = new System.Drawing.Size(30, 20);
+            this.Color_Select.Size = new System.Drawing.Size(21, 20);
             this.Color_Select.Text = "toolStripButton1";
             this.Color_Select.ToolTipText = "Select the color of the lines";
             this.Color_Select.Click += new System.EventHandler(this.Color_Select_Click);
@@ -298,7 +322,7 @@ namespace Track_Project
             this.Add_Track.Image = ((System.Drawing.Image)(resources.GetObject("Add_Track.Image")));
             this.Add_Track.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.Add_Track.Name = "Add_Track";
-            this.Add_Track.Size = new System.Drawing.Size(30, 20);
+            this.Add_Track.Size = new System.Drawing.Size(21, 20);
             this.Add_Track.Text = "Add a track";
             this.Add_Track.Click += new System.EventHandler(this.Add_Track_Click);
             // 
@@ -308,6 +332,7 @@ namespace Track_Project
             // 
             // DTA
             // 
+            this.DTA.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.DTA.ImageLocation = "C:\\Users\\Juan\\Documents\\Visual Studio 2017\\Projects\\Track_Project\\Track_Project\\R" +
     "esources\\DTA.jpg";
             this.DTA.Location = new System.Drawing.Point(13, 468);
@@ -317,11 +342,18 @@ namespace Track_Project
             this.DTA.TabIndex = 12;
             this.DTA.TabStop = false;
             // 
-            // viewToolStripMenuItem
+            // deteleTrackToolStripMenuItem
             // 
-            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-            this.viewToolStripMenuItem.Text = "View";
+            this.deteleTrackToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripComboBox1});
+            this.deteleTrackToolStripMenuItem.Name = "deteleTrackToolStripMenuItem";
+            this.deteleTrackToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deteleTrackToolStripMenuItem.Text = "Detele track";
+            // 
+            // toolStripComboBox1
+            // 
+            this.toolStripComboBox1.Name = "toolStripComboBox1";
+            this.toolStripComboBox1.Size = new System.Drawing.Size(121, 23);
             // 
             // Form1
             // 
@@ -338,9 +370,11 @@ namespace Track_Project
             this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
+            this.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.Text = "Form1";
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Form1_KeyDown);
             this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Paleta)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.menuStrip1.ResumeLayout(false);
@@ -379,6 +413,8 @@ namespace Track_Project
         private System.Windows.Forms.ToolStripMenuItem viewAllTracsToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton Add_Track;
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deteleTrackToolStripMenuItem;
+        private System.Windows.Forms.ToolStripComboBox toolStripComboBox1;
     }
 }
 

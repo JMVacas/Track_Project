@@ -274,7 +274,23 @@ namespace Track_Project
 
         private void Add_Track_Click(object sender, EventArgs e)
         {
+            Tracks track = new Tracks
+            {
+                Curves = Puntos_Curva,
+                Lines = lineas,
+                Line_Color = Line_Color,
+                Name = "Track" + tracks.Count.ToString()
+            };
+            tracks.Add(track);
+        }
 
+        private void viewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (Tracks track in tracks)
+            {
+                ToolStripMenuItem toolStrip = new ToolStripMenuItem(track.Name);
+                toolStrip.Owner =
+            }
         }
 
         private void exportarMapaToolStripMenuItem_Click(object sender, EventArgs e)

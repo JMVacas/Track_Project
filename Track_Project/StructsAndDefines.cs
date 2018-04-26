@@ -12,5 +12,6 @@ namespace Track_Project
         public List<List<Point>> Lines;
         public List<List<Point>> Curves;
         public Color Line_Color;
+        public string Name;
     }
 }

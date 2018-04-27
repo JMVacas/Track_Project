@@ -14,6 +14,7 @@ namespace Track_Project
 {
     class Explorador
     {
+        #region Properties
         const int ADOPTSCALEFACTOR = 50;
         public List<System.Drawing.Point> Puntos { get; set; }
         public List<List<System.Drawing.Point>> Lineas { get; set; }
@@ -21,6 +22,7 @@ namespace Track_Project
         public int Height;
         public System.Drawing.Point Origin { get; set; }
         public List<System.Drawing.Point> Map_Points;
+        #endregion
         #region Constructors
         public Explorador()
         {
@@ -38,6 +40,7 @@ namespace Track_Project
             Height = _Height;
         }
         #endregion
+        #region OpenExplorer
         public void Abrir_Explorador()
         {
             Stream myStream = null;
@@ -164,7 +167,8 @@ namespace Track_Project
                 bitmap.Save(saveFileDialog1.FileName);
             }
         }
-
+        #endregion
+        #region GetDataFunction
         /// <summary>
         /// 
         /// </summary>
@@ -244,14 +248,6 @@ namespace Track_Project
             GetArcFromDoc(ref document);
             GetSpilineFromDoc(ref document);
         }
-        /*
-         * Transform the angle in degrees to radians
-         * @arg1 Angle in degrees
-         * */
-        public double ToRadians(double angle)
-        {
-            return (Math.PI * angle / 180);
-        }
         public void Save_Items(string path)
         {
             netDxf.DxfDocument doc = new netDxf.DxfDocument();
@@ -292,56 +288,15 @@ namespace Track_Project
                 throw new Exception("Error saving to file stream.");
             doc.Save(fileStream, true);
         }
-        public void Prueba()
-        {
-            Line line = new Line(new netDxf.Vector3(0, 0, 0), new netDxf.Vector3(100, 100, 0));
-
-            netDxf.DxfDocument dxf = new netDxf.DxfDocument();
-            dxf.AddEntity(line);
-            dxf.Save("test.dxf");
-
-            // saving to memory stream always use the default constructor, a fixed size stream will not work.
-            MemoryStream memoryStream = new MemoryStream();
-            if (!dxf.Save(memoryStream))
-                throw new Exception("Error saving to memory stream.");
-            // after the save method we need to rewind the stream to its start position
-            memoryStream.Position = 0;
-
-            bool isBinary;
-            netDxf.Header.DxfVersion version1 = netDxf.DxfDocument.CheckDxfFileVersion(memoryStream, out isBinary);
-            // DxfDocument.CheckDxfFileVersion is a read operation therefore we will need to rewind the stream to its start position
-            memoryStream.Position = 0;
-
-            // loading from memory stream
-            netDxf.DxfDocument dxf2 = netDxf.DxfDocument.Load(memoryStream);
-            // DxfDocument.CheckDxfFileVersion is a read operation therefore we will need to rewind the stream to its start position
-            memoryStream.Position = 0;
-
-            netDxf.Header.DxfVersion version2 = netDxf.DxfDocument.CheckDxfFileVersion(memoryStream, out isBinary);
-
-            memoryStream.Close(); // once the stream is not need anymore we need to close the stream
-
-            // saving to file stream
-            FileStream fileStream = new FileStream("test fileStream.dxf", FileMode.Create);
-            if (!dxf2.Save(fileStream, true))
-                throw new Exception("Error saving to file stream.");
-
-            fileStream.Close(); // you will need to close the stream manually to avoid file already open conflicts
-
-            FileStream fileStreamLoad = new FileStream("test fileStream.dxf", FileMode.Open, FileAccess.Read);
-            netDxf.DxfDocument dxf3 = netDxf.DxfDocument.Load(fileStreamLoad);
-            fileStreamLoad.Close();
-
-            netDxf.DxfDocument dxf4 = netDxf.DxfDocument.Load("test fileStream.dxf");
-        }
+        #endregion
         #region GetItemsFromDoc
         /*
          * This region in used for simplify GetItems function. There are several funcions that are used for getting the information that is already
          * saved in the DxfDocument and passed to the local variables.
          **/
-         /*
-          * Get the lines from the document and adds them to the local variable
-          * */
+        /*
+         * Get the lines from the document and adds them to the local variable
+         * */
         private void GetLinesFromDoc(ref netDxf.DxfDocument document)
         {
             List<Line> lines = new List<Line>();
@@ -413,6 +368,7 @@ namespace Track_Project
             }
         }
         #endregion
+        #region CalculusFunctions
         /// <summary>
         /// 
         /// </summary>
@@ -429,5 +385,10 @@ namespace Track_Project
                 Map_Points[i] = buffer_point;
             }
         }
+        public double ToRadians(double angle)
+        {
+            return (Math.PI * angle / 180);
+        }
+        #endregion
     }
 }

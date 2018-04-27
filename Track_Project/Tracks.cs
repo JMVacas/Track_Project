@@ -13,6 +13,7 @@ namespace Track_Project
         public List<List<Point>> Lines = new List<List<Point>>();
         public List<List<Point>> Curves = new List<List<Point>>();
         public SolidBrush Line_Color;
+        public List<Ultima_Operacion> Last_Operation = new List<Ultima_Operacion>();
         public string Name;     
         public Tracks()
         {

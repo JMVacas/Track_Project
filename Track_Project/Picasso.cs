@@ -263,6 +263,10 @@ namespace Track_Project
         {
             return lineas[i].FindIndex(x => (x.X > point.X - radio && x.X < point.X + radio) && (x.Y > point.Y - radio && x.Y < point.Y + radio));
         }
+        protected int Get_line_Index(Point point, ref List<Point> points, int radio = 10)
+        {
+            return points.FindIndex(x => (x.X > point.X - radio && x.X < point.X + radio) && (x.Y > point.Y - radio && x.Y < point.Y + radio));
+        }
         public Point Calcular_Punto_Tangente(Point Punto, ref List<List<Point>> lineas, int i , int j, double Longitud)
         {
             Point Punto_tangente=new Point();
@@ -408,6 +412,20 @@ namespace Track_Project
                 return false;
             }
         }
+        public bool Seleccionar_Punto(ref List<Point> points, ref Point Mouse, int radius=10)
+        {
+            int i = new int();
+            i=Get_line_Index(Mouse, ref points, radius);
+            if(i!=-1 && points.Count>0)
+            {
+                Mouse = points[i];
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         /// <summary>
         /// It makes a rectangle that informs that you are close to a point and it will put your next point over the selected point
         /// </summary>
@@ -430,11 +448,11 @@ namespace Track_Project
         public void CalculatePointAngle(ref Point point, Point last_point)
         {
             double Angle = CalculateAngle(ref point, ref last_point);
-            if ((Angle < 100 && Angle > 80) || (Angle > -100 && Angle < -80))
+            if ((Angle < 95 && Angle > 85) || (Angle > -95 && Angle < -85))
             {
                 point.X = last_point.X;
             }
-            else if ((Angle < 10 && Angle > -10) || (Angle < 190 && Angle > 170) )
+            else if ((Angle < 5 && Angle > -5) || (Angle < 185 && Angle > 175) )
             {
                 point.Y = last_point.Y;
             }

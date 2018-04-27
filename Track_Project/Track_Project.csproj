@@ -65,6 +65,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Add_Line.cs" />
+    <Compile Include="Add_Curve.cs" />
+    <Compile Include="Command.cs" />
     <Compile Include="Tracks.cs" />
     <Compile Include="Form2.cs">
       <SubType>Form</SubType>

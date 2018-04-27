@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace Track_Project
 {
-    enum Ultima_Operacion
+   public enum Ultima_Operacion
     {
         Add_Line,
         Add_Point,
@@ -148,6 +148,8 @@ namespace Track_Project
             if(points.Count>0)
                 picasso.CalculatePointAngle(ref Mouse_Position, points[points.Count - 1]);
             View_Equal_Point=picasso.Seleccionar_Punto(ref lineas, ref Mouse_Position, 11);
+            if (!View_Equal_Point)
+                View_Equal_Point = picasso.Seleccionar_Punto(ref points, ref Mouse_Position, 11);
             string Texto = "";
             Texto += "X: ";
             Texto += Mouse_Position.X - Origen.X;
@@ -160,27 +162,31 @@ namespace Track_Project
             Paleta.Update();
         }
 
-        private void Form1_KeyDown(object sender, KeyPressEventArgs e)
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyChar == 'w' || e.KeyChar == 'W' || e.KeyChar == 9650)
+            if (e.KeyValue == 'w' || e.KeyValue == 'W' || e.KeyValue == 9650)
             {
                 //if (Posicion_y > 0)
                     Posicion_y=Posicion_y-5;
             }
-            else if (e.KeyChar == 'a' || e.KeyChar == 'A' || e.KeyChar == 9668)
+            else if (e.KeyValue == 'a' || e.KeyValue == 'A' || e.KeyValue == 9668)
             {
                 //if (Posicion_x > 0)
                     Posicion_x=Posicion_x-5;
             }
-            else if (e.KeyChar == 's' || e.KeyChar == 'S' || e.KeyChar == 9660)
+            else if (e.KeyValue == 's' || e.KeyValue == 'S' || e.KeyValue == 9660)
             {
                 //if (Posicion_y < 400)
                     Posicion_y=Posicion_y+5;
             }
-            else if (e.KeyChar == 'd' || e.KeyChar == 'D' || e.KeyChar == 9658)
+            else if ((e.KeyValue == 'd' || e.KeyValue == 'D' || e.KeyValue == 9658)&& !e.Control)
             {
                 //if (Posicion_x < 800)
                     Posicion_x=Posicion_x+5;
+            }
+            else if(e.Control && (e.KeyValue=='d' || e.KeyValue =='D'))
+            {
+                toolStripButton1_Click_1(null, new EventArgs());
             }
             Paleta.Invalidate();
             Paleta.Update();

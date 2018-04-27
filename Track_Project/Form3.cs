@@ -34,9 +34,9 @@ namespace Track_Project
             bitmap = new Bitmap(Mapa.Width, Mapa.Height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
             g = Graphics.FromImage(bitmap);
             g.Clear(Color.White);
-            Picasso picasso = new Picasso(g);
+            Tracks _tracks = new Tracks();
             SolidBrush brush = new SolidBrush(Color.Black);
-            picasso.Pintar_Puntos(ref brush, points, 1);
+            _tracks.Pintar_Puntos(ref brush, ref points, 1);
             bitmap.MakeTransparent(Color.White);
             g = e.Graphics;
             g.DrawImage(bitmap, 10, 10);

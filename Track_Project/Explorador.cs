@@ -21,6 +21,7 @@ namespace Track_Project
         public List<List<System.Drawing.Point>> Curvas { get; set; }
         public int Height;
         public System.Drawing.Point Origin { get; set; }
+        public string Name;
         public List<System.Drawing.Point> Map_Points;
         #endregion
         #region Constructors
@@ -32,12 +33,13 @@ namespace Track_Project
         {
             Height = _Height;
         }
-        public Explorador(List<System.Drawing.Point> _Puntos, List<List<System.Drawing.Point>> _Lineas, List<List<System.Drawing.Point>> _Curvas, int _Height)
+        public Explorador(List<System.Drawing.Point> _Puntos, List<List<System.Drawing.Point>> _Lineas, List<List<System.Drawing.Point>> _Curvas, string _Name,int _Height)
         {
             Puntos = _Puntos;
             Lineas = _Lineas;
             Curvas = _Curvas;
             Height = _Height;
+            Name = _Name;
         }
         #endregion
         #region OpenExplorer
@@ -141,7 +143,8 @@ namespace Track_Project
                 Filter = "dxf files(*.dxf)|*.dxf|All files (*.*)|*.*",
                 FilterIndex = 1,
                 RestoreDirectory = true,
-                DefaultExt = ".dxf"
+                DefaultExt = ".dxf",
+                FileName = Name
             };
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {

@@ -34,7 +34,7 @@ namespace Track_Project
             bitmap = new Bitmap(Mapa.Width, Mapa.Height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
             g = Graphics.FromImage(bitmap);
             g.Clear(Color.White);
-            Tracks _tracks = new Tracks();
+            Tracks _tracks = new Tracks(g);
             SolidBrush brush = new SolidBrush(Color.Black);
             _tracks.Pintar_Puntos(ref brush, ref points, 1);
             bitmap.MakeTransparent(Color.White);

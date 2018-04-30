@@ -197,14 +197,14 @@ namespace Track_Project
             this.viewAllTracsToolStripMenuItem.AutoToolTip = true;
             this.viewAllTracsToolStripMenuItem.CheckOnClick = true;
             this.viewAllTracsToolStripMenuItem.Name = "viewAllTracsToolStripMenuItem";
-            this.viewAllTracsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.viewAllTracsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.viewAllTracsToolStripMenuItem.Text = "View All Tracks";
             this.viewAllTracsToolStripMenuItem.ToolTipText = "Check for viewing all track simultanisusly";
             // 
             // deleteTrackToolStripMenuItem
             // 
             this.deleteTrackToolStripMenuItem.Name = "deleteTrackToolStripMenuItem";
-            this.deleteTrackToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deleteTrackToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.deleteTrackToolStripMenuItem.Text = "Delete track";
             // 
             // viewToolStripMenuItem
@@ -376,10 +376,12 @@ namespace Track_Project
             this.Track_Edit_Select.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.Track_Edit_Select.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.Track_Edit_Select.FormattingEnabled = true;
+            this.Track_Edit_Select.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.Track_Edit_Select.Location = new System.Drawing.Point(814, 478);
             this.Track_Edit_Select.Name = "Track_Edit_Select";
             this.Track_Edit_Select.Size = new System.Drawing.Size(121, 21);
             this.Track_Edit_Select.TabIndex = 27;
+            this.Track_Edit_Select.TabStop = false;
             this.Track_Edit_Select.SelectedIndexChanged += new System.EventHandler(this.Track_Edit_Select_SelectedIndexChanged);
             // 
             // Form1

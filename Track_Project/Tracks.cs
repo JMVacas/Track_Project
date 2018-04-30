@@ -194,6 +194,7 @@ namespace Track_Project
             Punto_4 = Calcular_Punto_Tangente(Punto_Seleccionado_2, i, j, Longitud);
             Point[] Puntos_Buffer = new Point[4] { Punto_Seleccionado_1, Punto_3, Punto_4, Punto_Seleccionado_2 };
             Curves.Add(Puntos_Buffer.ToList());
+            Last_Operation.Add(Ultima_Operacion.Add_Curve);
             Punto_Seleccionado_1 = new Point();
             Punto_Seleccionado_2 = new Point();
         }

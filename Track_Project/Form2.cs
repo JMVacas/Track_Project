@@ -113,10 +113,17 @@ namespace Track_Project
 
         private void Curve_Data_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            if (Track_Select_Box.SelectedItem.ToString() == track_.GetName())
-                Curve_Data_CellEndEdit_Function(track_, e);
-            else
-                Curve_Data_CellEndEdit_Function(tracks[Track_Select_Box.SelectedIndex - 1], e);
+            try
+            {
+                if (Track_Select_Box.SelectedItem.ToString() == track_.GetName())
+                    Curve_Data_CellEndEdit_Function(track_, e);
+                else
+                    Curve_Data_CellEndEdit_Function(tracks[Track_Select_Box.SelectedIndex - 1], e);
+            }
+            catch(NullReferenceException)
+            {
+
+            }
         }
 
         private void tabControl1_Selected(object sender, TabControlEventArgs e)

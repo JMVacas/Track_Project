@@ -30,7 +30,7 @@ namespace Track_Project
         private List <Tracks> tracks = new List<Tracks>();
         private Tracks _track = new Tracks();
         public Color Line_Color = Color.DarkRed;
-        private readonly SolidBrush[] Tracks_Color = new SolidBrush[]{ new SolidBrush(Color.Brown), new SolidBrush(Color.Aqua), new SolidBrush(Color.DarkGreen), new SolidBrush(Color.DarkMagenta), new SolidBrush(Color.DarkTurquoise), new SolidBrush(Color.DarkOrange) };
+        private readonly SolidBrush[] Tracks_Color = new SolidBrush[]{ new SolidBrush(Color.Brown), new SolidBrush(Color.Aqua), new SolidBrush(Color.DarkGreen), new SolidBrush(Color.DarkMagenta), new SolidBrush(Color.DarkTurquoise), new SolidBrush(Color.DarkOrange), new SolidBrush(Color.FloralWhite) , new SolidBrush(Color.ForestGreen) , new SolidBrush(Color.Gold) };
         Double Zoom = 5;
         public static Bitmap Map;
         private List<Ultima_Operacion> ultima_operacion = new List<Ultima_Operacion>();
@@ -204,17 +204,24 @@ namespace Track_Project
         {
             try
             {
-                if (_track.GetLineCount()> 0)
+                if (_track.GetLineCount()> 0 || tracks.Count>0)
                 {
-                    Explorador explorador = new Explorador(_track.GetPoints(), _track.GetLines(), _track.GetCurves(), Paleta.Height);
-                    explorador.Guardar_Explorador();
+                    ComboBoxDialog comboBoxDialog = new ComboBoxDialog(ref tracks);
+                    comboBoxDialog.ShowDialog();
+                    Tracks Selected_track = comboBoxDialog.Selected_track;
+                    comboBoxDialog.Close();
+                    if (Selected_track != null)
+                    {
+                        Explorador explorador = new Explorador(Selected_track.GetPoints(), Selected_track.GetLines(), Selected_track.GetCurves(), Selected_track.GetName(),Paleta.Height);
+                        explorador.Guardar_Explorador();
+                    }
                 }
                 else
                 {
                     MessageBox.Show("No hay sufientes puntos");
                 }
             }
-            catch (NullReferenceException ex)
+            catch (NullReferenceException)
             {
                 MessageBox.Show("Error, Null reference exception");
                 toolStripButton1_Click_1(sender, e);
@@ -263,8 +270,17 @@ namespace Track_Project
             string _Name = Microsoft.VisualBasic.Interaction.InputBox("Introduce el nombre que le quiere dar a su track", "Añadir nombre", "Track");
             if (_Name != "")
             {
-                _track.SetColor(Tracks_Color[tracks.Count]);
-                _track.SetName("Track" + (tracks.Count + 1).ToString());
+                try
+                {
+                    _track.SetColor(CheckColors());
+                }
+                catch (IndexOutOfRangeException)
+                {
+                    _track.SetColor(new SolidBrush(Color.Red));
+                    MessageBox.Show("Ha llegado al limite de tracks, por favor elimine un track");
+                }
+                CheckNames(ref _Name);
+                _track.SetName(_Name);
                 MessageBox.Show(this, _track.GetName() + " has been added", "track added", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 tracks.Add(new Tracks(_track.GetLines(), _track.GetCurves(), _track.GetColor(), _track.GetName()));
                 viewToolStripMenuItem.DropDownItems.Add(_track.GetName(), null, Tracks_View_OnClickHandler);
@@ -298,7 +314,7 @@ namespace Track_Project
                 if (((ToolStripMenuItem)viewToolStripMenuItem.DropDownItems[i]).Checked)
                 {
                     
-                    g.DrawString(tracks[i].GetName() + "\n", font , Tracks_Color[i], 0, j*24);
+                    g.DrawString(tracks[i].GetName() + "\n", font , tracks[i].GetColor(), 0, j*24);
                     j++;
                 }
             }
@@ -310,7 +326,7 @@ namespace Track_Project
                 _track.Delete_All();
                 _track.Add_Lines(tracks[Track_Edit_Select.SelectedIndex].GetLines());
                 _track.Add_Curves(tracks[Track_Edit_Select.SelectedIndex].GetCurves());
-                Line_Color = Tracks_Color[Convert.ToInt32(Regex.Match(tracks[Track_Edit_Select.SelectedIndex].GetName(), @"\d+").Value)-1].Color;
+                Line_Color = tracks[Track_Edit_Select.SelectedIndex].GetColor().Color;
                 _track.SetName("Track actual");
                 Paleta.Invalidate();
                 Paleta.Update();
@@ -429,6 +445,65 @@ namespace Track_Project
                 ((ToolStripMenuItem)viewToolStripMenuItem.DropDownItems[i]).CheckOnClick = true;
             }
         }
+        private void CheckNames(ref string _Name)
+        {
+            string[] buffer_names = new string[tracks.Count];
+            int i = new int();
+            foreach (Tracks track in tracks)
+            {
+                buffer_names[i] = track.GetName();
+                i++;
+            }
+            CheckNamesIterator(ref _Name, ref buffer_names);
+        }
+        private void CheckNamesIterator(ref string _Name, ref string []buffer_names)
+        {
+            if (buffer_names.Any(_Name.Equals) && _Name.Contains("("))
+            {
+                string[] Buffer_Name = _Name.Split('(');
+                try
+                {
+                    int Number = Convert.ToInt16(Regex.Match(Buffer_Name[1], @"\d+").Value);
+                    Buffer_Name[0] += "(" + (Number + 1).ToString() + ")";
+                    _Name = Buffer_Name[0];
+                }
+                catch(FormatException)
+                {
+
+                }
+                CheckNamesIterator(ref _Name, ref buffer_names);
+
+            }
+            else if (buffer_names.Any(_Name.Equals))
+            {
+                _Name += "(1)";
+                CheckNamesIterator(ref _Name, ref buffer_names);
+            }
+        }
+        private SolidBrush CheckColors()
+        {
+            SolidBrush color = new SolidBrush(Tracks_Color[0].Color);
+            SolidBrush[] colors = new SolidBrush[tracks.Count];
+            for(int i=0; i<tracks.Count; i++)
+            {
+                colors[i] = tracks[i].GetColor();
+            }
+            bool Exit = new bool();
+            if (colors.Any(c => c.Color==color.Color))
+            {
+                for (int i = 0; i < Tracks_Color.Count() && Exit==false ; i++)
+                {
+                    if(!colors.Any(c=> c.Color==Tracks_Color[i].Color))
+                    {
+                        color = Tracks_Color[i];
+                        Exit = true;
+                    }
+
+                }
+            }
+            return color;
+        }
+        
 
     }
 }

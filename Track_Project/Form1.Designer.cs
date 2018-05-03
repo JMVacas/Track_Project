@@ -28,7 +28,7 @@ namespace Track_Project
         /// Método necesario para admitir el Diseñador. No se puede modificar
         /// el contenido de este método con el editor de código.
         /// </summary>
-        private void InitializeComponent()
+        private  void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.Posicion_Cursor = new System.Windows.Forms.LinkLabel();
@@ -43,8 +43,7 @@ namespace Track_Project
             this.exportarMapaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewAllTracsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.deteleTrackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripComboBox1 = new System.Windows.Forms.ToolStripComboBox();
+            this.deleteTrackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.Mouse_Button = new System.Windows.Forms.ToolStripButton();
@@ -56,9 +55,11 @@ namespace Track_Project
             this.Mathematical_Edition = new System.Windows.Forms.ToolStripButton();
             this.Color_Select = new System.Windows.Forms.ToolStripButton();
             this.Add_Track = new System.Windows.Forms.ToolStripButton();
+            this.Save_Changes = new System.Windows.Forms.ToolStripButton();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.DTA = new System.Windows.Forms.PictureBox();
             this.Track_Caption = new System.Windows.Forms.PictureBox();
+            this.Track_Edit_Select = new System.Windows.Forms.ComboBox();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Paleta)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
@@ -132,17 +133,14 @@ namespace Track_Project
             // 
             // menuStrip1
             // 
-            this.menuStrip1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.menuStrip1.Dock = System.Windows.Forms.DockStyle.None;
+            this.menuStrip1.AutoSize = false;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Archivo_Menu,
             this.optionsToolStripMenuItem,
             this.viewToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(173, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1000, 24);
             this.menuStrip1.TabIndex = 24;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -189,7 +187,7 @@ namespace Track_Project
             // 
             this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.viewAllTracsToolStripMenuItem,
-            this.deteleTrackToolStripMenuItem});
+            this.deleteTrackToolStripMenuItem});
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
             this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
             this.optionsToolStripMenuItem.Text = "Options";
@@ -203,18 +201,11 @@ namespace Track_Project
             this.viewAllTracsToolStripMenuItem.Text = "View All Tracks";
             this.viewAllTracsToolStripMenuItem.ToolTipText = "Check for viewing all track simultanisusly";
             // 
-            // deteleTrackToolStripMenuItem
+            // deleteTrackToolStripMenuItem
             // 
-            this.deteleTrackToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripComboBox1});
-            this.deteleTrackToolStripMenuItem.Name = "deteleTrackToolStripMenuItem";
-            this.deteleTrackToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.deteleTrackToolStripMenuItem.Text = "Detele track";
-            // 
-            // toolStripComboBox1
-            // 
-            this.toolStripComboBox1.Name = "toolStripComboBox1";
-            this.toolStripComboBox1.Size = new System.Drawing.Size(121, 23);
+            this.deleteTrackToolStripMenuItem.Name = "deleteTrackToolStripMenuItem";
+            this.deleteTrackToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.deleteTrackToolStripMenuItem.Text = "Delete track";
             // 
             // viewToolStripMenuItem
             // 
@@ -234,11 +225,12 @@ namespace Track_Project
             this.Delete_Last,
             this.Mathematical_Edition,
             this.Color_Select,
-            this.Add_Track});
-            this.toolStrip1.Location = new System.Drawing.Point(976, 0);
+            this.Add_Track,
+            this.Save_Changes});
+            this.toolStrip1.Location = new System.Drawing.Point(976, 24);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.toolStrip1.Size = new System.Drawing.Size(24, 535);
+            this.toolStrip1.Size = new System.Drawing.Size(24, 511);
             this.toolStrip1.TabIndex = 25;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -340,6 +332,17 @@ namespace Track_Project
             this.Add_Track.Text = "Add a track";
             this.Add_Track.Click += new System.EventHandler(this.Add_Track_Click);
             // 
+            // Save_Changes
+            // 
+            this.Save_Changes.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.Save_Changes.Image = ((System.Drawing.Image)(resources.GetObject("Save_Changes.Image")));
+            this.Save_Changes.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.Save_Changes.Name = "Save_Changes";
+            this.Save_Changes.Size = new System.Drawing.Size(21, 20);
+            this.Save_Changes.Text = "toolStripButton1";
+            this.Save_Changes.ToolTipText = "Save the changes to the track";
+            this.Save_Changes.Click += new System.EventHandler(this.Save_Changes_Click);
+            // 
             // colorDialog1
             // 
             this.colorDialog1.SolidColorOnly = true;
@@ -368,11 +371,25 @@ namespace Track_Project
             this.Track_Caption.TabStop = false;
             this.Track_Caption.Paint += new System.Windows.Forms.PaintEventHandler(this.Track_Caption_Paint);
             // 
+            // Track_Edit_Select
+            // 
+            this.Track_Edit_Select.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.Track_Edit_Select.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.Track_Edit_Select.FormattingEnabled = true;
+            this.Track_Edit_Select.ImeMode = System.Windows.Forms.ImeMode.Off;
+            this.Track_Edit_Select.Location = new System.Drawing.Point(814, 478);
+            this.Track_Edit_Select.Name = "Track_Edit_Select";
+            this.Track_Edit_Select.Size = new System.Drawing.Size(121, 21);
+            this.Track_Edit_Select.TabIndex = 27;
+            this.Track_Edit_Select.TabStop = false;
+            this.Track_Edit_Select.SelectedIndexChanged += new System.EventHandler(this.Track_Edit_Select_SelectedIndexChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1000, 535);
+            this.Controls.Add(this.Track_Edit_Select);
             this.Controls.Add(this.Track_Caption);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.trackBar1);
@@ -428,9 +445,10 @@ namespace Track_Project
         private System.Windows.Forms.ToolStripMenuItem viewAllTracsToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton Add_Track;
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem deteleTrackToolStripMenuItem;
-        private System.Windows.Forms.ToolStripComboBox toolStripComboBox1;
+        private System.Windows.Forms.ToolStripMenuItem deleteTrackToolStripMenuItem;
         private System.Windows.Forms.PictureBox Track_Caption;
+        private System.Windows.Forms.ComboBox Track_Edit_Select;
+        private System.Windows.Forms.ToolStripButton Save_Changes;
     }
 }
 

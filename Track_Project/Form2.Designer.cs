@@ -34,6 +34,9 @@ namespace Track_Project
             this.components = new System.ComponentModel.Container();
             this.Curve_Points = new System.Windows.Forms.TabPage();
             this.Curve_Data = new System.Windows.Forms.DataGridView();
+            this.Curve = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.X_Position = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Y_Position = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Line_Points = new System.Windows.Forms.TabPage();
             this.Line_Data = new System.Windows.Forms.DataGridView();
             this.Lineas = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -42,10 +45,8 @@ namespace Track_Project
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.Add_Row = new System.Windows.Forms.Button();
             this.Delete_Row = new System.Windows.Forms.Button();
+            this.Track_Select_Box = new System.Windows.Forms.ComboBox();
             this.form2BindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.Curve = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.X_Position = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Y_Position = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Curve_Points.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Curve_Data)).BeginInit();
             this.Line_Points.SuspendLayout();
@@ -79,6 +80,22 @@ namespace Track_Project
             this.Curve_Data.Size = new System.Drawing.Size(541, 423);
             this.Curve_Data.TabIndex = 0;
             this.Curve_Data.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.Curve_Data_CellEndEdit);
+            // 
+            // Curve
+            // 
+            this.Curve.HeaderText = "Curves";
+            this.Curve.Name = "Curve";
+            this.Curve.ReadOnly = true;
+            // 
+            // X_Position
+            // 
+            this.X_Position.HeaderText = "X_Position";
+            this.X_Position.Name = "X_Position";
+            // 
+            // Y_Position
+            // 
+            this.Y_Position.HeaderText = "Y_Position";
+            this.Y_Position.Name = "Y_Position";
             // 
             // Line_Points
             // 
@@ -156,31 +173,26 @@ namespace Track_Project
             this.Delete_Row.UseVisualStyleBackColor = true;
             this.Delete_Row.Click += new System.EventHandler(this.Delete_Row_Click);
             // 
+            // Track_Select_Box
+            // 
+            this.Track_Select_Box.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.Track_Select_Box.FormattingEnabled = true;
+            this.Track_Select_Box.Location = new System.Drawing.Point(605, 98);
+            this.Track_Select_Box.Name = "Track_Select_Box";
+            this.Track_Select_Box.Size = new System.Drawing.Size(152, 21);
+            this.Track_Select_Box.TabIndex = 4;
+            this.Track_Select_Box.SelectedValueChanged += new System.EventHandler(this.Track_Select_Box_SelectedValueChanged);
+            // 
             // form2BindingSource
             // 
             this.form2BindingSource.DataSource = typeof(Track_Project.Form2);
-            // 
-            // Curve
-            // 
-            this.Curve.HeaderText = "Curves";
-            this.Curve.Name = "Curve";
-            this.Curve.ReadOnly = true;
-            // 
-            // X_Position
-            // 
-            this.X_Position.HeaderText = "X_Position";
-            this.X_Position.Name = "X_Position";
-            // 
-            // Y_Position
-            // 
-            this.Y_Position.HeaderText = "Y_Position";
-            this.Y_Position.Name = "Y_Position";
             // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1000, 535);
+            this.Controls.Add(this.Track_Select_Box);
             this.Controls.Add(this.Delete_Row);
             this.Controls.Add(this.Add_Row);
             this.Controls.Add(this.tabControl1);
@@ -212,5 +224,6 @@ namespace Track_Project
         private System.Windows.Forms.DataGridViewTextBoxColumn Curve;
         private System.Windows.Forms.DataGridViewTextBoxColumn X_Position;
         private System.Windows.Forms.DataGridViewTextBoxColumn Y_Position;
+        private System.Windows.Forms.ComboBox Track_Select_Box;
     }
 }

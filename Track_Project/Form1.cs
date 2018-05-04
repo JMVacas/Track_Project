@@ -22,6 +22,7 @@ namespace Track_Project
     public partial class Form1 : Form
     {
         const int Infinite_X = 214748360; const int Infinite_Y = 214748360;
+        const int Min_Divide_Points=5, Max_Divide_Points=2000;
         private List<Point> Map_Points = new List<Point>();
         private Point Origen = new Point(385, 208), Punto_Arrastre=new Point ();
         private Point Punto_Seleccionado_1 = new Point(), Punto_Seleccionado_2 = new Point(), Punto_Cero = new Point(), Mouse_Position = new Point();
@@ -33,6 +34,7 @@ namespace Track_Project
         private readonly SolidBrush[] Tracks_Color = new SolidBrush[]{ new SolidBrush(Color.Brown), new SolidBrush(Color.Aqua), new SolidBrush(Color.DarkGreen), new SolidBrush(Color.DarkMagenta), new SolidBrush(Color.DarkTurquoise), new SolidBrush(Color.DarkOrange), new SolidBrush(Color.FloralWhite) , new SolidBrush(Color.ForestGreen) , new SolidBrush(Color.Gold) };
         Double Zoom = 5;
         public static Bitmap Map;
+        List<List<Point>> Segment_Curve = new List<List<Point>>();
         private List<Ultima_Operacion> ultima_operacion = new List<Ultima_Operacion>();
         public Form1()
         {
@@ -88,6 +90,14 @@ namespace Track_Project
             _track.FillCircle(brush, Origen);
             if(View_Equal_Point)
             picasso.DrawRectangle(new Pen(Color.SandyBrown, 1.5f),  Mouse_Position, ref g);
+            if(Segment_Curve.Count>0)
+            {
+                pen.Color = Color.Blue;
+                foreach (List<Point> Curve_ in Segment_Curve)
+                {
+                    g.DrawLines(pen, Curve_.ToArray());
+                }
+            }
         }
 
         private void Paleta_Click(object sender, EventArgs e)
@@ -103,11 +113,6 @@ namespace Track_Project
             }
             else if (!Mouse_Button.Checked && Line_Button.Checked)
             {
-                /*Picasso picasso = new Picasso();
-                Cursor = new Cursor(Cursor.Current.Handle);
-                Point point = Paleta.PointToClient(Cursor.Position);
-                picasso.Transform_Coordenadas(ref point, Zoom*Posicion_x, Zoom*Posicion_y);//Funcion para que de las cordenadas relativas al programa y no a la pantalal
-                picasso.ZOOM(ref point, 1/Zoom);*/
                 _track.Add_Point(Mouse_Position);
                 Paleta.Invalidate();
                 Paleta.Update();
@@ -115,9 +120,6 @@ namespace Track_Project
             else if (Curve_Button.Checked)
             {
                 _track.Select_Curve_Points(ref Punto_Seleccionado_1, ref Punto_Seleccionado_2, ref Paleta,ref Punto_Cero,  1/Zoom, ref Posicion_x, ref Posicion_y);
-                //picasso.Cambiar_Punto(ref Punto_Seleccionado_1);
-                
-
             }
             else
             {
@@ -175,6 +177,10 @@ namespace Track_Project
             else if(e.Control && (e.KeyValue=='d' || e.KeyValue =='D'))
             {
                 toolStripButton1_Click_1(null, new EventArgs());
+            }
+            else if(e.Control && (e.KeyValue=='z' || e.KeyValue=='Z'))
+            {
+                _track.Delete_Last_Operation();
             }
             Paleta.Invalidate();
             Paleta.Update();
@@ -258,8 +264,8 @@ namespace Track_Project
         {
             List<List<Point>> Lines = new List<List<Point>>();
             List<List<Point>> Curves = new List<List<Point>>();
-            Lines.AddRange(_track.GetLines());
-            Curves.AddRange(_track.GetCurves());
+            //Lines.AddRange(_track.GetLines());
+            //Curves.AddRange(_track.GetCurves());
             Form2 forma_siguiente = new Form2( ref _track,  ref tracks, Origen, ref Paleta);
             forma_siguiente.Show();
             forma_siguiente.Activate();
@@ -408,6 +414,54 @@ namespace Track_Project
             Paleta.Update();
         }
 
+        private void codesysToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (tracks.Count > 0)
+            {
+                ComboBoxDialog comboBoxDialog = new ComboBoxDialog(ref tracks);
+                comboBoxDialog.ShowDialog();
+                Tracks Selected = comboBoxDialog.Selected_track;
+                comboBoxDialog.Close();
+                Segment_Curve.Clear();
+                int Number = new int();
+                do
+                {
+                    string number_string = Microsoft.VisualBasic.Interaction.InputBox(String.Format("Introduce the numers in which you want to divide the curve [{0}-{1}]", Min_Divide_Points, Max_Divide_Points), "Introduce numbers", "20");
+                    try
+                    {
+                        Number = Convert.ToInt32(number_string);
+                    }
+                    catch (FormatException)
+                    {
+                        Number = -1;
+                    }
+                    finally
+                    {
+                        if (Number < 5 || Number > 2000)
+                        {
+                            MessageBox.Show(this, String.Format("It's not a valid number, please write down a valid number [{0}-{1}]", Min_Divide_Points, Max_Divide_Points), "Number not valid", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            Number = -1;
+                        }
+                    }
+
+                } while (Number <= -1);
+                if (Selected.GetCurveCount() < 1)
+                {
+                    List<Point> Buffer = new List<Point>();
+                    for (int i = 0; i < Selected.GetCurveCount(); i++)
+                    {
+                        Buffer.AddRange(Selected.GetCurves()[i]);
+                        Segment_Curve.Add(GetBeziersPoints.GetSegments_EcuationMethod(ref Buffer, Number));
+                        Buffer.Clear();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show(this, "There isn't any Curve, please select a track with curves or modify this track", "No curves", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+            }
+        }
+
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
             Zoom = trackBar1.Value;
@@ -433,7 +487,6 @@ namespace Track_Project
             // var result = MessageBox.Show(this, "Doing this action will delete all the active work\n Do you want to continue", "Warning", MessageBoxButtons.OKCancel);
             Track_Caption.Invalidate();
             Track_Caption.Update();
-            Track_Caption.Refresh();
         }
         private void Tracks_Delete_OnClickHandler(object sender, EventArgs e)
         {
@@ -452,6 +505,7 @@ namespace Track_Project
             {
                 ((ToolStripMenuItem)viewToolStripMenuItem.DropDownItems[i]).CheckOnClick = true;
             }
+            Track_Caption.Refresh();
         }
         private void CheckNames(ref string _Name)
         {

@@ -41,7 +41,7 @@
             this.Msg.Name = "Msg";
             this.Msg.Size = new System.Drawing.Size(254, 37);
             this.Msg.TabIndex = 0;
-            this.Msg.Text = "Seleccione un track para la exportacion";
+            this.Msg.Text = "Select a Track";
             // 
             // Track_Selection_ComboBox
             // 
@@ -75,9 +75,11 @@
             // 
             // ComboBoxDialog
             // 
+            this.AcceptButton = this.OK_Button;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.CancelButton = this.Cancel_Button;
             this.ClientSize = new System.Drawing.Size(284, 101);
             this.Controls.Add(this.Cancel_Button);
             this.Controls.Add(this.OK_Button);
@@ -89,7 +91,7 @@
             this.MinimizeBox = false;
             this.Name = "ComboBoxDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Form4";
+            this.Text = "Export";
             this.ResumeLayout(false);
 
         }

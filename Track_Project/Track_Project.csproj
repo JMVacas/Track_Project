@@ -66,14 +66,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Add_Line.cs" />
-    <Compile Include="Add_Curve.cs" />
     <Compile Include="ChangeOriginDiaog.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ChangeOriginDiaog.Designer.cs">
       <DependentUpon>ChangeOriginDiaog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Undo_Redo_Folder\AddLine.cs" />
+    <Compile Include="Undo_Redo_Folder\AddBezier.cs" />
+    <Compile Include="Undo_Redo_Folder\Operation.cs" />
+    <Compile Include="Undo_Redo_Folder\Operations.cs" />
     <Compile Include="GetBeziersPoints.cs" />
     <Compile Include="Command.cs" />
     <Compile Include="Form11.Designer.cs">

@@ -14,6 +14,7 @@ namespace Track_Project
     {
         public Tracks Selected_track = new Tracks();
         private List<Tracks> tracks = new List<Tracks>();
+        public bool Cancel = false;
         public ComboBoxDialog()
         {
             InitializeComponent();

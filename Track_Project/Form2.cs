@@ -225,7 +225,7 @@ namespace Track_Project
             }
             else
             {
-                MessageBox.Show("Error, The tab control name doesn`t exists");
+                MessageBox.Show(this, "Error, The tab control name doesn`t exists", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
         }

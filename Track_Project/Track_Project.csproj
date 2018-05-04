@@ -68,6 +68,7 @@
   <ItemGroup>
     <Compile Include="Add_Line.cs" />
     <Compile Include="Add_Curve.cs" />
+    <Compile Include="GetBeziersPoints.cs" />
     <Compile Include="Command.cs" />
     <Compile Include="Form11.Designer.cs">
       <AutoGen>True</AutoGen>

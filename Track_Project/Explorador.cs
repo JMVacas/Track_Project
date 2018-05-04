@@ -20,7 +20,7 @@ namespace Track_Project
         public List<List<System.Drawing.Point>> Lineas { get; set; }
         public List<List<System.Drawing.Point>> Curvas { get; set; }
         public int Height;
-        public System.Drawing.Point Origin { get; set; }
+        public System.Drawing.Point Origin = new System.Drawing.Point();
         public string Name;
         public List<System.Drawing.Point> Map_Points;
         #endregion
@@ -29,17 +29,20 @@ namespace Track_Project
         {
 
         }
-        public Explorador(int _Height)
+        public Explorador(int _Height, System.Drawing.Point _Origin)
         {
             Height = _Height;
+            Origin = _Origin;
         }
-        public Explorador(List<System.Drawing.Point> _Puntos, List<List<System.Drawing.Point>> _Lineas, List<List<System.Drawing.Point>> _Curvas, string _Name,int _Height)
+        public Explorador(List<System.Drawing.Point> _Puntos, List<List<System.Drawing.Point>> _Lineas, List<List<System.Drawing.Point>> _Curvas, string _Name,int _Height, System.Drawing.Point _Origin)
         {
             Puntos = _Puntos;
             Lineas = _Lineas;
             Curvas = _Curvas;
             Height = _Height;
             Name = _Name;
+            Origin = _Origin;
+
         }
         #endregion
         #region OpenExplorer
@@ -262,10 +265,10 @@ namespace Track_Project
 
                 Punto[0] = Lineas[i][0];
                 Punto[1] = Lineas[i][1];
-                vector_puntos[0].X = Punto[0].X;
-                vector_puntos[0].Y = -Punto[0].Y+Height;
-                vector_puntos[1].X = Punto[1].X;
-                vector_puntos[1].Y = -Punto[1].Y+Height;
+                vector_puntos[0].X = Punto[0].X-Origin.X;
+                vector_puntos[0].Y = -Punto[0].Y+Origin.Y;
+                vector_puntos[1].X = Punto[1].X-Origin.X;
+                vector_puntos[1].Y = -Punto[1].Y+Origin.Y;
                 line = new Line(vector_puntos[0], vector_puntos[1]);
                 doc.AddEntity(line);
             }
@@ -275,8 +278,8 @@ namespace Track_Project
             {
                 for (int j=0; j<vector_puntos.Length; j++)
                 {
-                    vector_puntos[j].X = Curvas[i][j].X;
-                    vector_puntos[j].Y = -Curvas[i][j].Y+Height;
+                    vector_puntos[j].X = Curvas[i][j].X-Origin.X;
+                    vector_puntos[j].Y = -Curvas[i][j].Y+Origin.Y;
                     SplineVertex Buffer = new SplineVertex(vector_puntos[j]);
                     splineVertex.Add(Buffer);
                 }
@@ -307,10 +310,10 @@ namespace Track_Project
             lines = document.Lines.ToList();
             for (int i = 0; i < lines.Count; i++)
             {
-                Punto[0].X = (int)lines[i].StartPoint.X;
-                Punto[0].Y = (int)lines[i].StartPoint.Y * -1 + Height;
-                Punto[1].X = (int)lines[i].EndPoint.X;
-                Punto[1].Y = (int)lines[i].EndPoint.Y * -1 + Height;
+                Punto[0].X = (int)lines[i].StartPoint.X+Origin.X;
+                Punto[0].Y = (int)lines[i].StartPoint.Y * -1 + Origin.Y;
+                Punto[1].X = (int)lines[i].EndPoint.X+Origin.X;
+                Punto[1].Y = (int)lines[i].EndPoint.Y * -1 + Origin.Y;
                 Lineas.Add(Punto.ToList());
             }
         }
@@ -362,8 +365,8 @@ namespace Track_Project
                 splineVertex = splines[i].ControlPoints.ToList();
                 for (int j = 0; j < splineVertex.Count; j++)
                 {
-                    Punto.X = (int)splineVertex.ToArray()[j].Position.X;
-                    Punto.Y = -(int)splineVertex.ToArray()[j].Position.Y + Height;
+                    Punto.X = (int)splineVertex.ToArray()[j].Position.X+Origin.X;
+                    Punto.Y = -(int)splineVertex.ToArray()[j].Position.Y + Origin.Y;
                     Puntos_Spiline.Add(Punto);
                 }
                 Curvas.Add(Puntos_Spiline.ToArray().ToList());

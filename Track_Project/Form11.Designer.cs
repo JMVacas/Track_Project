@@ -83,6 +83,16 @@ namespace Track_Project {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap ChangeOrigin_ToolStrip_Image {
+            get {
+                object obj = ResourceManager.GetObject("ChangeOrigin_ToolStrip.Image", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap Color_Select_Image {
             get {
                 object obj = ResourceManager.GetObject("Color_Select.Image", resourceCulture);

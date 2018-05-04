@@ -1,6 +1,6 @@
 ﻿namespace Track_Project
 {
-    partial class ComboBoxDialog
+    partial class ChangeOriginDiaog
     {
         /// <summary>
         /// Required designer variable.
@@ -28,76 +28,84 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.Msg = new System.Windows.Forms.Label();
-            this.Track_Selection_ComboBox = new System.Windows.Forms.ComboBox();
+            this.Origin_DataGrid = new System.Windows.Forms.DataGridView();
+            this.X = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Y = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.OK_Button = new System.Windows.Forms.Button();
             this.Cancel_Button = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.Origin_DataGrid)).BeginInit();
             this.SuspendLayout();
             // 
-            // Msg
+            // Origin_DataGrid
             // 
-            this.Msg.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Msg.Location = new System.Drawing.Point(12, 9);
-            this.Msg.Name = "Msg";
-            this.Msg.Size = new System.Drawing.Size(254, 37);
-            this.Msg.TabIndex = 0;
-            this.Msg.Text = "Seleccione un track para la exportacion";
+            this.Origin_DataGrid.AllowUserToAddRows = false;
+            this.Origin_DataGrid.AllowUserToDeleteRows = false;
+            this.Origin_DataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.Origin_DataGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.X,
+            this.Y});
+            this.Origin_DataGrid.Location = new System.Drawing.Point(12, -1);
+            this.Origin_DataGrid.Name = "Origin_DataGrid";
+            this.Origin_DataGrid.Size = new System.Drawing.Size(249, 68);
+            this.Origin_DataGrid.TabIndex = 0;
+            this.Origin_DataGrid.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.Origin_DataGrid_CellEndEdit);
             // 
-            // Track_Selection_ComboBox
+            // X
             // 
-            this.Track_Selection_ComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.Track_Selection_ComboBox.FormattingEnabled = true;
-            this.Track_Selection_ComboBox.Location = new System.Drawing.Point(15, 38);
-            this.Track_Selection_ComboBox.Name = "Track_Selection_ComboBox";
-            this.Track_Selection_ComboBox.Size = new System.Drawing.Size(251, 21);
-            this.Track_Selection_ComboBox.TabIndex = 1;
-            this.Track_Selection_ComboBox.SelectionChangeCommitted += new System.EventHandler(this.Track_Selection_ComboBox_SelectionChangeCommitted);
+            this.X.HeaderText = "X";
+            this.X.Name = "X";
+            // 
+            // Y
+            // 
+            this.Y.HeaderText = "Y";
+            this.Y.Name = "Y";
             // 
             // OK_Button
             // 
-            this.OK_Button.Location = new System.Drawing.Point(15, 62);
+            this.OK_Button.Location = new System.Drawing.Point(13, 74);
             this.OK_Button.Name = "OK_Button";
-            this.OK_Button.Size = new System.Drawing.Size(88, 23);
-            this.OK_Button.TabIndex = 2;
+            this.OK_Button.Size = new System.Drawing.Size(83, 23);
+            this.OK_Button.TabIndex = 1;
             this.OK_Button.Text = "OK";
             this.OK_Button.UseVisualStyleBackColor = true;
             this.OK_Button.Click += new System.EventHandler(this.OK_Button_Click);
             // 
             // Cancel_Button
             // 
-            this.Cancel_Button.Location = new System.Drawing.Point(178, 62);
+            this.Cancel_Button.Location = new System.Drawing.Point(178, 74);
             this.Cancel_Button.Name = "Cancel_Button";
-            this.Cancel_Button.Size = new System.Drawing.Size(88, 23);
-            this.Cancel_Button.TabIndex = 3;
+            this.Cancel_Button.Size = new System.Drawing.Size(83, 23);
+            this.Cancel_Button.TabIndex = 2;
             this.Cancel_Button.Text = "Cancel";
             this.Cancel_Button.UseVisualStyleBackColor = true;
             this.Cancel_Button.Click += new System.EventHandler(this.Cancel_Button_Click);
             // 
-            // ComboBoxDialog
+            // ChangeOriginDiaog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(284, 101);
             this.Controls.Add(this.Cancel_Button);
             this.Controls.Add(this.OK_Button);
-            this.Controls.Add(this.Track_Selection_ComboBox);
-            this.Controls.Add(this.Msg);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Location = new System.Drawing.Point(200, 200);
+            this.Controls.Add(this.Origin_DataGrid);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "ComboBoxDialog";
+            this.Name = "ChangeOriginDiaog";
+            this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Form4";
+            this.Text = "Change Origin";
+            ((System.ComponentModel.ISupportInitialize)(this.Origin_DataGrid)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Label Msg;
-        private System.Windows.Forms.ComboBox Track_Selection_ComboBox;
+        private System.Windows.Forms.DataGridView Origin_DataGrid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn X;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Y;
         private System.Windows.Forms.Button OK_Button;
         private System.Windows.Forms.Button Cancel_Button;
     }

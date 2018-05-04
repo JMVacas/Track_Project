@@ -187,7 +187,7 @@ namespace Track_Project
 
         private void cargarTrayectoriaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Explorador explorador = new Explorador(Paleta.Height);
+            Explorador explorador = new Explorador(Paleta.Height, Origen);
             explorador.Abrir_Explorador();
             if (explorador.Lineas != null || explorador.Curvas != null)
             {
@@ -212,7 +212,7 @@ namespace Track_Project
                     comboBoxDialog.Close();
                     if (Selected_track != null)
                     {
-                        Explorador explorador = new Explorador(Selected_track.GetPoints(), Selected_track.GetLines(), Selected_track.GetCurves(), Selected_track.GetName(),Paleta.Height);
+                        Explorador explorador = new Explorador(Selected_track.GetPoints(), Selected_track.GetLines(), Selected_track.GetCurves(), Selected_track.GetName(),Paleta.Height, Origen);
                         explorador.Guardar_Explorador();
                     }
                 }
@@ -398,7 +398,15 @@ namespace Track_Project
             }
         }
 
-        
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            ChangeOriginDiaog changeOriginDiaog = new ChangeOriginDiaog(Origen);
+            changeOriginDiaog.ShowDialog();
+            Origen = changeOriginDiaog.Origin;
+            changeOriginDiaog.Close();
+            Paleta.Invalidate();
+            Paleta.Update();
+        }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
         {

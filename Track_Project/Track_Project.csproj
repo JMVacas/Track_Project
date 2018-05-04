@@ -68,6 +68,12 @@
   <ItemGroup>
     <Compile Include="Add_Line.cs" />
     <Compile Include="Add_Curve.cs" />
+    <Compile Include="ChangeOriginDiaog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChangeOriginDiaog.Designer.cs">
+      <DependentUpon>ChangeOriginDiaog.cs</DependentUpon>
+    </Compile>
     <Compile Include="GetBeziersPoints.cs" />
     <Compile Include="Command.cs" />
     <Compile Include="Form11.Designer.cs">
@@ -104,6 +110,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="ChangeOriginDiaog.resx">
+      <DependentUpon>ChangeOriginDiaog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
       <Generator>PublicResXFileCodeGenerator</Generator>

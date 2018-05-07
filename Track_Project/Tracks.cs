@@ -16,6 +16,7 @@ namespace Track_Project
         private List<Point> points = new List<Point>();
         private SolidBrush Line_Color;
         private List<Ultima_Operacion> Last_Operation = new List<Ultima_Operacion>();
+        private Operations operations = new Operations(); 
         public static Graphics g;
         private string Name;
         #endregion
@@ -41,13 +42,17 @@ namespace Track_Project
         {
             Point[] Buffer = new Point[points.Count];
             Buffer = points.ToArray();
+            AddLine addLine = new AddLine();
             for (int i = 0; i < Buffer.Length - 1; i++)
             {
                 Point[] Concat = new Point[2];
                 Concat[0] = Buffer[i];
                 Concat[1] = Buffer[i + 1];
                 Lines.Add(Concat.ToList());
-                Last_Operation.Add(Ultima_Operacion.Add_Line);
+                //Last_Operation.Add(Ultima_Operacion.Add_Line);
+                addLine.AddLine_Operation(Concat);
+                // operation.AddOperation(addLine);
+                operations.Make(addLine);
             }
             points.Clear();
         }
@@ -194,7 +199,9 @@ namespace Track_Project
             Punto_4 = Calcular_Punto_Tangente(Punto_Seleccionado_2, i, j, Longitud);
             Point[] Puntos_Buffer = new Point[4] { Punto_Seleccionado_1, Punto_3, Punto_4, Punto_Seleccionado_2 };
             Curves.Add(Puntos_Buffer.ToList());
-            Last_Operation.Add(Ultima_Operacion.Add_Curve);
+            AddBezier addBezier = new AddBezier();
+            addBezier.AddBezier_Operation(Puntos_Buffer);
+            operations.Make(addBezier);
             Punto_Seleccionado_1 = new Point();
             Punto_Seleccionado_2 = new Point();
         }
@@ -435,7 +442,7 @@ namespace Track_Project
         }
         public void Delete_Last_Operation()
         {
-            if (Last_Operation.Count > 0)
+           /* if (Last_Operation.Count > 0)
             {
                 if (points.Count > 0 && Last_Operation[Last_Operation.Count - 1] == Ultima_Operacion.Add_Point)
                     Delete_Last_Point();
@@ -445,6 +452,36 @@ namespace Track_Project
                     Delete_Last_Curve();
                 Last_Operation.RemoveAt(Last_Operation.Count - 1);
 
+            }*/
+
+            if(operations.GetOperations().Count>0)
+            {
+                AddLine addLine = new AddLine();
+                AddBezier addBezier = new AddBezier();
+                if (Lines.Count > 0 && operations.GetOperations()[operations._index-1].GetType() ==addLine.GetType())
+                {
+                    Delete_Last_Line();
+                    operations.Undo();
+                }
+                if (Curves.Count > 0 && operations.GetOperations()[operations._index - 1].GetType() == addBezier.GetType())
+                {
+                    Delete_Last_Curve();
+                    operations.Undo();
+                }
+            }
+        }
+        #endregion
+        #region RedoFunctions
+        public void Redo()
+        {
+            Point[] list_point= operations.Redo();
+            if (list_point.Length == 2)
+            {
+                Lines.Add(list_point.ToList());
+            }
+            else if (list_point.Length == 4)
+            {
+                Curves.Add(list_point.ToList());
             }
         }
         #endregion

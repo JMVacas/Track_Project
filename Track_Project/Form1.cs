@@ -182,6 +182,10 @@ namespace Track_Project
             {
                 _track.Delete_Last_Operation();
             }
+            else if(e.Control && (e.KeyValue == 'y' || e.KeyValue == 'Y'))
+            {
+                _track.Redo();
+            }
             Paleta.Invalidate();
             Paleta.Update();
         }

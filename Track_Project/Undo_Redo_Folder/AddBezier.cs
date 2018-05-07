@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace Track_Project
 {
-    public class AddBezier
+    public class AddBezier:Operation
     {
         private Point _P1 = new Point(), _P2 = new Point(), _P3 = new Point(), _P4 = new Point();
-        AddBezier()
+        public AddBezier()
         {
 
         }
-        AddBezier(Point P1, Point P2, Point P3, Point P4)
+        public AddBezier(Point P1, Point P2, Point P3, Point P4)
         {
             _P1 = P1;
             _P2 = P2;
@@ -33,10 +33,10 @@ namespace Track_Project
             bool error = new bool();
             try
             {
-                _P1 = P[1];
-                _P2 = P[2];
-                _P2 = P[3];
-                _P2 = P[4];
+                _P1 = P[0];
+                _P2 = P[1];
+                _P3 = P[2];
+                _P4 = P[3];
             }
             catch (ArgumentOutOfRangeException)
             {
@@ -49,10 +49,10 @@ namespace Track_Project
             bool error = new bool();
             try
             {
-                _P1 = P[1];
-                _P2 = P[2];
-                _P2 = P[3];
-                _P2 = P[4];
+                _P1 = P[0];
+                _P2 = P[1];
+                _P3 = P[2];
+                _P4 = P[3];
             }
             catch (ArgumentOutOfRangeException)
             {
@@ -60,12 +60,19 @@ namespace Track_Project
             }
             return error;
         }
-        public void GetOperationPoints(ref Point P1, ref Point P2, ref Point P3, ref Point P4)
+        public  void GetOperationPoints(ref Point P1, ref Point P2, ref Point P3, ref Point P4)
         {
             P1 = _P1;
             P2 = _P2;
             P3 = _P3;
             P4 = _P4;
+        }
+        public override void GetOperationPoints(List<Point> list_point)
+        {
+            list_point.Add(_P1);
+            list_point.Add(_P2);
+            list_point.Add(_P3);
+            list_point.Add(_P4);
         }
 
     }

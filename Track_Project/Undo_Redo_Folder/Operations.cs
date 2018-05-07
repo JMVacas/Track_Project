@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,11 +8,11 @@ using System.Threading.Tasks;
 namespace Track_Project 
 {
     public class Operations
-    { 
-        List<Operation> _operations = new List<Operation>();
-        public int _index = new int();
+    {
+        public List<Operation> _operations = new List<Operation>();
+        public int _index { get; set; } = new int();
 
-        Operations()
+        public Operations()
         {
 
         }
@@ -25,14 +26,25 @@ namespace Track_Project
             if (_index>0)
                 _index--;
         }
-        public void Redo()
+        public Point[] Redo()
         {
+            List<Point> list_point = new List<Point>();
             if (_index < _operations.Count)
+            {
                 _index++;
+                AddLine addLine = new AddLine();
+                _operations[_index-1].GetOperationPoints(list_point);
+            }
+            return list_point.ToArray();
         }
-        public void Make()
+        public void Make(Operation operation)
         {
             _operations.Take(_index);
+            AddOperation(operation);
+        }
+        public List<Operation> GetOperations()
+        {
+            return _operations;
         }
     }
 }

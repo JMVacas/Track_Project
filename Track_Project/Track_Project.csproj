@@ -77,7 +77,6 @@
     <Compile Include="Undo_Redo_Folder\Operation.cs" />
     <Compile Include="Undo_Redo_Folder\Operations.cs" />
     <Compile Include="GetBeziersPoints.cs" />
-    <Compile Include="Command.cs" />
     <Compile Include="Form11.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

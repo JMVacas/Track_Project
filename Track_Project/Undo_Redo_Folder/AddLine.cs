@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace Track_Project
 {
-    public class AddLine
+    public class AddLine:Operation
     {
         private Point _P1 = new Point(), _P2 = new Point();
-        AddLine()
+        public AddLine()
         {
 
         }
-        AddLine(Point P1, Point P2)
+        public AddLine(Point P1, Point P2)
         {
             _P1 = P1;
             _P2 = P2;
@@ -29,8 +29,8 @@ namespace Track_Project
             bool error = new bool();
             try
             {
-                _P1 = P[1];
-                _P2 = P[2];
+                _P1 = P[0];
+                _P2 = P[1];
             }
             catch (ArgumentOutOfRangeException)
             {
@@ -43,8 +43,8 @@ namespace Track_Project
             bool error = new bool();
             try
             {
-                _P1 = P[1];
-                _P2 = P[2];
+                _P1 = P[0];
+                _P2 = P[1];
             }
             catch (ArgumentOutOfRangeException)
             {
@@ -57,6 +57,12 @@ namespace Track_Project
             P1 = _P1;
             P2 = _P2;
         }
+        public override void GetOperationPoints(List<Point> list_point)
+        {
+            list_point.Add(_P1);
+            list_point.Add(_P2);
+        }
+
 
     }
 }

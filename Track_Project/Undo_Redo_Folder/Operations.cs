@@ -32,14 +32,13 @@ namespace Track_Project
             if (_index < _operations.Count)
             {
                 _index++;
-                AddLine addLine = new AddLine();
                 _operations[_index-1].GetOperationPoints(list_point);
             }
             return list_point.ToArray();
         }
         public void Make(Operation operation)
         {
-            _operations.Take(_index);
+            _operations=_operations.Take(_index).ToList();
             AddOperation(operation);
         }
         public List<Operation> GetOperations()

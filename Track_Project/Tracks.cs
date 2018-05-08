@@ -419,14 +419,15 @@ namespace Track_Project
         }
         private void Delete_All_Operations()
         {
-            if (Last_Operation != null)
-                Last_Operation.Clear();
+            if (operations.GetOperations() != null)
+                operations.Clear();
         }
         public void Delete_All()
         {
             Delete_All_Points();
             Delete_All_Curves();
             Delete_All_Lines();
+            Delete_All_Operations();
         }
         public void Delete_Last_Line()
         {
@@ -612,6 +613,10 @@ namespace Track_Project
         public int GetPointsCount()
         {
             return points.Count;
+        }
+        public Operations GetOperations()
+        {
+            return operations;
         }
         #endregion
         #endregion

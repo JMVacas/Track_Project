@@ -60,7 +60,7 @@ namespace Track_Project
             }
             return error;
         }
-        public  void GetOperationPoints(ref Point P1, ref Point P2, ref Point P3, ref Point P4)
+        public void GetOperationPoints(ref Point P1, ref Point P2, ref Point P3, ref Point P4)
         {
             P1 = _P1;
             P2 = _P2;
@@ -73,6 +73,27 @@ namespace Track_Project
             list_point.Add(_P2);
             list_point.Add(_P3);
             list_point.Add(_P4);
+        }
+        public override void SetOperationPoint(Point point, int index)
+        {
+            if (index < 4)
+            {
+                switch (index)
+                {
+                    case 0:
+                        _P1 = point;
+                        break;
+                    case 1:
+                        _P2 = point;
+                        break;
+                    case 2:
+                        _P3 = point;
+                        break;
+                    case 3:
+                        _P4 = point;
+                        break;
+                }
+            }
         }
 
     }

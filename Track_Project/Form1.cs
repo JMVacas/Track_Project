@@ -449,7 +449,7 @@ namespace Track_Project
                     }
 
                 } while (Number <= -1);
-                if (Selected.GetCurveCount() < 1)
+                if (Selected.GetCurveCount() > 0)
                 {
                     List<Point> Buffer = new List<Point>();
                     for (int i = 0; i < Selected.GetCurveCount(); i++)
@@ -459,11 +459,29 @@ namespace Track_Project
                         Buffer.Clear();
                     }
                 }
-                else
+                ConstantsAndTypes.TypesOfTrack type = new ConstantsAndTypes.TypesOfTrack();
+                int index = new int();
+                bool type_of_object = new bool();
+                List<List<Point>> Open_Points = new List<List<Point>>();
+                type= CheckContinuity.Check(Selected.GetLines(), ref Segment_Curve, ref index, ref type_of_object, ref Open_Points);
+                switch(type)
                 {
-                    MessageBox.Show(this, "There isn't any Curve, please select a track with curves or modify this track", "No curves", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    case ConstantsAndTypes.TypesOfTrack.ClosedTrack:
+                        MessageBox.Show(this, "Is a close track", "Closed track", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        CodesysPoints(ref Selected);
+                        break;
+                    case ConstantsAndTypes.TypesOfTrack.SemiClosedTrack:
+                        MessageBox.Show(this, "Is a semiclosed track", "Closed track", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        if(Open_Points.Count==2)
+                            CodesysPoints(ref Selected,ref Open_Points);
+                        break;
+                    case ConstantsAndTypes.TypesOfTrack.OpenTracK:
+                        MessageBox.Show(this, "Is an Open Track", "Closed track", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        break;
                 }
             }
+            else
+                MessageBox.Show(this, "There isn't saved tracks in the program, please save a track", "No tracks", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
@@ -569,7 +587,119 @@ namespace Track_Project
             }
             return color;
         }
-        
+      /*  private List<Point> CodesysPoints(int index, bool type_of_object)
+        {
+            List<Point> First_Object = new List<Point>();
+            if (type_of_object==false)
+            {
+
+            }
+            else
+            {
+
+            }
+        }*/
+        private List<Point> CodesysPoints(ref Tracks Selected)
+        {
+            List<Point> Array_Points = new List<Point>();
+            List<Point> First_Object = new List<Point>();
+            List<Point> Actual_Object = new List<Point>();
+            List<Point> Last_Object = new List<Point>();
+            List<Point> Next_Object = new List<Point>();
+            First_Object.AddRange(Selected.GetLines()[0]);
+            Actual_Object.AddRange(Selected.GetLines()[0]);
+            Last_Object.AddRange(Selected.GetLines()[0]);
+            Array_Points.AddRange(Selected.GetLines()[0]);
+            do
+            {
+                if(Next_Object.Count>0)
+                    Array_Points.AddRange(Next_Object);
+                Next_Object.Clear();
+                try
+                {
+                    Next_Object.AddRange(CheckContinuity.PointNextObject(Selected.GetLines(), ref Segment_Curve, Actual_Object[Actual_Object.Count - 1], Actual_Object[0], ConstantsAndTypes.TypesOfTrack.ClosedTrack));
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                    Next_Object.Clear();
+                }
+                if (Next_Object.SequenceEqual(Last_Object) || Next_Object.Count==0)
+                {
+                    Next_Object.Clear();
+                    Next_Object.AddRange(CheckContinuity.PointNextObject(Selected.GetLines(), ref Segment_Curve, Actual_Object[0], Actual_Object[Actual_Object.Count - 1], ConstantsAndTypes.TypesOfTrack.SemiClosedTrack));
+
+                }
+                Last_Object.Clear();
+                Last_Object.AddRange(Actual_Object);
+                Actual_Object.Clear();
+                Actual_Object.AddRange(Next_Object);
+            }
+            while (!Actual_Object.SequenceEqual(First_Object));
+            Array_Points.AddRange(Next_Object);
+            Array_Points.Distinct();
+            Array_Points.Add(First_Object[First_Object.Count-1]);
+            Segment_Curve.Clear();
+            Segment_Curve.Add(Array_Points);
+            return Array_Points;
+        }
+        private List<Point> CodesysPoints(ref Tracks Selected, ref List<List<Point>> Open_Points)
+        {
+            string[] Objects = { "Array_Points", "First_Object", "Actual_Object", "Last_Object", "Next_Object", "Finish_Object"};
+            Dictionary<ConstantsAndTypes.Using_Points, List<Point>> Important_Points = new Dictionary<ConstantsAndTypes.Using_Points, List<Point>>();
+            Important_Points.Add(ConstantsAndTypes.Using_Points.Array_Points, new List<Point>());
+            Important_Points.Add(ConstantsAndTypes.Using_Points.Actual_Object, new List<Point>());
+            Important_Points.Add(ConstantsAndTypes.Using_Points.Finish_Object, new List<Point>());
+            Important_Points.Add(ConstantsAndTypes.Using_Points.First_Object, new List<Point>());
+            Important_Points.Add(ConstantsAndTypes.Using_Points.Last_Object, new List<Point>());
+            Important_Points.Add(ConstantsAndTypes.Using_Points.Next_Object, new List<Point>());
+            Important_Points[ConstantsAndTypes.Using_Points.Array_Points].AddRange(Open_Points[0]);
+            Important_Points[ConstantsAndTypes.Using_Points.Finish_Object].AddRange(Open_Points[1]);
+            Important_Points[ConstantsAndTypes.Using_Points.Actual_Object].AddRange(Open_Points[0]);
+            Important_Points[ConstantsAndTypes.Using_Points.Last_Object].AddRange(Open_Points[0]);
+            Important_Points[ConstantsAndTypes.Using_Points.First_Object].AddRange(Open_Points[0]);
+            do
+            {
+                if (Important_Points[ConstantsAndTypes.Using_Points.Next_Object].Count > 0)
+                    Important_Points[ConstantsAndTypes.Using_Points.Array_Points].AddRange(Important_Points[ConstantsAndTypes.Using_Points.Next_Object]);
+                Important_Points[ConstantsAndTypes.Using_Points.Next_Object].Clear();
+                try
+                {
+                    Important_Points[ConstantsAndTypes.Using_Points.Next_Object].AddRange(CheckContinuity.PointNextObject(Selected.GetLines(), ref Segment_Curve, Important_Points[ConstantsAndTypes.Using_Points.Actual_Object][Important_Points[ConstantsAndTypes.Using_Points.Actual_Object].Count - 1], Important_Points[ConstantsAndTypes.Using_Points.Actual_Object][0], ConstantsAndTypes.TypesOfTrack.ClosedTrack));
+                }
+                catch(ArgumentOutOfRangeException)
+                {
+                    Important_Points[ConstantsAndTypes.Using_Points.Next_Object].Clear();
+                }
+                if (Important_Points[ConstantsAndTypes.Using_Points.Next_Object].SequenceEqual(Important_Points[ConstantsAndTypes.Using_Points.Last_Object]) || Important_Points[ConstantsAndTypes.Using_Points.Next_Object].Count<=0)
+                {
+                    Important_Points[ConstantsAndTypes.Using_Points.Next_Object].Clear();
+                    try
+                    {
+                        Important_Points[ConstantsAndTypes.Using_Points.Next_Object].AddRange(CheckContinuity.PointNextObject(Selected.GetLines(), ref Segment_Curve, Important_Points[ConstantsAndTypes.Using_Points.Actual_Object][0], Important_Points[ConstantsAndTypes.Using_Points.Actual_Object][Important_Points[ConstantsAndTypes.Using_Points.Actual_Object].Count - 1], ConstantsAndTypes.TypesOfTrack.ClosedTrack));
+                    }
+                    catch(ArgumentOutOfRangeException)
+                    {
+                        Important_Points[ConstantsAndTypes.Using_Points.Next_Object].Clear();
+                        Important_Points[ConstantsAndTypes.Using_Points.Next_Object].AddRange(CheckContinuity.PointNextObject(Selected.GetLines(), ref Segment_Curve, Important_Points[ConstantsAndTypes.Using_Points.Actual_Object][Important_Points[ConstantsAndTypes.Using_Points.Actual_Object].Count - 1], Important_Points[ConstantsAndTypes.Using_Points.Actual_Object][0], ConstantsAndTypes.TypesOfTrack.ClosedTrack));
+                    }
+                }
+                Important_Points[ConstantsAndTypes.Using_Points.Last_Object].Clear();
+                Important_Points[ConstantsAndTypes.Using_Points.Last_Object].AddRange(Important_Points[ConstantsAndTypes.Using_Points.Actual_Object]);
+                Important_Points[ConstantsAndTypes.Using_Points.Actual_Object].Clear();
+                Important_Points[ConstantsAndTypes.Using_Points.Actual_Object].AddRange(Important_Points[ConstantsAndTypes.Using_Points.Next_Object]);
+            }
+            while (!Important_Points[ConstantsAndTypes.Using_Points.Actual_Object].SequenceEqual(Important_Points[ConstantsAndTypes.Using_Points.Finish_Object]));
+            Important_Points[ConstantsAndTypes.Using_Points.Array_Points].AddRange(Important_Points[ConstantsAndTypes.Using_Points.Finish_Object]);
+            Important_Points[ConstantsAndTypes.Using_Points.Array_Points].Distinct();
+            Segment_Curve.Clear();
+            Segment_Curve.Add(Important_Points[ConstantsAndTypes.Using_Points.Array_Points]);
+            return Important_Points[ConstantsAndTypes.Using_Points.Array_Points];
+        }
+
+
+
+
+
 
     }
 }

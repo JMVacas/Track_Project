@@ -396,5 +396,12 @@ namespace Track_Project
             return (Math.PI * angle / 180);
         }
         #endregion
+        #region ExportCodesys
+        public void ExportCodesys(string Path)
+        {
+
+        }
+
+        #endregion
     }
 }

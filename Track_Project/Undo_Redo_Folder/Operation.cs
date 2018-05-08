@@ -13,7 +13,14 @@ namespace Track_Project
         {
 
         }
+        public virtual void ModifyOperationPoints(Point[] points)
+        {
 
+        }
+        public virtual void SetOperationPoint(Point point, int index)
+        {
+
+        }
     }
 
 }

@@ -62,7 +62,16 @@ namespace Track_Project
             list_point.Add(_P1);
             list_point.Add(_P2);
         }
-
+        public override void SetOperationPoint(Point point, int index)
+        {
+            if(index<2)
+            {
+                if (index == 0)
+                    _P1 = point;
+                if (index == 1)
+                    _P2 = point;
+            }
+        }
 
     }
 }

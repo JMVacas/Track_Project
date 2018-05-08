@@ -72,6 +72,8 @@
     <Compile Include="ChangeOriginDiaog.Designer.cs">
       <DependentUpon>ChangeOriginDiaog.cs</DependentUpon>
     </Compile>
+    <Compile Include="CheckContinuity.cs" />
+    <Compile Include="ConstantsAndTypes.cs" />
     <Compile Include="Undo_Redo_Folder\AddLine.cs" />
     <Compile Include="Undo_Redo_Folder\AddBezier.cs" />
     <Compile Include="Undo_Redo_Folder\Operation.cs" />

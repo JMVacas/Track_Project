@@ -45,5 +45,13 @@ namespace Track_Project
         {
             return _operations;
         }
+        public void ModifyOperation(Operation operation, int index)
+        {
+            _operations[index] = operation;
+        }
+        public void Clear()
+        {
+            _operations.Clear();
+        }
     }
 }

@@ -191,8 +191,23 @@ namespace Track_Project
                 MessageBox.Show(this, "Por favor, introduzca un valor\ncorrecto en la celda\n" + ex.Message, "Error al introducir un valor", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             Point point = new Point(Convert.ToInt32(Line_Data.Rows[e.RowIndex].Cells[1].Value.ToString()) + Origin.X, Convert.ToInt32(Line_Data.Rows[e.RowIndex].Cells[2].Value.ToString()) + Origin.Y);
-            track.GetLines()[e.RowIndex / PointsOfaLine].RemoveAt(e.RowIndex % 2);
-            track.GetLines()[e.RowIndex / PointsOfaLine].Insert(e.RowIndex % 2, point);
+            track.GetLines()[e.RowIndex / PointsOfaLine].RemoveAt(e.RowIndex % PointsOfaLine);
+            track.GetLines()[e.RowIndex / PointsOfaLine].Insert(e.RowIndex % PointsOfaLine, point);
+            AddLine addLine = new AddLine();
+            int i = new int();
+            bool exit = false;
+            for (int counter=0; i<track.GetOperations().GetOperations().Count && exit==false ; i++)
+            {
+                if(counter==e.RowIndex/PointsOfaLine)
+                {
+                    exit = true;
+                }
+                else if(track.GetOperations().GetOperations()[i].GetType()==addLine.GetType())
+                {
+                    counter++;
+                }
+            }
+            track.GetOperations().GetOperations()[i-1].SetOperationPoint(point, e.RowIndex%PointsOfaLine);
             Paleta.Invalidate();
             Paleta.Update();
         }
@@ -245,6 +260,21 @@ namespace Track_Project
             Point point = new Point(Convert.ToInt32(Curve_Data.Rows[e.RowIndex].Cells[1].Value.ToString()) + Origin.X, Convert.ToInt32(Curve_Data.Rows[e.RowIndex].Cells[2].Value.ToString()) + Origin.Y);
             track.GetCurves()[e.RowIndex / PointsOfaCurve].RemoveAt(e.RowIndex % PointsOfaCurve);
             track.GetCurves()[e.RowIndex / PointsOfaCurve].Insert(e.RowIndex % PointsOfaCurve, point);
+            int i = new int();
+            AddBezier addBezier = new AddBezier();
+            bool exit = false;
+            for (int counter = 0; i < track.GetOperations().GetOperations().Count && exit == false; i++)
+            {
+                if (counter == e.RowIndex / PointsOfaCurve)
+                {
+                    exit = true;
+                }
+                else if (track.GetOperations().GetOperations()[i].GetType() == addBezier.GetType())
+                {
+                    counter++;
+                }
+            }
+            track.GetOperations().GetOperations()[i - 1].SetOperationPoint(point, e.RowIndex % PointsOfaCurve);
             Paleta.Refresh();
         }
 

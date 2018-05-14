@@ -173,6 +173,47 @@ namespace Track_Project
                 bitmap.Save(saveFileDialog1.FileName);
             }
         }
+        public static void Guardar_Explorador(ref List<System.Drawing.Point> points, System.Drawing.Point Origin)
+        {
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog
+            {
+                Filter = "txt files(*.txt)|*.txt|All files (*.*)|*.*",
+                FilterIndex = 1,
+                RestoreDirectory = true,
+                DefaultExt = ".txt",
+                FileName = "Codesys_Export"              
+            };
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                FileStream fileStream = (FileStream)saveFileDialog1.OpenFile();
+                Save_Codesys(ref points, Origin, ref fileStream);
+                fileStream.Close();
+            }
+        }
+        private static void Save_Codesys(ref List<System.Drawing.Point> points, System.Drawing.Point Origin, ref FileStream fileStream)
+        {
+            CodesysExportDialog codesysExportDialog = new CodesysExportDialog();
+            if (codesysExportDialog.ShowDialog()==DialogResult.OK)
+            {
+                string Orientation = codesysExportDialog.Orientation;
+                int Path_Number = codesysExportDialog.Path_Number;
+                for(int i =0; i<points.Count; i++)
+                {
+                    AddText(ref fileStream, "L_PATH_ARRAY[" + Path_Number + "].PUNTOS[" + i + "].x:=" + (points[i].X - Origin.X) + ";\r\n");
+                    AddText(ref fileStream, "L_PATH_ARRAY[" + Path_Number + "].PUNTOS[" + i + "].y:=" + (-points[i].Y + Origin.Y) + ";\r\n");
+                }
+                AddText(ref fileStream, "L_PATH_ARRAY[" + Path_Number + "].LENGTH:=" + points.Count+ ";\r\n");
+                AddText(ref fileStream, "L_PATH_ARRAY[" + Path_Number + "].PATH_NUMBER:=" + Path_Number+ ";\r\n");
+                AddText(ref fileStream, "L_PATH_ARRAY[" + Path_Number + "].PATH_ORIENTATION:=" + Orientation+ ";\r\n");
+            }
+        }
+
+        private static void AddText(ref FileStream fileStream, string v)
+        {
+            byte[] info = new UTF8Encoding(true).GetBytes(v);
+            fileStream.Write(info, 0, info.Length);
+        }
+
         #endregion
         #region GetDataFunction
         /// <summary>

@@ -41,6 +41,7 @@ namespace Track_Project
             this.cargarTrayectoriaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Exportar_Trayectoria_Menu1 = new System.Windows.Forms.ToolStripMenuItem();
             this.exportarMapaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.codesysToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewAllTracsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteTrackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -61,7 +62,6 @@ namespace Track_Project
             this.Track_Edit_Select = new System.Windows.Forms.ComboBox();
             this.Track_Caption = new System.Windows.Forms.PictureBox();
             this.DTA = new System.Windows.Forms.PictureBox();
-            this.codesysToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Paleta)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
@@ -161,30 +161,37 @@ namespace Track_Project
             // cargarMapaToolStripMenuItem
             // 
             this.cargarMapaToolStripMenuItem.Name = "cargarMapaToolStripMenuItem";
-            this.cargarMapaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.cargarMapaToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
             this.cargarMapaToolStripMenuItem.Text = "Cargar Mapa";
             this.cargarMapaToolStripMenuItem.Click += new System.EventHandler(this.cargarMapaToolStripMenuItem_Click);
             // 
             // cargarTrayectoriaToolStripMenuItem
             // 
             this.cargarTrayectoriaToolStripMenuItem.Name = "cargarTrayectoriaToolStripMenuItem";
-            this.cargarTrayectoriaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.cargarTrayectoriaToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
             this.cargarTrayectoriaToolStripMenuItem.Text = "Cargar Trayectoria";
             this.cargarTrayectoriaToolStripMenuItem.Click += new System.EventHandler(this.cargarTrayectoriaToolStripMenuItem_Click);
             // 
             // Exportar_Trayectoria_Menu1
             // 
             this.Exportar_Trayectoria_Menu1.Name = "Exportar_Trayectoria_Menu1";
-            this.Exportar_Trayectoria_Menu1.Size = new System.Drawing.Size(180, 22);
+            this.Exportar_Trayectoria_Menu1.Size = new System.Drawing.Size(185, 22);
             this.Exportar_Trayectoria_Menu1.Text = "Exportar Trayectoria";
             this.Exportar_Trayectoria_Menu1.Click += new System.EventHandler(this.Exportar_Trayectoria_Menu1_Click);
             // 
             // exportarMapaToolStripMenuItem
             // 
             this.exportarMapaToolStripMenuItem.Name = "exportarMapaToolStripMenuItem";
-            this.exportarMapaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exportarMapaToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
             this.exportarMapaToolStripMenuItem.Text = "Exportar Mapa";
             this.exportarMapaToolStripMenuItem.Click += new System.EventHandler(this.exportarMapaToolStripMenuItem_Click);
+            // 
+            // codesysToolStripMenuItem
+            // 
+            this.codesysToolStripMenuItem.Name = "codesysToolStripMenuItem";
+            this.codesysToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.codesysToolStripMenuItem.Text = "Export Codesys Code";
+            this.codesysToolStripMenuItem.Click += new System.EventHandler(this.codesysToolStripMenuItem_Click);
             // 
             // optionsToolStripMenuItem
             // 
@@ -397,13 +404,6 @@ namespace Track_Project
             this.DTA.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.DTA.TabIndex = 12;
             this.DTA.TabStop = false;
-            // 
-            // codesysToolStripMenuItem
-            // 
-            this.codesysToolStripMenuItem.Name = "codesysToolStripMenuItem";
-            this.codesysToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.codesysToolStripMenuItem.Text = "Codesys";
-            this.codesysToolStripMenuItem.Click += new System.EventHandler(this.codesysToolStripMenuItem_Click);
             // 
             // Form1
             // 

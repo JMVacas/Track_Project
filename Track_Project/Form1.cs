@@ -361,10 +361,12 @@ namespace Track_Project
 
         private void Color_Select_Click(object sender, EventArgs e)
         {
-            DialogResult result = colorDialog1.ShowDialog();
-            if (result.Equals(DialogResult.OK))
+
+            if (colorDialog1.ShowDialog()==DialogResult.OK)
             {
                 Line_Color = colorDialog1.Color;
+                Paleta.Invalidate();
+                Paleta.Update();
             }
         }
 
@@ -423,62 +425,41 @@ namespace Track_Project
             if (tracks.Count > 0)
             {
                 ComboBoxDialog comboBoxDialog = new ComboBoxDialog(ref tracks);
-                comboBoxDialog.ShowDialog();
-                Tracks Selected = comboBoxDialog.Selected_track;
-                comboBoxDialog.Close();
-                Segment_Curve.Clear();
-                int Number = new int();
-                do
+                if (comboBoxDialog.ShowDialog() == DialogResult.OK)
                 {
-                    string number_string = Microsoft.VisualBasic.Interaction.InputBox(String.Format("Introduce the numers in which you want to divide the curve [{0}-{1}]", Min_Divide_Points, Max_Divide_Points), "Introduce numbers", "20");
-                    try
+                    Tracks Selected = comboBoxDialog.Selected_track;
+                    comboBoxDialog.Close();
+                    Segment_Curve.Clear();
+                    int Number = GetDivideSegmentNumber();
+                    AddSegmentPoints(ref Selected, Number);
+                    ConstantsAndTypes.TypesOfTrack type = new ConstantsAndTypes.TypesOfTrack();
+                    int index = new int();
+                    bool type_of_object = new bool();
+                    List<List<Point>> Open_Points = new List<List<Point>>();
+                    List<Point> Export_Points = new List<Point>();
+                    type = CheckContinuity.Check(Selected.GetLines(), ref Segment_Curve, ref index, ref type_of_object, ref Open_Points);
+                    switch (type)
                     {
-                        Number = Convert.ToInt32(number_string);
-                    }
-                    catch (FormatException)
-                    {
-                        Number = -1;
-                    }
-                    finally
-                    {
-                        if (Number < 5 || Number > 2000)
-                        {
-                            MessageBox.Show(this, String.Format("It's not a valid number, please write down a valid number [{0}-{1}]", Min_Divide_Points, Max_Divide_Points), "Number not valid", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                            Number = -1;
-                        }
-                    }
+                        case ConstantsAndTypes.TypesOfTrack.ClosedTrack:
+                            MessageBox.Show(this, "Is a close track", "Closed track", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            Export_Points.AddRange(CodesysPoints(ref Selected));
+                            Explorador.Guardar_Explorador(ref Export_Points, Origen);
+                            break;
+                        case ConstantsAndTypes.TypesOfTrack.SemiClosedTrack:
+                            MessageBox.Show(this, "Is a semiclosed track", "Closed track", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            if (Open_Points.Count == 2)
+                            {
+                                CodesysPoints(ref Selected, ref Open_Points);
+                                Export_Points.AddRange(CodesysPoints(ref Selected, ref Open_Points));
+                                Explorador.Guardar_Explorador(ref Export_Points, Origen);
+                            }
 
-                } while (Number <= -1);
-                if (Selected.GetCurveCount() > 0)
-                {
-                    List<Point> Buffer = new List<Point>();
-                    for (int i = 0; i < Selected.GetCurveCount(); i++)
-                    {
-                        Buffer.AddRange(Selected.GetCurves()[i]);
-                        Segment_Curve.Add(GetBeziersPoints.GetSegments_EcuationMethod(ref Buffer, Number));
-                        Buffer.Clear();
+                            break;
+                        case ConstantsAndTypes.TypesOfTrack.OpenTracK:
+                            MessageBox.Show(this, "Is an Open Track", "Closed track", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            break;
                     }
-                }
-                ConstantsAndTypes.TypesOfTrack type = new ConstantsAndTypes.TypesOfTrack();
-                int index = new int();
-                bool type_of_object = new bool();
-                List<List<Point>> Open_Points = new List<List<Point>>();
-                type= CheckContinuity.Check(Selected.GetLines(), ref Segment_Curve, ref index, ref type_of_object, ref Open_Points);
-                switch(type)
-                {
-                    case ConstantsAndTypes.TypesOfTrack.ClosedTrack:
-                        MessageBox.Show(this, "Is a close track", "Closed track", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        CodesysPoints(ref Selected);
-                        break;
-                    case ConstantsAndTypes.TypesOfTrack.SemiClosedTrack:
-                        MessageBox.Show(this, "Is a semiclosed track", "Closed track", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        if(Open_Points.Count==2)
-                            CodesysPoints(ref Selected,ref Open_Points);
-                        break;
-                    case ConstantsAndTypes.TypesOfTrack.OpenTracK:
-                        MessageBox.Show(this, "Is an Open Track", "Closed track", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                        break;
-                }
+                }               
             }
             else
                 MessageBox.Show(this, "There isn't saved tracks in the program, please save a track", "No tracks", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -636,8 +617,8 @@ namespace Track_Project
             }
             while (!Actual_Object.SequenceEqual(First_Object));
             Array_Points.AddRange(Next_Object);
-            Array_Points.Distinct();
-            Array_Points.Add(First_Object[First_Object.Count-1]);
+            Array_Points=Array_Points.Distinct().ToList();
+            Array_Points.Add(First_Object[First_Object.Count - 1]);
             Segment_Curve.Clear();
             Segment_Curve.Add(Array_Points);
             return Array_Points;
@@ -690,10 +671,49 @@ namespace Track_Project
             }
             while (!Important_Points[ConstantsAndTypes.Using_Points.Actual_Object].SequenceEqual(Important_Points[ConstantsAndTypes.Using_Points.Finish_Object]));
             Important_Points[ConstantsAndTypes.Using_Points.Array_Points].AddRange(Important_Points[ConstantsAndTypes.Using_Points.Finish_Object]);
-            Important_Points[ConstantsAndTypes.Using_Points.Array_Points].Distinct();
+            Important_Points[ConstantsAndTypes.Using_Points.Array_Points] = Important_Points[ConstantsAndTypes.Using_Points.Array_Points].Distinct().ToList();
             Segment_Curve.Clear();
             Segment_Curve.Add(Important_Points[ConstantsAndTypes.Using_Points.Array_Points]);
             return Important_Points[ConstantsAndTypes.Using_Points.Array_Points];
+        }
+        private int GetDivideSegmentNumber()
+        {
+            int Number = new int();
+            do
+            {
+                string number_string = Microsoft.VisualBasic.Interaction.InputBox(String.Format("Introduce the numers in which you want to divide the curve [{0}-{1}]", Min_Divide_Points, Max_Divide_Points), "Introduce numbers", "20");
+                try
+                {
+                    Number = Convert.ToInt32(number_string);
+                }
+                catch (FormatException)
+                {
+                    Number = -1;
+                }
+                finally
+                {
+                    if (Number < 5 || Number > 2000)
+                    {
+                        MessageBox.Show(this, String.Format("It's not a valid number, please write down a valid number [{0}-{1}]", Min_Divide_Points, Max_Divide_Points), "Number not valid", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        Number = -1;
+                    }
+                }
+
+            } while (Number <= -1);
+            return Number;
+        }
+        private void AddSegmentPoints(ref Tracks Selected, int Number)
+        {
+            if (Selected.GetCurveCount() > 0)
+            {
+                List<Point> Buffer = new List<Point>();
+                for (int i = 0; i < Selected.GetCurveCount(); i++)
+                {
+                    Buffer.AddRange(Selected.GetCurves()[i]);
+                    Segment_Curve.Add(GetBeziersPoints.GetSegments_EcuationMethod(ref Buffer, Number));
+                    Buffer.Clear();
+                }
+            }
         }
 
 

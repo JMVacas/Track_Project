@@ -66,14 +66,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ChangeOriginDiaog.cs">
+    <Compile Include="Dialogs\ChangeOriginDiaog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ChangeOriginDiaog.Designer.cs">
+    <Compile Include="Dialogs\ChangeOriginDiaog.Designer.cs">
       <DependentUpon>ChangeOriginDiaog.cs</DependentUpon>
     </Compile>
     <Compile Include="CheckContinuity.cs" />
     <Compile Include="ConstantsAndTypes.cs" />
+    <Compile Include="Dialogs\CodesysExportDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\CodesysExportDialog.Designer.cs">
+      <DependentUpon>CodesysExportDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Undo_Redo_Folder\AddLine.cs" />
     <Compile Include="Undo_Redo_Folder\AddBezier.cs" />
     <Compile Include="Undo_Redo_Folder\Operation.cs" />
@@ -84,10 +90,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Form1.resx</DependentUpon>
     </Compile>
-    <Compile Include="ComboBoxDialog.cs">
+    <Compile Include="Dialogs\ComboBoxDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ComboBoxDialog.Designer.cs">
+    <Compile Include="Dialogs\ComboBoxDialog.Designer.cs">
       <DependentUpon>ComboBoxDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Tracks.cs" />
@@ -113,7 +119,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="ChangeOriginDiaog.resx">
+    <EmbeddedResource Include="Dialogs\ChangeOriginDiaog.resx">
       <DependentUpon>ChangeOriginDiaog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
@@ -127,8 +133,11 @@
     <EmbeddedResource Include="Form3.resx">
       <DependentUpon>Form3.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ComboBoxDialog.resx">
+    <EmbeddedResource Include="Dialogs\ComboBoxDialog.resx">
       <DependentUpon>ComboBoxDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\CodesysExportDialog.resx">
+      <DependentUpon>CodesysExportDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

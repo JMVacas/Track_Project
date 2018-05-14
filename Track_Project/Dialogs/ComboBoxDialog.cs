@@ -40,11 +40,13 @@ namespace Track_Project
 
         private void OK_Button_Click(object sender, EventArgs e)
         {
+            DialogResult = DialogResult.OK;
             Hide();
         }
 
         private void Cancel_Button_Click(object sender, EventArgs e)
         {
+            DialogResult = DialogResult.Cancel;
             Selected_track = null;
             Hide();
         }

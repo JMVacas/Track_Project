@@ -265,16 +265,16 @@ namespace Track_Project
             bool exit = false;
             for (int counter = 0; i < track.GetOperations().GetOperations().Count && exit == false; i++)
             {
-                if (counter == e.RowIndex / PointsOfaCurve)
-                {
-                    exit = true;
-                }
-                else if (track.GetOperations().GetOperations()[i].GetType() == addBezier.GetType())
+                if (track.GetOperations().GetOperations()[i].GetType() == addBezier.GetType())
                 {
                     counter++;
                 }
+                else if (counter == (e.RowIndex / PointsOfaCurve+1))
+                {
+                    exit = true;
+                }
             }
-            track.GetOperations().GetOperations()[i - 1].SetOperationPoint(point, e.RowIndex % PointsOfaCurve);
+            track.GetOperations().GetOperations()[i-1].SetOperationPoint(point, e.RowIndex % PointsOfaCurve);
             Paleta.Refresh();
         }
 

@@ -24,7 +24,7 @@ namespace Track_Project
             _P1 = P1;
             _P2 = P2;
         }
-        public bool AddLine_Operation(Point[] P)
+        public bool AddLine_Operation(in Point[] P)
         {
             bool error = new bool();
             try

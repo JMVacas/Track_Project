@@ -449,7 +449,6 @@ namespace Track_Project
                             MessageBox.Show(this, "Is a semiclosed track", "Closed track", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             if (Open_Points.Count == 2)
                             {
-                                CodesysPoints(ref Selected, ref Open_Points);
                                 Export_Points.AddRange(CodesysPoints(ref Selected, ref Open_Points));
                                 Explorador.Guardar_Explorador(ref Export_Points, Origen);
                             }
@@ -618,7 +617,7 @@ namespace Track_Project
             while (!Actual_Object.SequenceEqual(First_Object));
             Array_Points.AddRange(Next_Object);
             Array_Points=Array_Points.Distinct().ToList();
-            Array_Points.Add(First_Object[First_Object.Count - 1]);
+            Array_Points.Add(First_Object[0]);
             Segment_Curve.Clear();
             Segment_Curve.Add(Array_Points);
             return Array_Points;

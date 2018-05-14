@@ -15,7 +15,7 @@ namespace Track_Project
         private List<List<Point>> Curves = new List<List<Point>>();
         private List<Point> points = new List<Point>();
         private SolidBrush Line_Color;
-        private List<Ultima_Operacion> Last_Operation = new List<Ultima_Operacion>();
+       // private List<Ultima_Operacion> Last_Operation = new List<Ultima_Operacion>();
         private Operations operations = new Operations(); 
         public static Graphics g;
         private string Name;
@@ -42,16 +42,14 @@ namespace Track_Project
         {
             Point[] Buffer = new Point[points.Count];
             Buffer = points.ToArray();
-            AddLine addLine = new AddLine();
             for (int i = 0; i < Buffer.Length - 1; i++)
             {
                 Point[] Concat = new Point[2];
                 Concat[0] = Buffer[i];
                 Concat[1] = Buffer[i + 1];
                 Lines.Add(Concat.ToList());
-                //Last_Operation.Add(Ultima_Operacion.Add_Line);
+                AddLine addLine = new AddLine();
                 addLine.AddLine_Operation(Concat);
-                // operation.AddOperation(addLine);
                 operations.Make(addLine);
             }
             points.Clear();

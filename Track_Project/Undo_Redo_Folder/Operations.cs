@@ -52,6 +52,7 @@ namespace Track_Project
         public void Clear()
         {
             _operations.Clear();
+            _index = 0;
         }
     }
 }

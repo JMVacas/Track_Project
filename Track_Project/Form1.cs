@@ -57,7 +57,7 @@ namespace Track_Project
             g.TranslateTransform(Posicion_x, Posicion_y);
             Picasso picasso = new Picasso(g);
             if (Map!=null)
-                g.DrawImage(Map, 0, 0, Paleta.Width, Paleta.Height);
+                g.DrawImage(Map, 0, 0, Map.Width, Map.Height);
             if(tracks.Count>0)
             {
                 for (int i =0; i< viewToolStripMenuItem.DropDownItems.Count; i++)
@@ -107,7 +107,7 @@ namespace Track_Project
                 Picasso picasso = new Picasso();
                 Cursor = new Cursor(Cursor.Current.Handle);
                 Point point = Paleta.PointToClient(Cursor.Position);
-                Origen=_track.Apply_Transformation(point, Zoom,Zoom * Posicion_x, Zoom * Posicion_y);  //Funcion para que de las cordenadas relativas al programa y no a la pantalal
+                Origen=_track.Apply_Transformation(point, 1 / Zoom,Zoom * Posicion_x, Zoom * Posicion_y);  //Funcion para que de las cordenadas relativas al programa y no a la pantalal
                 Paleta.Invalidate();
                 Paleta.Update();
             }

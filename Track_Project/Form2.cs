@@ -274,7 +274,13 @@ namespace Track_Project
                     exit = true;
                 }
             }
-            track.GetOperations().GetOperations()[i-1].SetOperationPoint(point, e.RowIndex % PointsOfaCurve);
+            try
+            {
+                track.GetOperations().GetOperations()[i - 1].SetOperationPoint(point, e.RowIndex % PointsOfaCurve);
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+            }
             Paleta.Refresh();
         }
 

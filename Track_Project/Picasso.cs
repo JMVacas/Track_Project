@@ -20,6 +20,13 @@ namespace Track_Project
             g = _g;
         }
 
+        /// <summary>
+        /// Draw the grill
+        /// </summary>
+        /// <param name="Origen"></param>
+        /// <param name="Zoom"></param>
+        /// <param name="Height"></param>
+        /// <param name="Width"></param>
         public void Draw_Grill(ref Point Origen, Double Zoom, int Height, int Width)
         {
             bool First_Line = new bool();

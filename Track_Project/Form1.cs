@@ -34,6 +34,7 @@ namespace Track_Project
         private readonly SolidBrush[] Tracks_Color = new SolidBrush[]{ new SolidBrush(Color.Brown), new SolidBrush(Color.Aqua), new SolidBrush(Color.DarkGreen), new SolidBrush(Color.DarkMagenta), new SolidBrush(Color.DarkTurquoise), new SolidBrush(Color.DarkOrange), new SolidBrush(Color.FloralWhite) , new SolidBrush(Color.ForestGreen) , new SolidBrush(Color.Gold) };
         Double Zoom = 5;
         public static Bitmap Map;
+        public double thickness = 2;
         List<List<Point>> Segment_Curve = new List<List<Point>>();
         private List<Ultima_Operacion> ultima_operacion = new List<Ultima_Operacion>();
         public Form1()
@@ -51,7 +52,7 @@ namespace Track_Project
             e.Graphics.SmoothingMode =  System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             Graphics g = e.Graphics;
             _track.SetGraphics(ref g);
-            Pen pen = new Pen(Line_Color, 2);
+            Pen pen = new Pen(Line_Color, (float)thickness);
         SolidBrush brush = new SolidBrush(Color.Red);
             g.ScaleTransform((float)Zoom, (float)Zoom);
             g.TranslateTransform(Posicion_x, Posicion_y);
@@ -83,7 +84,7 @@ namespace Track_Project
                 if(Punto_Seleccionado_2!=Punto_Cero && Punto_Seleccionado_1!=Punto_Cero && _track.GetLineCount()>0)
                 {
                     _track.Calculate_Curve(ref Punto_Seleccionado_1, ref Punto_Seleccionado_2, pen);
-                    ultima_operacion.Add(Ultima_Operacion.Add_Curve);
+                    //ultima_operacion.Add(Ultima_Operacion.Add_Curve);
                 }
             _track.DrawCurves(pen);
             brush.Color = Color.Red;
@@ -489,6 +490,17 @@ namespace Track_Project
             Paleta.Invalidate();
             Paleta.Update();
         }
+
+        private void ChangeThickness_Button_Click(object sender, EventArgs e)
+        {
+            ChangeThicknessDialog changeThicknessDialog = new ChangeThicknessDialog(thickness);
+            if(changeThicknessDialog.ShowDialog()==DialogResult.OK)
+            {
+                thickness = changeThicknessDialog._Thickness;
+            }
+            changeThicknessDialog.Close();
+        }
+
         private void Tracks_View_OnClickHandler(object sender, EventArgs e)
         {
             // var result = MessageBox.Show(this, "Doing this action will delete all the active work\n Do you want to continue", "Warning", MessageBoxButtons.OKCancel);

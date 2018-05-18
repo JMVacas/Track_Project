@@ -82,6 +82,12 @@
     <Compile Include="Dialogs\CodesysExportDialog.Designer.cs">
       <DependentUpon>CodesysExportDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\ChangeThicknessDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\ChangeThicknessDialog.Designer.cs">
+      <DependentUpon>ChangeThicknessDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Undo_Redo_Folder\AddLine.cs" />
     <Compile Include="Undo_Redo_Folder\AddBezier.cs" />
     <Compile Include="Undo_Redo_Folder\Operation.cs" />
@@ -123,6 +129,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Dialogs\ChangeOriginDiaog.resx">
       <DependentUpon>ChangeOriginDiaog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\ChangeThicknessDialog.resx">
+      <DependentUpon>ChangeThicknessDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

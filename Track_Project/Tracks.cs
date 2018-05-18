@@ -10,7 +10,7 @@ namespace Track_Project
     public class Tracks
     {
         #region Properties
-        private const float thickness = 1;
+        private float thickness = 1;
         private List<List<Point>> Lines = new List<List<Point>>();
         private List<List<Point>> Curves = new List<List<Point>>();
         private List<Point> points = new List<Point>();

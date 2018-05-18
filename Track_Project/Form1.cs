@@ -111,7 +111,6 @@ namespace Track_Project
                 Origen=_track.Apply_Transformation(point, 1 / Zoom,Zoom * Posicion_x, Zoom * Posicion_y);  //Funcion para que de las cordenadas relativas al programa y no a la pantalal
                 Paleta.Invalidate();
                 Paleta.Update();
-                //prueba
             }
             else if (!Mouse_Button.Checked && Line_Button.Checked)
             {

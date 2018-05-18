@@ -38,6 +38,9 @@ namespace Track_Project
         }
         #endregion
         #region AddFunctions
+        /// <summary>
+        /// Add a new Line 
+        /// </summary>
         public void Add_Line()
         {
             Point[] Buffer = new Point[points.Count];
@@ -54,26 +57,49 @@ namespace Track_Project
             }
             points.Clear();
         }
+        /// <summary>
+        /// Add a number of Lines
+        /// </summary>
+        /// <param name="_Lines"></param>
         public void Add_Lines(List<List<Point>> _Lines)
         {
             Lines.AddRange(_Lines);
         }
+        /// <summary>
+        /// Add A point, it will apply the zoom and the screen offset
+        /// </summary>
+        /// <param name="point">point that is gotten by the mouse</param>
+        /// <param name="zoom"></param>
+        /// <param name="x">X offset</param>
+        /// <param name="y">Y offset</param>
         public void Add_Point(Point point, double zoom, double x, double y)
         {
             Point P1 = new Point();
             P1 = Apply_Transformation(point, zoom, x, y);
             points.Add(P1);
         }
+        /// <summary>
+        /// Add point withot applying the coord transformation
+        /// </summary>
+        /// <param name="point"></param>
         public void Add_Point(Point point)
         {
             points.Add(point);
         }
+        /// <summary>
+        /// Add a determinate number of curves
+        /// </summary>
+        /// <param name="_Curves"></param>
         public void Add_Curves(List<List<Point>> _Curves)
         {
             Curves.AddRange(_Curves);
         }
         #endregion
         #region DrawFunctions
+        /// <summary>
+        /// Draw the curve
+        /// </summary>
+        /// <param name="pen"></param>
         public void DrawCurves(Pen pen)
         {
             if (Curves.Count > 0)
@@ -84,12 +110,19 @@ namespace Track_Project
                 }
             }
         }
+        /// <summary>
+        /// Draw the track
+        /// </summary>
         public void Draw_tracks()
         {
             Pen pen = new Pen(Line_Color, thickness);
             Draw_Lines(ref pen);
             DrawCurves(pen);
         }
+        /// <summary>
+        /// Draw the lines
+        /// </summary>
+        /// <param name="pen"></param>
         public void Draw_Lines(ref Pen pen)
         {
             for (int i = 0; i < Lines.Count; i++)
@@ -102,6 +135,14 @@ namespace Track_Project
                 g.DrawLines(pen, Buffer.ToArray());
             }
         }
+        /// <summary>
+        /// Draw all the lines and the preview of the line
+        /// </summary>
+        /// <param name="pen"></param>
+        /// <param name="Herramienta_Dibujo"></param>
+        /// <param name="Linea"></param>
+        /// <param name="Preview_Linea"></param>
+        /// <param name="Mouse_Position"></param>
         public void Draw_All_Lines(ref Pen pen, ref System.Windows.Forms.ToolStripButton Herramienta_Dibujo, ref System.Windows.Forms.ToolStripButton Linea, ref bool Preview_Linea, ref Point Mouse_Position)
         {
             try
@@ -128,6 +169,10 @@ namespace Track_Project
                 g.DrawLines(pen, preview);
             }
         }
+        /// <summary>
+        /// Draw the points of the lines
+        /// </summary>
+        /// <param name="brush"></param>
         public void Draw_Line_Points(ref SolidBrush brush)
         {
             for (int i = 0; i < Lines.Count; i++)
@@ -136,6 +181,10 @@ namespace Track_Project
                     FillCircle(brush, Lines[i][j]);
             }
         }
+        /// <summary>
+        /// Draw the points
+        /// </summary>
+        /// <param name="brush"></param>
         public void Draw_Points(ref SolidBrush brush)
         {
             for (int i = 0; i < points.Count; i++)
@@ -143,6 +192,12 @@ namespace Track_Project
                 FillCircle(brush, points[i]);
             }
         }
+        /// <summary>
+        /// Draw the Map points
+        /// </summary>
+        /// <param name="brush"></param>
+        /// <param name="Map"></param>
+        /// <param name="Radius"></param>
         public void Pintar_Puntos(ref SolidBrush brush, ref List<Point> Map, int Radius)
         {
             for (int i = 0; i < Map.Count; i++)
@@ -150,6 +205,12 @@ namespace Track_Project
                 FillCircle(brush, Map[i], Radius);
             }
         }
+        /// <summary>
+        /// Draws a circle in the point
+        /// </summary>
+        /// <param name="brush"></param>
+        /// <param name="point"></param>
+        /// <param name="radius"></param>
         public void FillCircle(Brush brush, Point point, int radius = 3)
         {
             point.X -= radius;
@@ -166,6 +227,12 @@ namespace Track_Project
         }
         #endregion
         #region CalculusFunctions
+        /// <summary>
+        /// Calculate the brezier curve & add it to the List
+        /// </summary>
+        /// <param name="Punto_Seleccionado_1"></param>
+        /// <param name="Punto_Seleccionado_2"></param>
+        /// <param name="pen"></param>
         public void Calculate_Curve(ref Point Punto_Seleccionado_1, ref Point Punto_Seleccionado_2, Pen pen)
         {
             Point Punto_3 = new Point();
@@ -203,11 +270,25 @@ namespace Track_Project
             Punto_Seleccionado_1 = new Point();
             Punto_Seleccionado_2 = new Point();
         }
+        /// <summary>
+        /// Calculate the distance between tho points
+        /// </summary>
+        /// <param name="Punto_1"></param>
+        /// <param name="Punto_2"></param>
+        /// <returns></returns>
         private double Distancia(Point Punto_1, Point Punto_2)
         {
             return Math.Sqrt(Math.Pow((Punto_1.X - Punto_2.X), 2) + Math.Pow((Punto_1.Y - Punto_2.Y), 2));
 
         }
+        /// <summary>
+        /// Calculate the tangent point in order to doing a soft curve.
+        /// </summary>
+        /// <param name="Punto"></param>
+        /// <param name="i"></param>
+        /// <param name="j"></param>
+        /// <param name="Longitud"></param>
+        /// <returns></returns>
         public Point Calcular_Punto_Tangente(Point Punto, int i, int j, double Longitud)
         {
             Point Punto_tangente = new Point();
@@ -248,16 +329,35 @@ namespace Track_Project
 
             return Punto_tangente;
         }
+        /// <summary>
+        /// Apply zoom transformation
+        /// </summary>
+        /// <param name="point"></param>
+        /// <param name="zoom"></param>
         private void ZOOM(ref Point point, double zoom)
         {
             point.X = (int)(point.X * zoom);
             point.Y = (int)(point.Y * zoom);
         }
+        /// <summary>
+        /// Apply coord transformation
+        /// </summary>
+        /// <param name="point"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
         private void Transform_Coordenadas(ref Point point, double x, double y)
         {
             point.X -= (int)x;
             point.Y -= (int)y;
         }
+        /// <summary>
+        /// Apply the zoom and coord transformation
+        /// </summary>
+        /// <param name="point"></param>
+        /// <param name="zoom"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
         public Point Apply_Transformation(Point point, double zoom, double x, double y)
         {
             Transform_Coordenadas(ref point, x, y);
@@ -298,10 +398,23 @@ namespace Track_Project
         }
         #endregion
         #region GetIndexFunctions
+        /// <summary>
+        /// Get the line index that contains a point(First)
+        /// </summary>
+        /// <param name="point"></param>
+        /// <param name="i"></param>
+        /// <param name="radio"></param>
+        /// <returns></returns>
         private int Get_line_Index(Point point, ref int i, int radio = 10)
         {
             return Lines[i].FindIndex(x => (x.X > point.X - radio && x.X < point.X + radio) && (x.Y > point.Y - radio && x.Y < point.Y + radio));
         }
+        /// <summary>
+        /// Get the point index that contains a point(First)
+        /// </summary>
+        /// <param name="point"></param>
+        /// <param name="radio"></param>
+        /// <returns></returns>
         private int Get_line_Index(Point point, int radio = 10)
         {
             return points.FindIndex(x => (x.X > point.X - radio && x.X < point.X + radio) && (x.Y > point.Y - radio && x.Y < point.Y + radio));
@@ -400,26 +513,41 @@ namespace Track_Project
         }
         #endregion
         #region DeleteLines
+        /// <summary>
+        /// Delete all lines
+        /// </summary>
         public void Delete_All_Lines()
         {
             if (Lines != null)
                 Lines.Clear();
         }
+        /// <summary>
+        /// Delete all curves
+        /// </summary>
         public void Delete_All_Curves()
         {
             if (Curves != null)
                 Curves.Clear();
         }
+        /// <summary>
+        /// Delete all points
+        /// </summary>
         public void Delete_All_Points()
         {
             if (points != null)
                 points.Clear();
         }
+        /// <summary>
+        /// Delete all operations
+        /// </summary>
         private void Delete_All_Operations()
         {
             if (operations.GetOperations() != null)
                 operations.Clear();
         }
+        /// <summary>
+        /// Delete all elements in the track
+        /// </summary>
         public void Delete_All()
         {
             Delete_All_Points();
@@ -427,32 +555,32 @@ namespace Track_Project
             Delete_All_Lines();
             Delete_All_Operations();
         }
+        /// <summary>
+        /// Delete last line
+        /// </summary>
         public void Delete_Last_Line()
         {
             Lines.RemoveAt(Lines.Count - 1);
         }
+        /// <summary>
+        /// Delete last curve
+        /// </summary>
         public void Delete_Last_Curve()
         {
             Curves.RemoveAt(Curves.Count - 1);
         }
+        /// <summary>
+        /// Delete last Point
+        /// </summary>
         public void Delete_Last_Point()
         {
             points.RemoveAt(points.ToArray().Length - 1);
         }
+        /// <summary>
+        /// Delete last operation
+        /// </summary>
         public void Delete_Last_Operation()
         {
-           /* if (Last_Operation.Count > 0)
-            {
-                if (points.Count > 0 && Last_Operation[Last_Operation.Count - 1] == Ultima_Operacion.Add_Point)
-                    Delete_Last_Point();
-                else if (Lines.Count > 0 && Last_Operation[Last_Operation.Count - 1] == Ultima_Operacion.Add_Line)
-                    Delete_Last_Line();
-                else if (Curves.Count > 0 && Last_Operation[Last_Operation.Count - 1] == Ultima_Operacion.Add_Curve)
-                    Delete_Last_Curve();
-                Last_Operation.RemoveAt(Last_Operation.Count - 1);
-
-            }*/
-
             if(operations.GetOperations().Count>0)
             {
                 AddLine addLine = new AddLine();
@@ -471,6 +599,9 @@ namespace Track_Project
         }
         #endregion
         #region RedoFunctions
+        /// <summary>
+        /// Redo last operation
+        /// </summary>
         public void Redo()
         {
             Point[] list_point= operations.Redo();

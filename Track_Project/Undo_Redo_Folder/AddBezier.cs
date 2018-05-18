@@ -74,6 +74,11 @@ namespace Track_Project
             list_point.Add(_P3);
             list_point.Add(_P4);
         }
+        /// <summary>
+        /// Modify the point in a index
+        /// </summary>
+        /// <param name="point"></param>
+        /// <param name="index"></param>
         public override void SetOperationPoint(Point point, int index)
         {
             if (index < 4)

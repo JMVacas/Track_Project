@@ -9,6 +9,10 @@ namespace Track_Project
 {
     public abstract class Operation
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="list_point"></param>
         public virtual void GetOperationPoints(List<Point> list_point)
         {
 
@@ -17,6 +21,11 @@ namespace Track_Project
         {
 
         }
+        /// <summary>
+        /// Modify operation point in a determined index
+        /// </summary>
+        /// <param name="point"></param>
+        /// <param name="index"></param>
         public virtual void SetOperationPoint(Point point, int index)
         {
 

@@ -9,6 +9,15 @@ namespace Track_Project
 {
     public static class CheckContinuity
     {
+        /// <summary>
+        /// Classifies the track in 3 categories (Open track, closed track and semiclosed track)
+        /// </summary>
+        /// <param name="Lines"> Introduce the list of lines</param>
+        /// <param name="Curves">Introduce the list of curves</param>
+        /// <param name="index">A index which will show the first object in a semi-closed track</param>
+        /// <param name="type"></param>
+        /// <param name="Open_Points"></param>
+        /// <returns>Return the type of the curve</returns>
         public static ConstantsAndTypes.TypesOfTrack Check(List<List<Point>> Lines, ref List<List<Point>> Curves, ref int index, ref bool type, ref List<List<Point>> Open_Points)
         {
             int Number_Of_Objects = Lines.Count + Curves.Count;
@@ -124,10 +133,21 @@ namespace Track_Project
             }
             
         }
+        /// <summary>
+        /// Returns the number in which exist a point in the track
+        /// </summary>
+        /// <param name="Lines"></param>
+        /// <param name="Curves"></param>
+        /// <param name="point"></param>
+        /// <returns></returns>
         public static int PointExistTimes(ref List<List<Point>> Lines, ref List<List<Point>> Curves, Point point)
         {            
             return (Lines.Where(s => s.Exists(k => k == point)).ToList().Count)+ (Curves.Where(s => s.Exists(k => k == point)).ToList().Count);
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Curves"></param>
         public static void DeleteRepeatPoints(ref List<List<Point>> Curves)
         {
             List<Point> Buffer = new List<Point>();
@@ -139,6 +159,15 @@ namespace Track_Project
                 Buffer.Clear();
             }
         }
+        /// <summary>
+        /// Returns the object in which is next to our object
+        /// </summary>
+        /// <param name="Lines"></param>
+        /// <param name="Curves"></param>
+        /// <param name="point"></param>
+        /// <param name="mirror"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public static List<Point> PointNextObject(List<List<Point>> Lines, ref List<List<Point>> Curves, Point point, Point mirror, ConstantsAndTypes.TypesOfTrack type)
         {
             List<Point> Buffer = new List<Point>();

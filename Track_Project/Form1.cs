@@ -144,7 +144,7 @@ namespace Track_Project
             Texto += "X: ";
             Texto += Mouse_Position.X - Origen.X;
             Texto += " Y: ";
-            Texto += Mouse_Position.Y - Origen.Y;
+            Texto += -Mouse_Position.Y + Origen.Y;
             Posicion_Cursor.Text = Texto;
             /// Preview Linea
             Preview_Linea = true;
@@ -152,6 +152,11 @@ namespace Track_Project
             Paleta.Update();
         }
 
+        /// <summary>
+        /// Key Events
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyValue == 'w' || e.KeyValue == 'W' || e.KeyValue == 9650)

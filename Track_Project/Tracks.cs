@@ -152,7 +152,7 @@ namespace Track_Project
                     Draw_Lines(ref pen);
                 }
             }
-            catch (ArgumentOutOfRangeException ex)
+            catch (ArgumentOutOfRangeException)
             {
                 System.Windows.Forms.MessageBox.Show("Error");
             }

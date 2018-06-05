@@ -40,12 +40,19 @@ namespace Track_Project
             Track_Select_Box.BeginUpdate();
             try
             {
+                if(track_.GetName()!="Track_Actual")
+                    track_.SetName("Track actual");
                 Track_Select_Box.Items.Add(track_.GetName());
             }
             catch(ArgumentNullException)
             {
                 track_.SetName("Track actual");
                 Track_Select_Box.Items.Add(track_.GetName());
+            }
+            finally
+            {
+                Track_Select_Box.SelectedItem = Track_Select_Box.Items[0];
+
             }
             foreach (Tracks _track in tracks)
             {
@@ -207,7 +214,14 @@ namespace Track_Project
                     counter++;
                 }
             }
-            track.GetOperations().GetOperations()[i-1].SetOperationPoint(point, e.RowIndex%PointsOfaLine);
+            try
+            {
+                track.GetOperations().GetOperations()[i - 1].SetOperationPoint(point, e.RowIndex % PointsOfaLine);
+            }
+            catch(ArgumentOutOfRangeException)
+            {
+
+            }
             Paleta.Invalidate();
             Paleta.Update();
         }

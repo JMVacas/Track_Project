@@ -15,7 +15,7 @@ namespace Track_Project
     class Explorador
     {
         #region Properties
-        const double ADOPTSCALEFACTOR = 50;
+        const double ADOPTSCALEFACTOR = 51;
         public List<System.Drawing.Point> Puntos { get; set; }
         public List<List<System.Drawing.Point>> Lineas { get; set; }
         public List<List<System.Drawing.Point>> Curvas { get; set; }
@@ -199,8 +199,8 @@ namespace Track_Project
                 int Path_Number = codesysExportDialog.Path_Number;
                 for(int i =0; i<points.Count; i++)
                 {
-                    AddText(ref fileStream, "L_PATH_ARRAY[" + Path_Number + "].PUNTOS[" + i + "].x:=" + (double)(points[i].X - Origin.X)/ADOPTSCALEFACTOR + ";\r\n");
-                    AddText(ref fileStream, "L_PATH_ARRAY[" + Path_Number + "].PUNTOS[" + i + "].y:=" + (double)(-points[i].Y + Origin.Y)/ADOPTSCALEFACTOR + ";\r\n");
+                    AddText(ref fileStream, "L_PATH_ARRAY[" + Path_Number + "].PUNTOS[" + i + "].x:=" + Math.Round((points[i].X - (double)Origin.X)/ADOPTSCALEFACTOR, 5) + ";\r\n");
+                    AddText(ref fileStream, "L_PATH_ARRAY[" + Path_Number + "].PUNTOS[" + i + "].y:=" + Math.Round((-points[i].Y + (double)Origin.Y)/ADOPTSCALEFACTOR, 5) + ";\r\n");
                 }
                 AddText(ref fileStream, "L_PATH_ARRAY[" + Path_Number + "].LENGTH:=" + points.Count+ ";\r\n");
                 AddText(ref fileStream, "L_PATH_ARRAY[" + Path_Number + "].PATH_NUMBER:=" + Path_Number+ ";\r\n");

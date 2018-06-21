@@ -173,7 +173,7 @@ namespace Track_Project
                 bitmap.Save(saveFileDialog1.FileName);
             }
         }
-        public static void Guardar_Explorador(ref List<System.Drawing.Point> points, System.Drawing.Point Origin)
+        public static void Guardar_Explorador(ref List<List<System.Drawing.Point>> points, System.Drawing.Point Origin)
         {
             SaveFileDialog saveFileDialog1 = new SaveFileDialog
             {
@@ -190,21 +190,25 @@ namespace Track_Project
                 fileStream.Close();
             }
         }
-        private static void Save_Codesys(ref List<System.Drawing.Point> points, System.Drawing.Point Origin, ref FileStream fileStream)
+        private static void Save_Codesys(ref List<List<System.Drawing.Point>> points, System.Drawing.Point Origin, ref FileStream fileStream)
         {
             CodesysExportDialog codesysExportDialog = new CodesysExportDialog();
             if (codesysExportDialog.ShowDialog()==DialogResult.OK)
             {
                 string Orientation = codesysExportDialog.Orientation;
                 int Path_Number = codesysExportDialog.Path_Number;
-                for(int i =0; i<points.Count; i++)
+                for (int i = 0; i < points.Count; i++)
                 {
-                    AddText(ref fileStream, "L_PATH_ARRAY[" + Path_Number + "].PUNTOS[" + i + "].x:=" + Math.Round((points[i].X - (double)Origin.X)/ADOPTSCALEFACTOR, 5) + ";\r\n");
-                    AddText(ref fileStream, "L_PATH_ARRAY[" + Path_Number + "].PUNTOS[" + i + "].y:=" + Math.Round((-points[i].Y + (double)Origin.Y)/ADOPTSCALEFACTOR, 5) + ";\r\n");
+                    for (int j = 0; j < points[i].Count; j++)
+                    {
+                        AddText(ref fileStream, "L_PATH_ARRAY[" + (i + 1) + "].PUNTOS[" + j + "].x:=" + Math.Round((points[i][j].X - (double)Origin.X) / ADOPTSCALEFACTOR, 5) + ";\r\n");
+                        AddText(ref fileStream, "L_PATH_ARRAY[" + (i+1) + "].PUNTOS[" + j + "].y:=" + Math.Round((-points[i][j].Y + (double)Origin.Y) / ADOPTSCALEFACTOR, 5) + ";\r\n");
+                    }
+                    AddText(ref fileStream, "L_PATH_ARRAY[" + (i + 1) + "].LENGTH:=" + points[i].Count + ";\r\n");
+                    AddText(ref fileStream, "L_PATH_ARRAY[" + (i + 1 )+ "].PATH_NUMBER:=" + (i+1) + ";\r\n");
+                    AddText(ref fileStream, "L_PATH_ARRAY[" + (i + 1 )+ "].PATH_ORIENTATION:=" + Orientation + ";\r\n\n");
                 }
-                AddText(ref fileStream, "L_PATH_ARRAY[" + Path_Number + "].LENGTH:=" + points.Count+ ";\r\n");
-                AddText(ref fileStream, "L_PATH_ARRAY[" + Path_Number + "].PATH_NUMBER:=" + Path_Number+ ";\r\n");
-                AddText(ref fileStream, "L_PATH_ARRAY[" + Path_Number + "].PATH_ORIENTATION:=" + Orientation+ ";\r\n");
+
             }
         }
 

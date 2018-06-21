@@ -442,7 +442,7 @@ namespace Track_Project
                     int index = new int();
                     bool type_of_object = new bool();
                     List<List<Point>> Open_Points = new List<List<Point>>();
-                    List<Point> Export_Points = new List<Point>();
+                    List<List<Point>> Export_Points = new List<List<Point>>();
                     type = CheckContinuity.Check(Selected.GetLines(), ref Segment_Curve, ref index, ref type_of_object, ref Open_Points);
                     switch (type)
                     {
@@ -596,9 +596,9 @@ namespace Track_Project
 
             }
         }*/
-        private List<Point> CodesysPoints(ref Tracks Selected)
+        private List<List<Point>> CodesysPoints(ref Tracks Selected)
         {
-            List<Point> Array_Points = new List<Point>();
+            List<List<Point>> Array_Points = new List<List<Point>>();
             List<Point> First_Object = new List<Point>();
             List<Point> Actual_Object = new List<Point>();
             List<Point> Last_Object = new List<Point>();
@@ -606,11 +606,11 @@ namespace Track_Project
             First_Object.AddRange(Selected.GetLines()[0]);
             Actual_Object.AddRange(Selected.GetLines()[0]);
             Last_Object.AddRange(Selected.GetLines()[0]);
-            Array_Points.AddRange(Selected.GetLines()[0]);
+            Array_Points.Add(Selected.GetLines()[0]);
             do
             {
                 if(Next_Object.Count>0)
-                    Array_Points.AddRange(Next_Object);
+                    Array_Points.Add(Next_Object.ToArray().ToList());
                 Next_Object.Clear();
                 try
                 {
@@ -632,24 +632,22 @@ namespace Track_Project
                 Actual_Object.AddRange(Next_Object);
             }
             while (!Actual_Object.SequenceEqual(First_Object));
-            Array_Points.AddRange(Next_Object);
-            Array_Points=Array_Points.Distinct().ToList();
-            Array_Points.Add(First_Object[0]);
+            //Array_Points.Add(Next_Object);
             Segment_Curve.Clear();
-            Segment_Curve.Add(Array_Points);
+            Segment_Curve.AddRange(Array_Points);
             return Array_Points;
         }
-        private List<Point> CodesysPoints(ref Tracks Selected, ref List<List<Point>> Open_Points)
+        private List<List<Point>> CodesysPoints(ref Tracks Selected, ref List<List<Point>> Open_Points)
         {
             string[] Objects = { "Array_Points", "First_Object", "Actual_Object", "Last_Object", "Next_Object", "Finish_Object"};
+            List<List<Point>> Array_Points = new List<List<Point>>();
             Dictionary<ConstantsAndTypes.Using_Points, List<Point>> Important_Points = new Dictionary<ConstantsAndTypes.Using_Points, List<Point>>();
-            Important_Points.Add(ConstantsAndTypes.Using_Points.Array_Points, new List<Point>());
             Important_Points.Add(ConstantsAndTypes.Using_Points.Actual_Object, new List<Point>());
             Important_Points.Add(ConstantsAndTypes.Using_Points.Finish_Object, new List<Point>());
             Important_Points.Add(ConstantsAndTypes.Using_Points.First_Object, new List<Point>());
             Important_Points.Add(ConstantsAndTypes.Using_Points.Last_Object, new List<Point>());
             Important_Points.Add(ConstantsAndTypes.Using_Points.Next_Object, new List<Point>());
-            Important_Points[ConstantsAndTypes.Using_Points.Array_Points].AddRange(Open_Points[0]);
+            Array_Points.Add(Open_Points[0]);
             Important_Points[ConstantsAndTypes.Using_Points.Finish_Object].AddRange(Open_Points[1]);
             Important_Points[ConstantsAndTypes.Using_Points.Actual_Object].AddRange(Open_Points[0]);
             Important_Points[ConstantsAndTypes.Using_Points.Last_Object].AddRange(Open_Points[0]);
@@ -657,7 +655,7 @@ namespace Track_Project
             do
             {
                 if (Important_Points[ConstantsAndTypes.Using_Points.Next_Object].Count > 0)
-                    Important_Points[ConstantsAndTypes.Using_Points.Array_Points].AddRange(Important_Points[ConstantsAndTypes.Using_Points.Next_Object]);
+                    Array_Points.Add(Important_Points[ConstantsAndTypes.Using_Points.Next_Object].ToArray().ToList());
                 Important_Points[ConstantsAndTypes.Using_Points.Next_Object].Clear();
                 try
                 {
@@ -686,11 +684,10 @@ namespace Track_Project
                 Important_Points[ConstantsAndTypes.Using_Points.Actual_Object].AddRange(Important_Points[ConstantsAndTypes.Using_Points.Next_Object]);
             }
             while (!Important_Points[ConstantsAndTypes.Using_Points.Actual_Object].SequenceEqual(Important_Points[ConstantsAndTypes.Using_Points.Finish_Object]));
-            Important_Points[ConstantsAndTypes.Using_Points.Array_Points].AddRange(Important_Points[ConstantsAndTypes.Using_Points.Finish_Object]);
-            Important_Points[ConstantsAndTypes.Using_Points.Array_Points] = Important_Points[ConstantsAndTypes.Using_Points.Array_Points].Distinct().ToList();
+            Array_Points.Add(Important_Points[ConstantsAndTypes.Using_Points.Finish_Object]);
             Segment_Curve.Clear();
-            Segment_Curve.Add(Important_Points[ConstantsAndTypes.Using_Points.Array_Points]);
-            return Important_Points[ConstantsAndTypes.Using_Points.Array_Points];
+            Segment_Curve.AddRange(Array_Points);
+            return Array_Points;
         }
         private int GetDivideSegmentNumber()
         {

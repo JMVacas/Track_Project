@@ -30,6 +30,8 @@
         {
             this.Importar = new System.Windows.Forms.Button();
             this.Mapa = new System.Windows.Forms.PictureBox();
+            this.Giro_Mapa_90 = new System.Windows.Forms.Button();
+            this.Giro_Mapa_180 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.Mapa)).BeginInit();
             this.SuspendLayout();
             // 
@@ -45,24 +47,51 @@
             // 
             // Mapa
             // 
+            this.Mapa.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.Mapa.Location = new System.Drawing.Point(12, 12);
             this.Mapa.Name = "Mapa";
             this.Mapa.Size = new System.Drawing.Size(1105, 571);
+            this.Mapa.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.Mapa.TabIndex = 0;
             this.Mapa.TabStop = false;
             this.Mapa.Paint += new System.Windows.Forms.PaintEventHandler(this.Mapa_Paint);
+            // 
+            // Giro_Mapa_90
+            // 
+            this.Giro_Mapa_90.Location = new System.Drawing.Point(1123, 59);
+            this.Giro_Mapa_90.Name = "Giro_Mapa_90";
+            this.Giro_Mapa_90.Size = new System.Drawing.Size(75, 23);
+            this.Giro_Mapa_90.TabIndex = 2;
+            this.Giro_Mapa_90.Text = "Girar 90";
+            this.Giro_Mapa_90.UseVisualStyleBackColor = true;
+            this.Giro_Mapa_90.Click += new System.EventHandler(this.Giro_Mapa_90_Click);
+            // 
+            // Giro_Mapa_180
+            // 
+            this.Giro_Mapa_180.Location = new System.Drawing.Point(1123, 88);
+            this.Giro_Mapa_180.Name = "Giro_Mapa_180";
+            this.Giro_Mapa_180.Size = new System.Drawing.Size(75, 23);
+            this.Giro_Mapa_180.TabIndex = 3;
+            this.Giro_Mapa_180.Text = "Girar 180";
+            this.Giro_Mapa_180.UseVisualStyleBackColor = true;
+            this.Giro_Mapa_180.Click += new System.EventHandler(this.Giro_Mapa_180_Click);
             // 
             // Form3
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1254, 586);
+            this.Controls.Add(this.Giro_Mapa_180);
+            this.Controls.Add(this.Giro_Mapa_90);
             this.Controls.Add(this.Importar);
             this.Controls.Add(this.Mapa);
             this.Name = "Form3";
             this.Text = "Form3";
             ((System.ComponentModel.ISupportInitialize)(this.Mapa)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -70,5 +99,7 @@
 
         private System.Windows.Forms.PictureBox Mapa;
         private System.Windows.Forms.Button Importar;
+        private System.Windows.Forms.Button Giro_Mapa_90;
+        private System.Windows.Forms.Button Giro_Mapa_180;
     }
 }

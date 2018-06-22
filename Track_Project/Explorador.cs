@@ -15,7 +15,7 @@ namespace Track_Project
     class Explorador
     {
         #region Properties
-        const double ADOPTSCALEFACTOR = 51;
+        const double ADOPTSCALEFACTOR = 7;
         public List<System.Drawing.Point> Puntos { get; set; }
         public List<List<System.Drawing.Point>> Lineas { get; set; }
         public List<List<System.Drawing.Point>> Curvas { get; set; }
@@ -193,7 +193,7 @@ namespace Track_Project
         private static void Save_Codesys(ref List<List<System.Drawing.Point>> points, System.Drawing.Point Origin, ref FileStream fileStream)
         {
             CodesysExportDialog codesysExportDialog = new CodesysExportDialog();
-            if (codesysExportDialog.ShowDialog()==DialogResult.OK)
+                if (codesysExportDialog.ShowDialog()==DialogResult.OK)
             {
                 string Orientation = codesysExportDialog.Orientation;
                 int Path_Number = codesysExportDialog.Path_Number;
@@ -201,8 +201,8 @@ namespace Track_Project
                 {
                     for (int j = 0; j < points[i].Count; j++)
                     {
-                        AddText(ref fileStream, "L_PATH_ARRAY[" + (i + 1) + "].PUNTOS[" + j + "].x:=" + Math.Round((points[i][j].X - (double)Origin.X) / ADOPTSCALEFACTOR, 5) + ";\r\n");
-                        AddText(ref fileStream, "L_PATH_ARRAY[" + (i+1) + "].PUNTOS[" + j + "].y:=" + Math.Round((-points[i][j].Y + (double)Origin.Y) / ADOPTSCALEFACTOR, 5) + ";\r\n");
+                        AddText(ref fileStream, "L_PATH_ARRAY[" + (i + 1) + "].PUNTOS[" + j + "].x:=" + Math.Round((points[i][j].X - (double)Origin.X) / ADOPTSCALEFACTOR, 5).ToString(CultureInfo.CreateSpecificCulture("en-US")) + ";\r\n");
+                        AddText(ref fileStream, "L_PATH_ARRAY[" + (i+1) + "].PUNTOS[" + j + "].y:=" + Math.Round((-points[i][j].Y + (double)Origin.Y) / ADOPTSCALEFACTOR, 5).ToString(CultureInfo.CreateSpecificCulture("en-US")) + ";\r\n");
                     }
                     AddText(ref fileStream, "L_PATH_ARRAY[" + (i + 1) + "].LENGTH:=" + points[i].Count + ";\r\n");
                     AddText(ref fileStream, "L_PATH_ARRAY[" + (i + 1 )+ "].PATH_NUMBER:=" + (i+1) + ";\r\n");
@@ -262,8 +262,8 @@ namespace Track_Project
                     {
                         NumberDecimalSeparator = "."
                     };
-                    Pos_X = (int)(Convert.ToDouble(Point_Vector[0], provider) * ADOPTSCALEFACTOR);
-                    Pos_Y = (int)(Convert.ToDouble(Point_Vector[1], provider) * ADOPTSCALEFACTOR);
+                    Pos_X = -(int)(Convert.ToDouble(Point_Vector[0], provider) * ADOPTSCALEFACTOR) +385;
+                    Pos_Y = (int)(Convert.ToDouble(Point_Vector[1], provider) * ADOPTSCALEFACTOR) +208;
                 }
                 catch(FormatException ex)
                 {
@@ -273,7 +273,6 @@ namespace Track_Project
                 System.Drawing.Point point = new System.Drawing.Point(Pos_X, Pos_Y);
                 Map_Points.Add(point);               
             }
-            MovePointsToCenter();
         }
         /*
          * Gets the items from a dxf file and its added to local parameters

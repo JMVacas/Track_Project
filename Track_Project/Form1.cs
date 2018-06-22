@@ -33,7 +33,7 @@ namespace Track_Project
         public Color Line_Color = Color.DarkRed;
         private readonly SolidBrush[] Tracks_Color = new SolidBrush[]{ new SolidBrush(Color.Brown), new SolidBrush(Color.Aqua), new SolidBrush(Color.DarkGreen), new SolidBrush(Color.DarkMagenta), new SolidBrush(Color.DarkTurquoise), new SolidBrush(Color.DarkOrange), new SolidBrush(Color.FloralWhite) , new SolidBrush(Color.ForestGreen) , new SolidBrush(Color.Gold) };
         Double Zoom = 5;
-        public static Bitmap Map;
+        public static List<Point> Map;
         public double thickness = 2;
         List<List<Point>> Segment_Curve = new List<List<Point>>();
         private List<Ultima_Operacion> ultima_operacion = new List<Ultima_Operacion>();
@@ -57,9 +57,13 @@ namespace Track_Project
             g.ScaleTransform((float)Zoom, (float)Zoom);
             g.TranslateTransform(Posicion_x, Posicion_y);
             Picasso picasso = new Picasso(g);
-            if (Map!=null)
-                g.DrawImage(Map, 0, 0, Map.Width, Map.Height);
-            if(tracks.Count>0)
+            if (Map != null)
+            {
+                brush.Color = Color.Black;
+                _track.Pintar_Puntos(ref brush, ref Map, 1);
+            }
+            brush.Color = Color.Red;
+            if (tracks.Count>0)
             {
                 for (int i =0; i< viewToolStripMenuItem.DropDownItems.Count; i++)
                 {
@@ -163,22 +167,22 @@ namespace Track_Project
             if (e.KeyValue == 'w' || e.KeyValue == 'W' || e.KeyValue == 9650)
             {
                 //if (Posicion_y > 0)
-                    Posicion_y=Posicion_y-5;
+                    Posicion_y=Posicion_y+5;
             }
             else if (e.KeyValue == 'a' || e.KeyValue == 'A' || e.KeyValue == 9668)
             {
                 //if (Posicion_x > 0)
-                    Posicion_x=Posicion_x-5;
+                    Posicion_x=Posicion_x+5;
             }
             else if (e.KeyValue == 's' || e.KeyValue == 'S' || e.KeyValue == 9660)
             {
                 //if (Posicion_y < 400)
-                    Posicion_y=Posicion_y+5;
+                    Posicion_y=Posicion_y-5;
             }
             else if ((e.KeyValue == 'd' || e.KeyValue == 'D' || e.KeyValue == 9658)&& !e.Control)
             {
                 //if (Posicion_x < 800)
-                    Posicion_x=Posicion_x+5;
+                    Posicion_x=Posicion_x-5;
             }
             else if(e.Control && (e.KeyValue=='d' || e.KeyValue =='D'))
             {
@@ -316,7 +320,7 @@ namespace Track_Project
         private void exportarMapaToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Explorador explorador = new Explorador();
-            explorador.Guardar_Explorador(ref Map);
+           // explorador.Guardar_Explorador(ref Map);
         }
 
         private void Track_Caption_Paint(object sender, PaintEventArgs e)

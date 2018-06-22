@@ -48,17 +48,17 @@ namespace Track_Project
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.Mouse_Button = new System.Windows.Forms.ToolStripButton();
+            this.ChangeThickness_Button = new System.Windows.Forms.ToolStripButton();
+            this.Color_Select = new System.Windows.Forms.ToolStripButton();
             this.Select_Origin_Button = new System.Windows.Forms.ToolStripButton();
             this.ChangeOrigin_ToolStrip = new System.Windows.Forms.ToolStripButton();
+            this.Mathematical_Edition = new System.Windows.Forms.ToolStripButton();
             this.Line_Button = new System.Windows.Forms.ToolStripButton();
             this.Curve_Button = new System.Windows.Forms.ToolStripButton();
             this.Borrar_Todo_Strip = new System.Windows.Forms.ToolStripButton();
             this.Delete_Last = new System.Windows.Forms.ToolStripButton();
-            this.Mathematical_Edition = new System.Windows.Forms.ToolStripButton();
-            this.Color_Select = new System.Windows.Forms.ToolStripButton();
             this.Add_Track = new System.Windows.Forms.ToolStripButton();
             this.Save_Changes = new System.Windows.Forms.ToolStripButton();
-            this.ChangeThickness_Button = new System.Windows.Forms.ToolStripButton();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.Track_Edit_Select = new System.Windows.Forms.ComboBox();
             this.Track_Caption = new System.Windows.Forms.PictureBox();
@@ -240,10 +240,10 @@ namespace Track_Project
             this.Delete_Last,
             this.Add_Track,
             this.Save_Changes});
-            this.toolStrip1.Location = new System.Drawing.Point(968, 24);
+            this.toolStrip1.Location = new System.Drawing.Point(976, 24);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.toolStrip1.Size = new System.Drawing.Size(32, 511);
+            this.toolStrip1.Size = new System.Drawing.Size(24, 511);
             this.toolStrip1.TabIndex = 25;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -254,9 +254,31 @@ namespace Track_Project
             this.Mouse_Button.Image = ((System.Drawing.Image)(resources.GetObject("Mouse_Button.Image")));
             this.Mouse_Button.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.Mouse_Button.Name = "Mouse_Button";
-            this.Mouse_Button.Size = new System.Drawing.Size(29, 20);
+            this.Mouse_Button.Size = new System.Drawing.Size(21, 20);
             this.Mouse_Button.Text = "Mouse tool, click here for add a line";
             this.Mouse_Button.Click += new System.EventHandler(this.Mouse_Button_Click);
+            // 
+            // ChangeThickness_Button
+            // 
+            this.ChangeThickness_Button.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ChangeThickness_Button.Image = ((System.Drawing.Image)(resources.GetObject("ChangeThickness_Button.Image")));
+            this.ChangeThickness_Button.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ChangeThickness_Button.Name = "ChangeThickness_Button";
+            this.ChangeThickness_Button.Size = new System.Drawing.Size(21, 20);
+            this.ChangeThickness_Button.Text = "toolStripButton1";
+            this.ChangeThickness_Button.ToolTipText = "Change the thickness of the components";
+            this.ChangeThickness_Button.Click += new System.EventHandler(this.ChangeThickness_Button_Click);
+            // 
+            // Color_Select
+            // 
+            this.Color_Select.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.Color_Select.Image = ((System.Drawing.Image)(resources.GetObject("Color_Select.Image")));
+            this.Color_Select.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.Color_Select.Name = "Color_Select";
+            this.Color_Select.Size = new System.Drawing.Size(21, 20);
+            this.Color_Select.Text = "toolStripButton1";
+            this.Color_Select.ToolTipText = "Select the color of the lines";
+            this.Color_Select.Click += new System.EventHandler(this.Color_Select_Click);
             // 
             // Select_Origin_Button
             // 
@@ -265,7 +287,7 @@ namespace Track_Project
             this.Select_Origin_Button.Image = ((System.Drawing.Image)(resources.GetObject("Select_Origin_Button.Image")));
             this.Select_Origin_Button.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.Select_Origin_Button.Name = "Select_Origin_Button";
-            this.Select_Origin_Button.Size = new System.Drawing.Size(29, 20);
+            this.Select_Origin_Button.Size = new System.Drawing.Size(21, 20);
             this.Select_Origin_Button.Text = "Modify the origin of the coordenates";
             this.Select_Origin_Button.Click += new System.EventHandler(this.Select_Origin_Button_Click);
             // 
@@ -275,9 +297,20 @@ namespace Track_Project
             this.ChangeOrigin_ToolStrip.Image = ((System.Drawing.Image)(resources.GetObject("ChangeOrigin_ToolStrip.Image")));
             this.ChangeOrigin_ToolStrip.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ChangeOrigin_ToolStrip.Name = "ChangeOrigin_ToolStrip";
-            this.ChangeOrigin_ToolStrip.Size = new System.Drawing.Size(29, 20);
+            this.ChangeOrigin_ToolStrip.Size = new System.Drawing.Size(21, 20);
             this.ChangeOrigin_ToolStrip.ToolTipText = "Changes numerically the position of the origin";
             this.ChangeOrigin_ToolStrip.Click += new System.EventHandler(this.toolStripButton1_Click);
+            // 
+            // Mathematical_Edition
+            // 
+            this.Mathematical_Edition.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.Mathematical_Edition.Image = ((System.Drawing.Image)(resources.GetObject("Mathematical_Edition.Image")));
+            this.Mathematical_Edition.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.Mathematical_Edition.Name = "Mathematical_Edition";
+            this.Mathematical_Edition.Size = new System.Drawing.Size(21, 20);
+            this.Mathematical_Edition.Text = "toolStripButton3";
+            this.Mathematical_Edition.ToolTipText = "Edit mathematically ol the drawings";
+            this.Mathematical_Edition.Click += new System.EventHandler(this.Mathematical_Edition_Click);
             // 
             // Line_Button
             // 
@@ -286,7 +319,7 @@ namespace Track_Project
             this.Line_Button.Image = ((System.Drawing.Image)(resources.GetObject("Line_Button.Image")));
             this.Line_Button.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.Line_Button.Name = "Line_Button";
-            this.Line_Button.Size = new System.Drawing.Size(29, 20);
+            this.Line_Button.Size = new System.Drawing.Size(21, 20);
             this.Line_Button.Text = "Draw a line with two points";
             this.Line_Button.Click += new System.EventHandler(this.Line_Button_Click);
             // 
@@ -297,7 +330,7 @@ namespace Track_Project
             this.Curve_Button.Image = ((System.Drawing.Image)(resources.GetObject("Curve_Button.Image")));
             this.Curve_Button.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.Curve_Button.Name = "Curve_Button";
-            this.Curve_Button.Size = new System.Drawing.Size(29, 20);
+            this.Curve_Button.Size = new System.Drawing.Size(21, 20);
             this.Curve_Button.Text = "Draw a Curve, you need to select two points, of the defining points of the lines";
             this.Curve_Button.Click += new System.EventHandler(this.Curve_Button_Click);
             // 
@@ -307,7 +340,7 @@ namespace Track_Project
             this.Borrar_Todo_Strip.Image = ((System.Drawing.Image)(resources.GetObject("Borrar_Todo_Strip.Image")));
             this.Borrar_Todo_Strip.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.Borrar_Todo_Strip.Name = "Borrar_Todo_Strip";
-            this.Borrar_Todo_Strip.Size = new System.Drawing.Size(29, 20);
+            this.Borrar_Todo_Strip.Size = new System.Drawing.Size(21, 20);
             this.Borrar_Todo_Strip.Text = "toolStripButton1";
             this.Borrar_Todo_Strip.ToolTipText = "Delete every draw in the scrreen";
             this.Borrar_Todo_Strip.Click += new System.EventHandler(this.toolStripButton1_Click_1);
@@ -318,32 +351,10 @@ namespace Track_Project
             this.Delete_Last.Image = ((System.Drawing.Image)(resources.GetObject("Delete_Last.Image")));
             this.Delete_Last.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.Delete_Last.Name = "Delete_Last";
-            this.Delete_Last.Size = new System.Drawing.Size(29, 20);
+            this.Delete_Last.Size = new System.Drawing.Size(21, 20);
             this.Delete_Last.Text = "toolStripButton2";
             this.Delete_Last.ToolTipText = "Delete last draw in the screen";
             this.Delete_Last.Click += new System.EventHandler(this.Delete_Last_Click);
-            // 
-            // Mathematical_Edition
-            // 
-            this.Mathematical_Edition.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.Mathematical_Edition.Image = ((System.Drawing.Image)(resources.GetObject("Mathematical_Edition.Image")));
-            this.Mathematical_Edition.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.Mathematical_Edition.Name = "Mathematical_Edition";
-            this.Mathematical_Edition.Size = new System.Drawing.Size(29, 20);
-            this.Mathematical_Edition.Text = "toolStripButton3";
-            this.Mathematical_Edition.ToolTipText = "Edit mathematically ol the drawings";
-            this.Mathematical_Edition.Click += new System.EventHandler(this.Mathematical_Edition_Click);
-            // 
-            // Color_Select
-            // 
-            this.Color_Select.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.Color_Select.Image = ((System.Drawing.Image)(resources.GetObject("Color_Select.Image")));
-            this.Color_Select.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.Color_Select.Name = "Color_Select";
-            this.Color_Select.Size = new System.Drawing.Size(29, 20);
-            this.Color_Select.Text = "toolStripButton1";
-            this.Color_Select.ToolTipText = "Select the color of the lines";
-            this.Color_Select.Click += new System.EventHandler(this.Color_Select_Click);
             // 
             // Add_Track
             // 
@@ -351,7 +362,7 @@ namespace Track_Project
             this.Add_Track.Image = ((System.Drawing.Image)(resources.GetObject("Add_Track.Image")));
             this.Add_Track.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.Add_Track.Name = "Add_Track";
-            this.Add_Track.Size = new System.Drawing.Size(29, 20);
+            this.Add_Track.Size = new System.Drawing.Size(21, 20);
             this.Add_Track.Text = "Add a track";
             this.Add_Track.Click += new System.EventHandler(this.Add_Track_Click);
             // 
@@ -361,21 +372,10 @@ namespace Track_Project
             this.Save_Changes.Image = ((System.Drawing.Image)(resources.GetObject("Save_Changes.Image")));
             this.Save_Changes.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.Save_Changes.Name = "Save_Changes";
-            this.Save_Changes.Size = new System.Drawing.Size(29, 20);
+            this.Save_Changes.Size = new System.Drawing.Size(21, 20);
             this.Save_Changes.Text = "toolStripButton1";
             this.Save_Changes.ToolTipText = "Save the changes to the track";
             this.Save_Changes.Click += new System.EventHandler(this.Save_Changes_Click);
-            // 
-            // ChangeThickness_Button
-            // 
-            this.ChangeThickness_Button.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ChangeThickness_Button.Image = ((System.Drawing.Image)(resources.GetObject("ChangeThickness_Button.Image")));
-            this.ChangeThickness_Button.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ChangeThickness_Button.Name = "ChangeThickness_Button";
-            this.ChangeThickness_Button.Size = new System.Drawing.Size(29, 20);
-            this.ChangeThickness_Button.Text = "toolStripButton1";
-            this.ChangeThickness_Button.ToolTipText = "Change the thickness of the components";
-            this.ChangeThickness_Button.Click += new System.EventHandler(this.ChangeThickness_Button_Click);
             // 
             // colorDialog1
             // 
@@ -399,6 +399,7 @@ namespace Track_Project
             this.Track_Caption.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Track_Caption.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.Track_Caption.InitialImage = null;
             this.Track_Caption.Location = new System.Drawing.Point(806, 27);
             this.Track_Caption.Name = "Track_Caption";
             this.Track_Caption.Size = new System.Drawing.Size(129, 416);

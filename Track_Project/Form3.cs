@@ -39,12 +39,13 @@ namespace Track_Project
             _tracks.Pintar_Puntos(ref brush, ref points, 1);
             bitmap.MakeTransparent(Color.White);
             g = e.Graphics;
-            g.DrawImage(bitmap,10, 10);
+            g.DrawImageUnscaled(bitmap,10, 10);
+       
         }
 
         private void Importar_Click(object sender, EventArgs e)
         {
-            Form1.Map = bitmap;
+            Form1.Map = points;
             Hide();
         }
 

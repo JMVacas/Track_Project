@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Track_Project
+﻿namespace Track_Project
 {
     public static class ConstantsAndTypes
     {
@@ -23,6 +17,7 @@ namespace Track_Project
             Next_Object,
             Finish_Object
         };
+        public const double ADOPTSCALEFACTOR = 7;
     }
-    
+
 }

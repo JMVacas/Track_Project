@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Track_Project
 {
-    public class AddLine:Operation
+    public class AddLine : Operation
     {
         private Point _P1 = new Point(), _P2 = new Point();
         public AddLine()
@@ -64,7 +64,7 @@ namespace Track_Project
         }
         public override void SetOperationPoint(Point point, int index)
         {
-            if(index<2)
+            if (index < 2)
             {
                 if (index == 0)
                     _P1 = point;

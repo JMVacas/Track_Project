@@ -73,7 +73,7 @@ namespace Track_Project
                 {
                     for (int j = 0; j < track.GetLines()[i].Count; j++)
                     {
-                        string[] rows = { i.ToString(), (track.GetLines()[i][j].X - Origin.X).ToString(), (-track.GetLines()[i][j].Y + Origin.Y).ToString() };
+                        string[] rows = { i.ToString(), ((track.GetLines()[i][j].X - Origin.X)/ConstantsAndTypes.ADOPTSCALEFACTOR).ToString(), ((-track.GetLines()[i][j].Y + Origin.Y)/ConstantsAndTypes.ADOPTSCALEFACTOR).ToString() };
                         Line_Data.Rows.Add(rows);
                     }
                 }
@@ -81,7 +81,7 @@ namespace Track_Project
                 {
                     for (int j = 0; j < track.GetCurves()[i].Count; j++)
                     {
-                        string[] rows = { i.ToString(), (track.GetCurves()[i][j].X - Origin.X).ToString(), (-track.GetCurves()[i][j].Y + Origin.Y).ToString() };
+                        string[] rows = { i.ToString(), ((track.GetCurves()[i][j].X - Origin.X)/ConstantsAndTypes.ADOPTSCALEFACTOR).ToString(), ((-track.GetCurves()[i][j].Y + Origin.Y) / ConstantsAndTypes.ADOPTSCALEFACTOR).ToString() };
                         Curve_Data.Rows.Add(rows);
                     }
                 }
@@ -160,7 +160,7 @@ namespace Track_Project
                 Point[] points = new Point[PointsOfaLine] { Origin, Origin };
                 for (int i = 0; i < PointsOfaLine; i++)
                 {
-                    string[] rows = { track.GetLines().Count.ToString(), (points[i].X - Origin.X).ToString(), (-points[i].Y + Origin.Y).ToString() };
+                    string[] rows = { track.GetLines().Count.ToString(), ((points[i].X - Origin.X) / ConstantsAndTypes.ADOPTSCALEFACTOR).ToString(), ((-points[i].Y + Origin.Y) / ConstantsAndTypes.ADOPTSCALEFACTOR).ToString() };
                     Line_Data.Rows.Add(rows);
                 }
                 track.GetLines().Add(points.ToList());
@@ -173,7 +173,7 @@ namespace Track_Project
                 for (int i = 0; i < PointsOfaCurve; i++)
                 {
                     points[i] = Origin;
-                    string[] rows = { track.GetCurves().Count.ToString(), (points[i].X - Origin.X).ToString(), (-points[i].Y + Origin.Y).ToString() };
+                    string[] rows = { track.GetCurves().Count.ToString(), ((points[i].X - Origin.X) / ConstantsAndTypes.ADOPTSCALEFACTOR).ToString(), ((-points[i].Y + Origin.Y) / ConstantsAndTypes.ADOPTSCALEFACTOR).ToString() };
                     Curve_Data.Rows.Add(rows);
                 }
                 track.GetCurves().Add(points.ToList());
@@ -193,11 +193,11 @@ namespace Track_Project
             }
             catch (FormatException ex)
             {
-                Line_Data.Rows[e.RowIndex].Cells[1].Value =  track.GetLines()[e.RowIndex / PointsOfaLine][e.RowIndex % 2].X - Origin.X;
-                Line_Data.Rows[e.RowIndex].Cells[2].Value = -track.GetLines()[e.RowIndex / PointsOfaLine][e.RowIndex % 2].Y + Origin.Y;
+                Line_Data.Rows[e.RowIndex].Cells[1].Value =  (track.GetLines()[e.RowIndex / PointsOfaLine][e.RowIndex % 2].X - Origin.X) / ConstantsAndTypes.ADOPTSCALEFACTOR;
+                Line_Data.Rows[e.RowIndex].Cells[2].Value = (-track.GetLines()[e.RowIndex / PointsOfaLine][e.RowIndex % 2].Y + Origin.Y) / ConstantsAndTypes.ADOPTSCALEFACTOR;
                 MessageBox.Show(this, "Por favor, introduzca un valor\ncorrecto en la celda\n" + ex.Message, "Error al introducir un valor", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-            Point point = new Point(Convert.ToInt32(Line_Data.Rows[e.RowIndex].Cells[1].Value.ToString()) + Origin.X, -Convert.ToInt32(Line_Data.Rows[e.RowIndex].Cells[2].Value.ToString()) + Origin.Y);
+            Point point = new Point(Convert.ToInt32(Line_Data.Rows[e.RowIndex].Cells[1].Value.ToString()) + (Origin.X / Convert.ToInt32(ConstantsAndTypes.ADOPTSCALEFACTOR)), -Convert.ToInt32(Line_Data.Rows[e.RowIndex].Cells[2].Value.ToString()) + (Origin.Y / Convert.ToInt32(ConstantsAndTypes.ADOPTSCALEFACTOR)));
             track.GetLines()[e.RowIndex / PointsOfaLine].RemoveAt(e.RowIndex % PointsOfaLine);
             track.GetLines()[e.RowIndex / PointsOfaLine].Insert(e.RowIndex % PointsOfaLine, point);
             AddLine addLine = new AddLine();

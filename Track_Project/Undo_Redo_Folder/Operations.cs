@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Track_Project 
+namespace Track_Project
 {
     public class Operations
     {
@@ -23,7 +23,7 @@ namespace Track_Project
         }
         public void Undo()
         {
-            if (_index>0)
+            if (_index > 0)
                 _index--;
         }
         public Point[] Redo()
@@ -32,13 +32,13 @@ namespace Track_Project
             if (_index < _operations.Count)
             {
                 _index++;
-                _operations[_index-1].GetOperationPoints(list_point);
+                _operations[_index - 1].GetOperationPoints(list_point);
             }
             return list_point.ToArray();
         }
         public void Make(Operation operation)
         {
-            _operations=_operations.Take(_index).ToList();
+            _operations = _operations.Take(_index).ToList();
             AddOperation(operation);
         }
         public List<Operation> GetOperations()

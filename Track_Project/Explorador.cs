@@ -15,7 +15,6 @@ namespace Track_Project
     class Explorador
     {
         #region Properties
-        const double ADOPTSCALEFACTOR = 7;
         public List<System.Drawing.Point> Puntos { get; set; }
         public List<List<System.Drawing.Point>> Lineas { get; set; }
         public List<List<System.Drawing.Point>> Curvas { get; set; }
@@ -34,7 +33,7 @@ namespace Track_Project
             Height = _Height;
             Origin = _Origin;
         }
-        public Explorador(List<System.Drawing.Point> _Puntos, List<List<System.Drawing.Point>> _Lineas, List<List<System.Drawing.Point>> _Curvas, string _Name,int _Height, System.Drawing.Point _Origin)
+        public Explorador(List<System.Drawing.Point> _Puntos, List<List<System.Drawing.Point>> _Lineas, List<List<System.Drawing.Point>> _Curvas, string _Name, int _Height, System.Drawing.Point _Origin)
         {
             Puntos = _Puntos;
             Lineas = _Lineas;
@@ -64,7 +63,7 @@ namespace Track_Project
                     if ((myStream = openFileDialog1.OpenFile()) != null)
                     {
                         using (myStream)
-                        {                         
+                        {
                             //Contenido=File.ReadAllText(openFileDialog1.FileName);
                             Recibir_Objetos(openFileDialog1.FileName);
                             myStream.Close();
@@ -98,7 +97,7 @@ namespace Track_Project
                     {
                         using (myStream)
                         {
-                            Contenido=File.ReadAllText(openFileDialog1.FileName);
+                            Contenido = File.ReadAllText(openFileDialog1.FileName);
                             Leer_csv(ref Contenido);
                             _Map_Points = Map_Points;
                             myStream.Close();
@@ -130,10 +129,10 @@ namespace Track_Project
                     //myStream.Close();
                     Contenido.Save(saveFileDialog1.FileName);
                     //Path = saveFileDialog1.FileName;
-                   // File.WriteAllText(saveFileDialog1.FileName, Contenido);                   
+                    // File.WriteAllText(saveFileDialog1.FileName, Contenido);                   
                 }
             }
- 
+
         }
         /*
          * Save all de data into a dxf file.
@@ -181,7 +180,7 @@ namespace Track_Project
                 FilterIndex = 1,
                 RestoreDirectory = true,
                 DefaultExt = ".txt",
-                FileName = "Codesys_Export"              
+                FileName = "Codesys_Export"
             };
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
@@ -193,7 +192,7 @@ namespace Track_Project
         private static void Save_Codesys(ref List<List<System.Drawing.Point>> points, System.Drawing.Point Origin, ref FileStream fileStream)
         {
             CodesysExportDialog codesysExportDialog = new CodesysExportDialog();
-                if (codesysExportDialog.ShowDialog()==DialogResult.OK)
+            if (codesysExportDialog.ShowDialog() == DialogResult.OK)
             {
                 string Orientation = codesysExportDialog.Orientation;
                 int Path_Number = codesysExportDialog.Path_Number;
@@ -201,12 +200,12 @@ namespace Track_Project
                 {
                     for (int j = 0; j < points[i].Count; j++)
                     {
-                        AddText(ref fileStream, "L_PATH_ARRAY[" + (i + 1) + "].PUNTOS[" + j + "].x:=" + Math.Round((points[i][j].X - (double)Origin.X) / ADOPTSCALEFACTOR, 5).ToString(CultureInfo.CreateSpecificCulture("en-US")) + ";\r\n");
-                        AddText(ref fileStream, "L_PATH_ARRAY[" + (i+1) + "].PUNTOS[" + j + "].y:=" + Math.Round((-points[i][j].Y + (double)Origin.Y) / ADOPTSCALEFACTOR, 5).ToString(CultureInfo.CreateSpecificCulture("en-US")) + ";\r\n");
+                        AddText(ref fileStream, "L_PATH_ARRAY[" + (i + 1) + "].PUNTOS[" + j + "].x:=" + Math.Round((points[i][j].X - (double)Origin.X) / ConstantsAndTypes.ADOPTSCALEFACTOR, 5).ToString(CultureInfo.CreateSpecificCulture("en-US")) + ";\r\n");
+                        AddText(ref fileStream, "L_PATH_ARRAY[" + (i + 1) + "].PUNTOS[" + j + "].y:=" + Math.Round((-points[i][j].Y + (double)Origin.Y) / ConstantsAndTypes.ADOPTSCALEFACTOR, 5).ToString(CultureInfo.CreateSpecificCulture("en-US")) + ";\r\n");
                     }
                     AddText(ref fileStream, "L_PATH_ARRAY[" + (i + 1) + "].LENGTH:=" + points[i].Count + ";\r\n");
-                    AddText(ref fileStream, "L_PATH_ARRAY[" + (i + 1 )+ "].PATH_NUMBER:=" + (i+1) + ";\r\n");
-                    AddText(ref fileStream, "L_PATH_ARRAY[" + (i + 1 )+ "].PATH_ORIENTATION:=" + Orientation + ";\r\n\n");
+                    AddText(ref fileStream, "L_PATH_ARRAY[" + (i + 1) + "].PATH_NUMBER:=" + (i + 1) + ";\r\n");
+                    AddText(ref fileStream, "L_PATH_ARRAY[" + (i + 1) + "].PATH_ORIENTATION:=" + Orientation + ";\r\n\n");
                 }
 
             }
@@ -234,7 +233,7 @@ namespace Track_Project
             Contenido += ";";
             Contenido += Origen.Y;
             Contenido += "\r\nPuntos\r\n";
-            for (int i =0; i<points.Length; i++)
+            for (int i = 0; i < points.Length; i++)
             {
                 Contenido += ";";
                 Contenido += points[i].X;
@@ -251,10 +250,10 @@ namespace Track_Project
         public void Leer_csv(ref string Contenido)
         {
             Map_Points = new List<System.Drawing.Point>();
-            string[] Points_Vector=Contenido.Split('\r','\n');
+            string[] Points_Vector = Contenido.Split('\r', '\n');
             foreach (string point_str in Points_Vector)
             {
-                string [] Point_Vector = point_str.Split(',');
+                string[] Point_Vector = point_str.Split(',');
                 int Pos_X = new int(), Pos_Y = new int();
                 try
                 {
@@ -262,16 +261,16 @@ namespace Track_Project
                     {
                         NumberDecimalSeparator = "."
                     };
-                    Pos_X = -(int)(Convert.ToDouble(Point_Vector[0], provider) * ADOPTSCALEFACTOR) +385;
-                    Pos_Y = (int)(Convert.ToDouble(Point_Vector[1], provider) * ADOPTSCALEFACTOR) +208;
+                    Pos_X = (int)(Convert.ToDouble(Point_Vector[0], provider) * ConstantsAndTypes.ADOPTSCALEFACTOR) + 385;
+                    Pos_Y = -(int)(Convert.ToDouble(Point_Vector[1], provider) * ConstantsAndTypes.ADOPTSCALEFACTOR) + 208;
                 }
-                catch(FormatException ex)
+                catch (FormatException ex)
                 {
                     Pos_X = 0;
                     Pos_Y = 0;
                 }
                 System.Drawing.Point point = new System.Drawing.Point(Pos_X, Pos_Y);
-                Map_Points.Add(point);               
+                Map_Points.Add(point);
             }
         }
         /*
@@ -285,15 +284,15 @@ namespace Track_Project
         public void Recibir_Objetos(string path)
         {
             //Loads a file from the command line argument
-            
-            
-            
+
+
+
             Puntos = new List<System.Drawing.Point>();
             Lineas = new List<List<System.Drawing.Point>>();
             Curvas = new List<List<System.Drawing.Point>>();
             netDxf.DxfDocument document = netDxf.DxfDocument.Load(path);
-            System.Drawing.Point[] Punto = new System.Drawing.Point[2];          
-            
+            System.Drawing.Point[] Punto = new System.Drawing.Point[2];
+
             GetLinesFromDoc(ref document);
             GetArcFromDoc(ref document);
             GetSpilineFromDoc(ref document);
@@ -304,26 +303,26 @@ namespace Track_Project
             System.Drawing.Point[] Punto = new System.Drawing.Point[2];
             Line line = new Line();
             netDxf.Vector2[] vector_puntos = new netDxf.Vector2[2];
-            for (int i=0; i<Lineas.Count; i++)
+            for (int i = 0; i < Lineas.Count; i++)
             {
 
                 Punto[0] = Lineas[i][0];
                 Punto[1] = Lineas[i][1];
-                vector_puntos[0].X = Punto[0].X-Origin.X;
-                vector_puntos[0].Y = -Punto[0].Y+Origin.Y;
-                vector_puntos[1].X = Punto[1].X-Origin.X;
-                vector_puntos[1].Y = -Punto[1].Y+Origin.Y;
+                vector_puntos[0].X = Punto[0].X - Origin.X;
+                vector_puntos[0].Y = -Punto[0].Y + Origin.Y;
+                vector_puntos[1].X = Punto[1].X - Origin.X;
+                vector_puntos[1].Y = -Punto[1].Y + Origin.Y;
                 line = new Line(vector_puntos[0], vector_puntos[1]);
                 doc.AddEntity(line);
             }
             List<SplineVertex> splineVertex = new List<SplineVertex>();
             vector_puntos = new netDxf.Vector2[4];
-            for (int i=0; i<Curvas.Count; i++)
+            for (int i = 0; i < Curvas.Count; i++)
             {
-                for (int j=0; j<vector_puntos.Length; j++)
+                for (int j = 0; j < vector_puntos.Length; j++)
                 {
-                    vector_puntos[j].X = Curvas[i][j].X-Origin.X;
-                    vector_puntos[j].Y = -Curvas[i][j].Y+Origin.Y;
+                    vector_puntos[j].X = Curvas[i][j].X - Origin.X;
+                    vector_puntos[j].Y = -Curvas[i][j].Y + Origin.Y;
                     SplineVertex Buffer = new SplineVertex(vector_puntos[j]);
                     splineVertex.Add(Buffer);
                 }
@@ -354,9 +353,9 @@ namespace Track_Project
             lines = document.Lines.ToList();
             for (int i = 0; i < lines.Count; i++)
             {
-                Punto[0].X = (int)lines[i].StartPoint.X+Origin.X;
+                Punto[0].X = (int)lines[i].StartPoint.X + Origin.X;
                 Punto[0].Y = (int)lines[i].StartPoint.Y * -1 + Origin.Y;
-                Punto[1].X = (int)lines[i].EndPoint.X+Origin.X;
+                Punto[1].X = (int)lines[i].EndPoint.X + Origin.X;
                 Punto[1].Y = (int)lines[i].EndPoint.Y * -1 + Origin.Y;
                 Lineas.Add(Punto.ToList());
             }
@@ -370,7 +369,7 @@ namespace Track_Project
             arcs = document.Arcs.ToList();
             double radio = new double();
             double Angulo_Inicial = new double(), Angulo_Final = new double();
-            System.Drawing.Point[]Punto = new System.Drawing.Point[4];
+            System.Drawing.Point[] Punto = new System.Drawing.Point[4];
             System.Drawing.Point Centro = new System.Drawing.Point();
             for (int i = 0; i < arcs.Count; i++)
             {
@@ -409,7 +408,7 @@ namespace Track_Project
                 splineVertex = splines[i].ControlPoints.ToList();
                 for (int j = 0; j < splineVertex.Count; j++)
                 {
-                    Punto.X = (int)splineVertex.ToArray()[j].Position.X+Origin.X;
+                    Punto.X = (int)splineVertex.ToArray()[j].Position.X + Origin.X;
                     Punto.Y = -(int)splineVertex.ToArray()[j].Position.Y + Origin.Y;
                     Puntos_Spiline.Add(Punto);
                 }
@@ -427,7 +426,7 @@ namespace Track_Project
             int Min_X = Map_Points.Min(point => point.X);
             int Min_Y = Map_Points.Min(point => point.Y);
             System.Drawing.Point buffer_point = new System.Drawing.Point();
-            for(int i=0; i<Map_Points.Count; i++)
+            for (int i = 0; i < Map_Points.Count; i++)
             {
                 buffer_point = Map_Points[i];
                 buffer_point.X -= Min_X;

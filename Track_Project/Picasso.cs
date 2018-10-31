@@ -15,7 +15,7 @@ namespace Track_Project
         {
 
         }
-         public Picasso (Graphics _g)
+        public Picasso(Graphics _g)
         {
             g = _g;
         }
@@ -35,11 +35,11 @@ namespace Track_Project
             ///Vertical Grid
             Point Tranformation_Point = new Point();
             Point First_Grid_Point = new Point();
-            Tranformation_Point.X = -(int)(g.Transform.OffsetX/Zoom);
-            Tranformation_Point.Y = -(int)(g.Transform.OffsetY/Zoom);
-            for(int i=0; i<Grid_Division && First_Line==false; i++)
+            Tranformation_Point.X = -(int)(g.Transform.OffsetX / Zoom);
+            Tranformation_Point.Y = -(int)(g.Transform.OffsetY / Zoom);
+            for (int i = 0; i < Grid_Division && First_Line == false; i++)
             {
-                if ((Tranformation_Point.X+i-Origen.X)%Grid_Division ==0)
+                if ((Tranformation_Point.X + i - Origen.X) % Grid_Division == 0)
                 {
                     First_Line = true;
                     First_Grid_Point.X = Tranformation_Point.X + i;
@@ -57,11 +57,11 @@ namespace Track_Project
             Point[] Infinite_Points = new Point[2];
             Infinite_Points[0].Y = Tranformation_Point.Y - 50;
             Infinite_Points[1].Y = Tranformation_Point.Y + Height + 10;
-            for (int i=0; g.IsVisible(40*i+First_Grid_Point.X, First_Grid_Point.Y); i++)
+            for (int i = 0; g.IsVisible(40 * i + First_Grid_Point.X, First_Grid_Point.Y); i++)
             {
                 Infinite_Points[0].X = Grid_Division * i + First_Grid_Point.X;
-                Infinite_Points[1].X= Grid_Division * i + First_Grid_Point.X;
-                if(((Infinite_Points[0].X-Origen.X)/Grid_Division)%5 ==0 )
+                Infinite_Points[1].X = Grid_Division * i + First_Grid_Point.X;
+                if (((Infinite_Points[0].X - Origen.X) / Grid_Division) % 5 == 0)
                     g.DrawLines(BigBlackPen, Infinite_Points);
                 else
                     g.DrawLines(pen, Infinite_Points);
@@ -71,17 +71,17 @@ namespace Track_Project
             SolidBrush brush = new SolidBrush(Color.Black);
             FontFamily family = new FontFamily("Times New Roman");
             Font font = new Font(family, 5, FontStyle.Italic);
-                for (int i = 0; g.IsVisible(First_Grid_Point.X, First_Grid_Point.Y + Grid_Division * i); i++)
+            for (int i = 0; g.IsVisible(First_Grid_Point.X, First_Grid_Point.Y + Grid_Division * i); i++)
+            {
+                Infinite_Points[0].Y = Grid_Division * i + First_Grid_Point.Y;
+                Infinite_Points[1].Y = Grid_Division * i + First_Grid_Point.Y;
+                if (((Infinite_Points[0].Y - Origen.Y) / Grid_Division) % 5 == 0)
                 {
-                    Infinite_Points[0].Y = Grid_Division * i + First_Grid_Point.Y;
-                    Infinite_Points[1].Y = Grid_Division * i + First_Grid_Point.Y;
-                    if (((Infinite_Points[0].Y - Origen.Y) / Grid_Division) % 5 == 0)
-                    {
-                        g.DrawLines(BigBlackPen, Infinite_Points);             
-                    }
-                    else
-                        g.DrawLines(pen, Infinite_Points);
+                    g.DrawLines(BigBlackPen, Infinite_Points);
                 }
+                else
+                    g.DrawLines(pen, Infinite_Points);
+            }
             //Desplazar a visible
         }
 
@@ -93,7 +93,7 @@ namespace Track_Project
         /// <param name="g"></param>
         /// <param name="height"></param>
         /// <param name="width"></param>
-        public void DrawRectangle(Pen pen, Point point, ref Graphics g, int height=8, int width=8)
+        public void DrawRectangle(Pen pen, Point point, ref Graphics g, int height = 8, int width = 8)
         {
             point.X -= width / 2;
             point.Y -= height / 2;
@@ -101,4 +101,3 @@ namespace Track_Project
         }
     }
 }
-    

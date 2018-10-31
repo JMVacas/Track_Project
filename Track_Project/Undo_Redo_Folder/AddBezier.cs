@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Track_Project
 {
-    public class AddBezier:Operation
+    public class AddBezier : Operation
     {
         private Point _P1 = new Point(), _P2 = new Point(), _P3 = new Point(), _P4 = new Point();
         public AddBezier()

@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace Track_Project
 {
-   public enum Ultima_Operacion
+    public enum Ultima_Operacion
     {
         Add_Line,
         Add_Point,
@@ -22,26 +22,27 @@ namespace Track_Project
     public partial class Form1 : Form
     {
         const int Infinite_X = 214748360; const int Infinite_Y = 214748360;
-        const int Min_Divide_Points=5, Max_Divide_Points=2000;
+        const int Min_Divide_Points = 5, Max_Divide_Points = 2000;
         private List<Point> Map_Points = new List<Point>();
-        private Point Origen = new Point(385, 208), Punto_Arrastre=new Point ();
+        private Point Origen = new Point(385, 208), Punto_Arrastre = new Point();
         private Point Punto_Seleccionado_1 = new Point(), Punto_Seleccionado_2 = new Point(), Punto_Cero = new Point(), Mouse_Position = new Point();
         private bool Preview_Linea, View_Equal_Point;
         private int Index_x, Index_y, Posicion_x, Posicion_y;
-        private List <Tracks> tracks = new List<Tracks>();
+        private List<Tracks> tracks = new List<Tracks>();
         private Tracks _track = new Tracks();
         public Color Line_Color = Color.DarkRed;
-        private readonly SolidBrush[] Tracks_Color = new SolidBrush[]{ new SolidBrush(Color.Brown), new SolidBrush(Color.Aqua), new SolidBrush(Color.DarkGreen), new SolidBrush(Color.DarkMagenta), new SolidBrush(Color.DarkTurquoise), new SolidBrush(Color.DarkOrange), new SolidBrush(Color.FloralWhite) , new SolidBrush(Color.ForestGreen) , new SolidBrush(Color.Gold) };
+        private readonly SolidBrush[] Tracks_Color = new SolidBrush[] { new SolidBrush(Color.Brown), new SolidBrush(Color.Aqua), new SolidBrush(Color.DarkGreen), new SolidBrush(Color.DarkMagenta), new SolidBrush(Color.DarkTurquoise), new SolidBrush(Color.DarkOrange), new SolidBrush(Color.FloralWhite), new SolidBrush(Color.ForestGreen), new SolidBrush(Color.Gold) };
         Double Zoom = 5;
         public static List<Point> Map;
         public double thickness = 2;
         List<List<Point>> Segment_Curve = new List<List<Point>>();
         private List<Ultima_Operacion> ultima_operacion = new List<Ultima_Operacion>();
+        private List<Estacion> Estaciones = new List<Estacion>();
         public Form1()
         {
             InitializeComponent();
         }
-        
+
 
 
         /*
@@ -49,11 +50,11 @@ namespace Track_Project
          */
         private void Paleta_Paint(object sender, PaintEventArgs e)
         {
-            e.Graphics.SmoothingMode =  System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+            e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             Graphics g = e.Graphics;
             _track.SetGraphics(ref g);
             Pen pen = new Pen(Line_Color, (float)thickness);
-        SolidBrush brush = new SolidBrush(Color.Red);
+            SolidBrush brush = new SolidBrush(Color.Red);
             g.ScaleTransform((float)Zoom, (float)Zoom);
             g.TranslateTransform(Posicion_x, Posicion_y);
             Picasso picasso = new Picasso(g);
@@ -62,12 +63,20 @@ namespace Track_Project
                 brush.Color = Color.Black;
                 _track.Pintar_Puntos(ref brush, ref Map, 1);
             }
-            brush.Color = Color.Red;
-            if (tracks.Count>0)
+            if (Estaciones != null)
             {
-                for (int i =0; i< viewToolStripMenuItem.DropDownItems.Count; i++)
+                brush.Color = Color.Blue;
+                for (int i = 0; i < Estaciones.Count; i++)
                 {
-                   if( ((ToolStripMenuItem)viewToolStripMenuItem.DropDownItems[i]).Checked)
+                    _track.FillCircle(brush, Estaciones[i].DefinedPoint, 5);
+                }
+            }
+            brush.Color = Color.Red;
+            if (tracks.Count > 0)
+            {
+                for (int i = 0; i < viewToolStripMenuItem.DropDownItems.Count; i++)
+                {
+                    if (((ToolStripMenuItem)viewToolStripMenuItem.DropDownItems[i]).Checked)
                     {
                         tracks[i].Draw_tracks();
                     }
@@ -75,27 +84,27 @@ namespace Track_Project
             }
             ///Paint Grid
             picasso.Draw_Grill(ref Origen, Zoom, Paleta.Height, Paleta.Width);
-                ///Pintar Lineas
+            ///Pintar Lineas
             _track.Draw_All_Lines(ref pen, ref Mouse_Button, ref Line_Button, ref Preview_Linea, ref Mouse_Position);
-                
-                ///Pintar Puntos
-                brush.Color = Color.Green;
-                _track.Draw_Line_Points(ref brush);
+
+            ///Pintar Puntos
+            brush.Color = Color.Green;
+            _track.Draw_Line_Points(ref brush);
             brush.Color = Color.Black;
             _track.Pintar_Puntos(ref brush, ref Map_Points, 1);
-            brush.Color = Color.Blue;                
+            brush.Color = Color.Blue;
             _track.Draw_Points(ref brush);
-                if(Punto_Seleccionado_2!=Punto_Cero && Punto_Seleccionado_1!=Punto_Cero && _track.GetLineCount()>0)
-                {
-                    _track.Calculate_Curve(ref Punto_Seleccionado_1, ref Punto_Seleccionado_2, pen);
-                    //ultima_operacion.Add(Ultima_Operacion.Add_Curve);
-                }
+            if (Punto_Seleccionado_2 != Punto_Cero && Punto_Seleccionado_1 != Punto_Cero && _track.GetLineCount() > 0)
+            {
+                _track.Calculate_Curve(ref Punto_Seleccionado_1, ref Punto_Seleccionado_2, pen);
+                //ultima_operacion.Add(Ultima_Operacion.Add_Curve);
+            }
             _track.DrawCurves(pen);
             brush.Color = Color.Red;
             _track.FillCircle(brush, Origen);
-            if(View_Equal_Point)
-            picasso.DrawRectangle(new Pen(Color.SandyBrown, 1.5f),  Mouse_Position, ref g);
-            if(Segment_Curve.Count>0)
+            if (View_Equal_Point)
+                picasso.DrawRectangle(new Pen(Color.SandyBrown, 1.5f), Mouse_Position, ref g);
+            if (Segment_Curve.Count > 0)
             {
                 pen.Color = Color.Blue;
                 foreach (List<Point> Curve_ in Segment_Curve)
@@ -112,7 +121,7 @@ namespace Track_Project
                 Picasso picasso = new Picasso();
                 Cursor = new Cursor(Cursor.Current.Handle);
                 Point point = Paleta.PointToClient(Cursor.Position);
-                Origen=_track.Apply_Transformation(point, 1 / Zoom,Zoom * Posicion_x, Zoom * Posicion_y);  //Funcion para que de las cordenadas relativas al programa y no a la pantalal
+                Origen = _track.Apply_Transformation(point, 1 / Zoom, Zoom * Posicion_x, Zoom * Posicion_y);  //Funcion para que de las cordenadas relativas al programa y no a la pantalal
                 Paleta.Invalidate();
                 Paleta.Update();
             }
@@ -124,7 +133,7 @@ namespace Track_Project
             }
             else if (Curve_Button.Checked)
             {
-                _track.Select_Curve_Points(ref Punto_Seleccionado_1, ref Punto_Seleccionado_2, ref Paleta,ref Punto_Cero,  1/Zoom, ref Posicion_x, ref Posicion_y);
+                _track.Select_Curve_Points(ref Punto_Seleccionado_1, ref Punto_Seleccionado_2, ref Paleta, ref Punto_Cero, 1 / Zoom, ref Posicion_x, ref Posicion_y);
             }
             else
             {
@@ -132,7 +141,7 @@ namespace Track_Project
                 Punto_Seleccionado_1 = Punto_Cero;
                 if (!Curve_Button.Checked && !Line_Button.Checked)
                 {
-                    _track.Select_Curve_Points(ref Punto_Arrastre, ref Punto_Seleccionado_1, ref Paleta, ref Punto_Cero, 1/Zoom, ref Posicion_x, ref Posicion_y);
+                    _track.Select_Curve_Points(ref Punto_Arrastre, ref Punto_Seleccionado_1, ref Paleta, ref Punto_Cero, 1 / Zoom, ref Posicion_x, ref Posicion_y);
                     _track.Get_Point_Index(ref Punto_Arrastre, ref Index_x, ref Index_y);
                 }
             }
@@ -142,14 +151,14 @@ namespace Track_Project
         {
             /// Mostrar Texto
             Mouse_Position = Paleta.PointToClient(Cursor.Position);
-            Mouse_Position=_track.Apply_Transformation(Mouse_Position, 1 / Zoom, Posicion_x * Zoom, Posicion_y * Zoom);
+            Mouse_Position = _track.Apply_Transformation(Mouse_Position, 1 / Zoom, Posicion_x * Zoom, Posicion_y * Zoom);
             _track.CalculatePointAngle(ref Mouse_Position);
-            View_Equal_Point=_track.Select_Points(ref Mouse_Position, 11);
+            View_Equal_Point = _track.Select_Points(ref Mouse_Position, 11);
             string Texto = "";
             Texto += "X: ";
-            Texto += Mouse_Position.X - Origen.X;
+            Texto += Math.Round(Convert.ToDouble((Mouse_Position.X - Origen.X)) / ConstantsAndTypes.ADOPTSCALEFACTOR, 2);
             Texto += " Y: ";
-            Texto += -Mouse_Position.Y + Origen.Y;
+            Texto += Math.Round(Convert.ToDouble((-Mouse_Position.Y + Origen.Y)) / ConstantsAndTypes.ADOPTSCALEFACTOR, 2);
             Posicion_Cursor.Text = Texto;
             /// Preview Linea
             Preview_Linea = true;
@@ -167,32 +176,32 @@ namespace Track_Project
             if (e.KeyValue == 'w' || e.KeyValue == 'W' || e.KeyValue == 9650)
             {
                 //if (Posicion_y > 0)
-                    Posicion_y=Posicion_y+5;
+                Posicion_y = Posicion_y + 5;
             }
             else if (e.KeyValue == 'a' || e.KeyValue == 'A' || e.KeyValue == 9668)
             {
                 //if (Posicion_x > 0)
-                    Posicion_x=Posicion_x+5;
+                Posicion_x = Posicion_x + 5;
             }
             else if (e.KeyValue == 's' || e.KeyValue == 'S' || e.KeyValue == 9660)
             {
                 //if (Posicion_y < 400)
-                    Posicion_y=Posicion_y-5;
+                Posicion_y = Posicion_y - 5;
             }
-            else if ((e.KeyValue == 'd' || e.KeyValue == 'D' || e.KeyValue == 9658)&& !e.Control)
+            else if ((e.KeyValue == 'd' || e.KeyValue == 'D' || e.KeyValue == 9658) && !e.Control)
             {
                 //if (Posicion_x < 800)
-                    Posicion_x=Posicion_x-5;
+                Posicion_x = Posicion_x - 5;
             }
-            else if(e.Control && (e.KeyValue=='d' || e.KeyValue =='D'))
+            else if (e.Control && (e.KeyValue == 'd' || e.KeyValue == 'D'))
             {
                 toolStripButton1_Click_1(null, new EventArgs());
             }
-            else if(e.Control && (e.KeyValue=='z' || e.KeyValue=='Z'))
+            else if (e.Control && (e.KeyValue == 'z' || e.KeyValue == 'Z'))
             {
                 _track.Delete_Last_Operation();
             }
-            else if(e.Control && (e.KeyValue == 'y' || e.KeyValue == 'Y'))
+            else if (e.Control && (e.KeyValue == 'y' || e.KeyValue == 'Y'))
             {
                 _track.Redo();
             }
@@ -224,7 +233,7 @@ namespace Track_Project
         {
             try
             {
-                if (_track.GetLineCount()> 0 || tracks.Count>0)
+                if (_track.GetLineCount() > 0 || tracks.Count > 0)
                 {
                     ComboBoxDialog comboBoxDialog = new ComboBoxDialog(ref tracks);
                     comboBoxDialog.ShowDialog();
@@ -232,7 +241,7 @@ namespace Track_Project
                     comboBoxDialog.Close();
                     if (Selected_track != null)
                     {
-                        Explorador explorador = new Explorador(Selected_track.GetPoints(), Selected_track.GetLines(), Selected_track.GetCurves(), Selected_track.GetName(),Paleta.Height, Origen);
+                        Explorador explorador = new Explorador(Selected_track.GetPoints(), Selected_track.GetLines(), Selected_track.GetCurves(), Selected_track.GetName(), Paleta.Height, Origen);
                         explorador.Guardar_Explorador();
                     }
                 }
@@ -280,7 +289,7 @@ namespace Track_Project
             List<List<Point>> Curves = new List<List<Point>>();
             //Lines.AddRange(_track.GetLines());
             //Curves.AddRange(_track.GetCurves());
-            Form2 forma_siguiente = new Form2( ref _track,  ref tracks, Origen, ref Paleta);
+            Form2 forma_siguiente = new Form2(ref _track, ref tracks, Origen, ref Paleta);
             forma_siguiente.Show();
             forma_siguiente.Activate();
         }
@@ -320,7 +329,7 @@ namespace Track_Project
         private void exportarMapaToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Explorador explorador = new Explorador();
-           // explorador.Guardar_Explorador(ref Map);
+            // explorador.Guardar_Explorador(ref Map);
         }
 
         private void Track_Caption_Paint(object sender, PaintEventArgs e)
@@ -333,8 +342,8 @@ namespace Track_Project
             {
                 if (((ToolStripMenuItem)viewToolStripMenuItem.DropDownItems[i]).Checked)
                 {
-                    
-                    g.DrawString(tracks[i].GetName() + "\n", font , tracks[i].GetColor(), 0, j*24);
+
+                    g.DrawString(tracks[i].GetName() + "\n", font, tracks[i].GetColor(), 0, j * 24);
                     j++;
                 }
             }
@@ -364,7 +373,7 @@ namespace Track_Project
                 Paleta.Invalidate();
                 Paleta.Update();
             }
-            catch(ArgumentOutOfRangeException)
+            catch (ArgumentOutOfRangeException)
             {
             }
         }
@@ -372,7 +381,7 @@ namespace Track_Project
         private void Color_Select_Click(object sender, EventArgs e)
         {
 
-            if (colorDialog1.ShowDialog()==DialogResult.OK)
+            if (colorDialog1.ShowDialog() == DialogResult.OK)
             {
                 Line_Color = colorDialog1.Color;
                 Paleta.Invalidate();
@@ -468,7 +477,7 @@ namespace Track_Project
                             MessageBox.Show(this, "Is an Open Track", "Closed track", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                             break;
                     }
-                }               
+                }
             }
             else
                 MessageBox.Show(this, "There isn't saved tracks in the program, please save a track", "No tracks", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -498,11 +507,75 @@ namespace Track_Project
         private void ChangeThickness_Button_Click(object sender, EventArgs e)
         {
             ChangeThicknessDialog changeThicknessDialog = new ChangeThicknessDialog(thickness);
-            if(changeThicknessDialog.ShowDialog()==DialogResult.OK)
+            if (changeThicknessDialog.ShowDialog() == DialogResult.OK)
             {
                 thickness = changeThicknessDialog._Thickness;
             }
             changeThicknessDialog.Close();
+        }
+
+        private void Crear_Estacion_Click(object sender, EventArgs e)
+        {
+            if (tracks.Count > 1)
+            {
+                List<Tracks> Using_Tracks = new List<Tracks>();
+                List<Point> Station_Points = new List<Point>();
+                List<Point> TMP_Station_Points = new List<Point>();
+                for (int i = 0; i < tracks.Count; i++)
+                {
+                    tracks[i].SetType();
+                }
+                Using_Tracks.AddRange(tracks.FindAll(t => t.Type == ConstantsAndTypes.TypesOfTrack.SemiClosedTrack));
+                for (int i = 0; i<Using_Tracks.Count; i++)
+                {
+                    for (int j = Using_Tracks.Count -1; j>i; j--)
+                    {
+                         if (Using_Tracks[j].GetOrderPoints()[0] == Using_Tracks[i].GetOrderPoints()[0])
+                        {
+                            Station_Points.Add(Using_Tracks[j].GetOrderPoints()[0]);
+                        }
+                         else if (Using_Tracks[j].GetOrderPoints()[0] == Using_Tracks[i].GetOrderPoints()[Using_Tracks[i].GetOrderPoints().Count])
+                        {
+                            Station_Points.Add(Using_Tracks[j].GetOrderPoints()[0]);
+                        }
+                        else if ((Using_Tracks[j].GetOrderPoints()[Using_Tracks[j].GetOrderPoints().Count] == Using_Tracks[i].GetOrderPoints()[0]))
+                        {
+                            Station_Points.Add(Using_Tracks[j].GetOrderPoints()[Using_Tracks[j].GetOrderPoints().Count]);
+                        }
+                        else if ((Using_Tracks[j].GetOrderPoints()[Using_Tracks[j].GetOrderPoints().Count] == Using_Tracks[i].GetOrderPoints()[Using_Tracks[i].GetOrderPoints().Count]))
+                        {
+                            Station_Points.Add(Using_Tracks[j].GetOrderPoints()[Using_Tracks[j].GetOrderPoints().Count]);
+                        }
+                    }
+                }
+                TMP_Station_Points.AddRange(Station_Points.Distinct());
+                Station_Points.Clear();
+                Station_Points.AddRange(TMP_Station_Points);
+                Estacion Buffer_Station = new Estacion();
+                List<List<Point>> TMP_Lines = new List<List<Point>>();
+                bool Exist = new bool();
+                for (int i = 0; i<Station_Points.Count; i++)
+                {
+                    Buffer_Station.SetPoint(Station_Points[i]);
+                    for (int j = 0; j < Using_Tracks.Count; j++)
+                    {
+                        TMP_Lines.AddRange(Using_Tracks[j].GetLines());
+                        foreach (List<Point> Line in TMP_Lines)
+                        {
+                            bool TMP_Exist = Line.Exists(p => p == Station_Points[i]);
+                            if (TMP_Exist)
+                            {
+                                Exist = true;
+                            }
+                        }
+                        if (Exist)
+                        {
+                            Buffer_Station.AddRelatedTrack(Using_Tracks[i].GetName());
+                        }
+                    }
+                    Estaciones.Add(Buffer_Station);
+                }
+            }
         }
 
         private void Tracks_View_OnClickHandler(object sender, EventArgs e)
@@ -513,7 +586,7 @@ namespace Track_Project
         }
         private void Tracks_Delete_OnClickHandler(object sender, EventArgs e)
         {
-            tracks.RemoveAt(tracks.FindIndex(track => track.GetName()==sender.ToString()));
+            tracks.RemoveAt(tracks.FindIndex(track => track.GetName() == sender.ToString()));
             tracks.OrderBy(x => x.GetName());
             Track_Edit_Select.Items.Clear();
             viewToolStripMenuItem.DropDownItems.Clear();
@@ -541,7 +614,7 @@ namespace Track_Project
             }
             CheckNamesIterator(ref _Name, ref buffer_names);
         }
-        private void CheckNamesIterator(ref string _Name, ref string []buffer_names)
+        private void CheckNamesIterator(ref string _Name, ref string[] buffer_names)
         {
             if (buffer_names.Any(_Name.Equals) && _Name.Contains("("))
             {
@@ -552,7 +625,7 @@ namespace Track_Project
                     Buffer_Name[0] += "(" + (Number + 1).ToString() + ")";
                     _Name = Buffer_Name[0];
                 }
-                catch(FormatException)
+                catch (FormatException)
                 {
 
                 }
@@ -569,16 +642,16 @@ namespace Track_Project
         {
             SolidBrush color = new SolidBrush(Tracks_Color[0].Color);
             SolidBrush[] colors = new SolidBrush[tracks.Count];
-            for(int i=0; i<tracks.Count; i++)
+            for (int i = 0; i < tracks.Count; i++)
             {
                 colors[i] = tracks[i].GetColor();
             }
             bool Exit = new bool();
-            if (colors.Any(c => c.Color==color.Color))
+            if (colors.Any(c => c.Color == color.Color))
             {
-                for (int i = 0; i < Tracks_Color.Count() && Exit==false ; i++)
+                for (int i = 0; i < Tracks_Color.Count() && Exit == false; i++)
                 {
-                    if(!colors.Any(c=> c.Color==Tracks_Color[i].Color))
+                    if (!colors.Any(c => c.Color == Tracks_Color[i].Color))
                     {
                         color = Tracks_Color[i];
                         Exit = true;
@@ -588,18 +661,18 @@ namespace Track_Project
             }
             return color;
         }
-      /*  private List<Point> CodesysPoints(int index, bool type_of_object)
-        {
-            List<Point> First_Object = new List<Point>();
-            if (type_of_object==false)
-            {
+        /*  private List<Point> CodesysPoints(int index, bool type_of_object)
+          {
+              List<Point> First_Object = new List<Point>();
+              if (type_of_object==false)
+              {
 
-            }
-            else
-            {
+              }
+              else
+              {
 
-            }
-        }*/
+              }
+          }*/
         private List<List<Point>> CodesysPoints(ref Tracks Selected)
         {
             List<List<Point>> Array_Points = new List<List<Point>>();
@@ -613,7 +686,7 @@ namespace Track_Project
             Array_Points.Add(Selected.GetLines()[0]);
             do
             {
-                if(Next_Object.Count>0)
+                if (Next_Object.Count > 0)
                     Array_Points.Add(Next_Object.ToArray().ToList());
                 Next_Object.Clear();
                 try
@@ -624,7 +697,7 @@ namespace Track_Project
                 {
                     Next_Object.Clear();
                 }
-                if (Next_Object.SequenceEqual(Last_Object) || Next_Object.Count==0)
+                if (Next_Object.SequenceEqual(Last_Object) || Next_Object.Count == 0)
                 {
                     Next_Object.Clear();
                     Next_Object.AddRange(CheckContinuity.PointNextObject(Selected.GetLines(), ref Segment_Curve, Actual_Object[0], Actual_Object[Actual_Object.Count - 1], ConstantsAndTypes.TypesOfTrack.SemiClosedTrack));
@@ -643,7 +716,7 @@ namespace Track_Project
         }
         private List<List<Point>> CodesysPoints(ref Tracks Selected, ref List<List<Point>> Open_Points)
         {
-            string[] Objects = { "Array_Points", "First_Object", "Actual_Object", "Last_Object", "Next_Object", "Finish_Object"};
+            string[] Objects = { "Array_Points", "First_Object", "Actual_Object", "Last_Object", "Next_Object", "Finish_Object" };
             List<List<Point>> Array_Points = new List<List<Point>>();
             Dictionary<ConstantsAndTypes.Using_Points, List<Point>> Important_Points = new Dictionary<ConstantsAndTypes.Using_Points, List<Point>>();
             Important_Points.Add(ConstantsAndTypes.Using_Points.Actual_Object, new List<Point>());
@@ -665,18 +738,18 @@ namespace Track_Project
                 {
                     Important_Points[ConstantsAndTypes.Using_Points.Next_Object].AddRange(CheckContinuity.PointNextObject(Selected.GetLines(), ref Segment_Curve, Important_Points[ConstantsAndTypes.Using_Points.Actual_Object][Important_Points[ConstantsAndTypes.Using_Points.Actual_Object].Count - 1], Important_Points[ConstantsAndTypes.Using_Points.Actual_Object][0], ConstantsAndTypes.TypesOfTrack.ClosedTrack));
                 }
-                catch(ArgumentOutOfRangeException)
+                catch (ArgumentOutOfRangeException)
                 {
                     Important_Points[ConstantsAndTypes.Using_Points.Next_Object].Clear();
                 }
-                if (Important_Points[ConstantsAndTypes.Using_Points.Next_Object].SequenceEqual(Important_Points[ConstantsAndTypes.Using_Points.Last_Object]) || Important_Points[ConstantsAndTypes.Using_Points.Next_Object].Count<=0)
+                if (Important_Points[ConstantsAndTypes.Using_Points.Next_Object].SequenceEqual(Important_Points[ConstantsAndTypes.Using_Points.Last_Object]) || Important_Points[ConstantsAndTypes.Using_Points.Next_Object].Count <= 0)
                 {
                     Important_Points[ConstantsAndTypes.Using_Points.Next_Object].Clear();
                     try
                     {
                         Important_Points[ConstantsAndTypes.Using_Points.Next_Object].AddRange(CheckContinuity.PointNextObject(Selected.GetLines(), ref Segment_Curve, Important_Points[ConstantsAndTypes.Using_Points.Actual_Object][0], Important_Points[ConstantsAndTypes.Using_Points.Actual_Object][Important_Points[ConstantsAndTypes.Using_Points.Actual_Object].Count - 1], ConstantsAndTypes.TypesOfTrack.ClosedTrack));
                     }
-                    catch(ArgumentOutOfRangeException)
+                    catch (ArgumentOutOfRangeException)
                     {
                         Important_Points[ConstantsAndTypes.Using_Points.Next_Object].Clear();
                         Important_Points[ConstantsAndTypes.Using_Points.Next_Object].AddRange(CheckContinuity.PointNextObject(Selected.GetLines(), ref Segment_Curve, Important_Points[ConstantsAndTypes.Using_Points.Actual_Object][Important_Points[ConstantsAndTypes.Using_Points.Actual_Object].Count - 1], Important_Points[ConstantsAndTypes.Using_Points.Actual_Object][0], ConstantsAndTypes.TypesOfTrack.ClosedTrack));

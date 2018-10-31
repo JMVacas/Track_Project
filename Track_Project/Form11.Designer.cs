@@ -9,9 +9,7 @@
 //------------------------------------------------------------------------------
 
 namespace Track_Project {
-    using System;
-    
-    
+    using System;  
     /// <summary>
     ///   Clase de recurso fuertemente tipado, para buscar cadenas traducidas, etc.
     /// </summary>
@@ -22,14 +20,14 @@ namespace Track_Project {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Form12 {
+    public class Form11 {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Form12() {
+        internal Form11() {
         }
         
         /// <summary>
@@ -117,6 +115,16 @@ namespace Track_Project {
             get {
                 object obj = ResourceManager.GetObject("colorDialog1.TrayLocation", resourceCulture);
                 return ((System.Drawing.Point)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Crear_Estacion_Image {
+            get {
+                object obj = ResourceManager.GetObject("Crear_Estacion.Image", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

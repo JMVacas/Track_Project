@@ -83,6 +83,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Estacion.cs" />
     <Compile Include="Dialogs\ChangeOriginDiaog.cs">
       <SubType>Form</SubType>
     </Compile>

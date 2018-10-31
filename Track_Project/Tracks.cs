@@ -15,10 +15,13 @@ namespace Track_Project
         private List<List<Point>> Curves = new List<List<Point>>();
         private List<Point> points = new List<Point>();
         private SolidBrush Line_Color;
-       // private List<Ultima_Operacion> Last_Operation = new List<Ultima_Operacion>();
-        private Operations operations = new Operations(); 
+        // private List<Ultima_Operacion> Last_Operation = new List<Ultima_Operacion>();
+        private Operations operations = new Operations();
         public static Graphics g;
         private string Name;
+        private double Length;
+        public ConstantsAndTypes.TypesOfTrack Type = new ConstantsAndTypes.TypesOfTrack();
+        List<List<Point>> Open_Points = new List<List<Point>>();
         #endregion
         #region Constructors
         public Tracks()
@@ -35,6 +38,11 @@ namespace Track_Project
         public Tracks(Graphics _g)
         {
             g = _g;
+        }
+        public Tracks(in Tracks track)
+        {
+            Lines.AddRange(track.GetLines());
+            Curves.AddRange(track.GetCurves());
         }
         #endregion
         #region AddFunctions
@@ -396,6 +404,16 @@ namespace Track_Project
         {
             return Math.Atan2(last_point.Y - point.Y, last_point.X - point.X) * 180 / Math.PI;
         }
+        private double CalculateLength()
+        {
+            double _Length = new double();
+            for (int i = 0; i < Lines.Count; i++)
+            {
+                _Length = _Length + Distancia(Lines[i][0], Lines[i][1]);
+            }
+            Length = _Length;
+            return Length;
+        }
         #endregion
         #region GetIndexFunctions
         /// <summary>
@@ -434,7 +452,7 @@ namespace Track_Project
                 }
             }
         }
-        
+
         private bool Exists(Point point, ref int i, int radio = 10)
         {
             return Lines[i].Exists(x => (x.X > point.X - radio && x.X < point.X + radio) && (x.Y > point.Y - radio && x.Y < point.Y + radio));
@@ -511,6 +529,59 @@ namespace Track_Project
                 }
             }
         }
+        public List<Point> GetOrderPoints()
+        {
+            List<List<Point>> Segment_Curve = new List<List<Point>>();
+            string[] Objects = { "Array_Points", "First_Object", "Actual_Object", "Last_Object", "Next_Object", "Finish_Object" };
+            List<Point> Array_Points = new List<Point>();
+            Dictionary<ConstantsAndTypes.Using_Points, List<Point>> Important_Points = new Dictionary<ConstantsAndTypes.Using_Points, List<Point>>();
+            Important_Points.Add(ConstantsAndTypes.Using_Points.Actual_Object, new List<Point>());
+            Important_Points.Add(ConstantsAndTypes.Using_Points.Finish_Object, new List<Point>());
+            Important_Points.Add(ConstantsAndTypes.Using_Points.First_Object, new List<Point>());
+            Important_Points.Add(ConstantsAndTypes.Using_Points.Last_Object, new List<Point>());
+            Important_Points.Add(ConstantsAndTypes.Using_Points.Next_Object, new List<Point>());
+            Array_Points.AddRange(Open_Points[0]);
+            Important_Points[ConstantsAndTypes.Using_Points.Finish_Object].AddRange(Open_Points[1]);
+            Important_Points[ConstantsAndTypes.Using_Points.Actual_Object].AddRange(Open_Points[0]);
+            Important_Points[ConstantsAndTypes.Using_Points.Last_Object].AddRange(Open_Points[0]);
+            Important_Points[ConstantsAndTypes.Using_Points.First_Object].AddRange(Open_Points[0]);
+            do
+            {
+                if (Important_Points[ConstantsAndTypes.Using_Points.Next_Object].Count > 0)
+                    Array_Points.AddRange(Important_Points[ConstantsAndTypes.Using_Points.Next_Object].ToArray().ToList());
+                Important_Points[ConstantsAndTypes.Using_Points.Next_Object].Clear();
+                try
+                {
+                    Important_Points[ConstantsAndTypes.Using_Points.Next_Object].AddRange(CheckContinuity.PointNextObject(this.GetLines(), ref Segment_Curve, Important_Points[ConstantsAndTypes.Using_Points.Actual_Object][Important_Points[ConstantsAndTypes.Using_Points.Actual_Object].Count - 1], Important_Points[ConstantsAndTypes.Using_Points.Actual_Object][0], ConstantsAndTypes.TypesOfTrack.ClosedTrack));
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                    Important_Points[ConstantsAndTypes.Using_Points.Next_Object].Clear();
+                }
+                if (Important_Points[ConstantsAndTypes.Using_Points.Next_Object].SequenceEqual(Important_Points[ConstantsAndTypes.Using_Points.Last_Object]) || Important_Points[ConstantsAndTypes.Using_Points.Next_Object].Count <= 0)
+                {
+                    Important_Points[ConstantsAndTypes.Using_Points.Next_Object].Clear();
+                    try
+                    {
+                        Important_Points[ConstantsAndTypes.Using_Points.Next_Object].AddRange(CheckContinuity.PointNextObject(this.GetLines(), ref Segment_Curve, Important_Points[ConstantsAndTypes.Using_Points.Actual_Object][0], Important_Points[ConstantsAndTypes.Using_Points.Actual_Object][Important_Points[ConstantsAndTypes.Using_Points.Actual_Object].Count - 1], ConstantsAndTypes.TypesOfTrack.ClosedTrack));
+                    }
+                    catch (ArgumentOutOfRangeException)
+                    {
+                        Important_Points[ConstantsAndTypes.Using_Points.Next_Object].Clear();
+                        Important_Points[ConstantsAndTypes.Using_Points.Next_Object].AddRange(CheckContinuity.PointNextObject(this.GetLines(), ref Segment_Curve, Important_Points[ConstantsAndTypes.Using_Points.Actual_Object][Important_Points[ConstantsAndTypes.Using_Points.Actual_Object].Count - 1], Important_Points[ConstantsAndTypes.Using_Points.Actual_Object][0], ConstantsAndTypes.TypesOfTrack.ClosedTrack));
+                    }
+                }
+                Important_Points[ConstantsAndTypes.Using_Points.Last_Object].Clear();
+                Important_Points[ConstantsAndTypes.Using_Points.Last_Object].AddRange(Important_Points[ConstantsAndTypes.Using_Points.Actual_Object]);
+                Important_Points[ConstantsAndTypes.Using_Points.Actual_Object].Clear();
+                Important_Points[ConstantsAndTypes.Using_Points.Actual_Object].AddRange(Important_Points[ConstantsAndTypes.Using_Points.Next_Object]);
+            }
+            while (!Important_Points[ConstantsAndTypes.Using_Points.Actual_Object].SequenceEqual(Important_Points[ConstantsAndTypes.Using_Points.Finish_Object]));
+            Array_Points.AddRange(Important_Points[ConstantsAndTypes.Using_Points.Finish_Object]);
+            Segment_Curve.Clear();
+            Segment_Curve.Add(Array_Points);
+            return Array_Points;
+        }
         #endregion
         #region DeleteLines
         /// <summary>
@@ -581,11 +652,11 @@ namespace Track_Project
         /// </summary>
         public void Delete_Last_Operation()
         {
-            if(operations.GetOperations().Count>0)
+            if (operations.GetOperations().Count > 0)
             {
                 AddLine addLine = new AddLine();
                 AddBezier addBezier = new AddBezier();
-                if (Lines.Count > 0 && operations.GetOperations()[operations._index-1].GetType() ==addLine.GetType())
+                if (Lines.Count > 0 && operations.GetOperations()[operations._index - 1].GetType() == addLine.GetType())
                 {
                     Delete_Last_Line();
                     operations.Undo();
@@ -604,7 +675,7 @@ namespace Track_Project
         /// </summary>
         public void Redo()
         {
-            Point[] list_point= operations.Redo();
+            Point[] list_point = operations.Redo();
             if (list_point.Length == 2)
             {
                 Lines.Add(list_point.ToList());
@@ -676,6 +747,14 @@ namespace Track_Project
         public void SetGraphics(ref Graphics _g)
         {
             g = _g;
+        }
+        public void SetType()
+        {
+            int index = new int();
+            bool type_of_object = new bool();
+            List<List<Point>> Export_Points = new List<List<Point>>();
+            List<List<Point>> Segment_Curve = new List<List<Point>>();
+            Type = CheckContinuity.Check(GetLines(), ref Segment_Curve, ref index, ref type_of_object, ref Open_Points);
         }
         #endregion
         #region GetFunctions

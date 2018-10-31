@@ -27,17 +27,17 @@ namespace Track_Project
             int Number_Of_Repeat_Start = new int();
             int Number_Of_Repeat_End = new int();
             bool Error = new bool();
-            for (int i =0; i<Lines.Count && Error==false; i++)
+            for (int i = 0; i < Lines.Count && Error == false; i++)
             {
                 Number_Of_Repeat_Start = PointExistTimes(ref Lines, ref Curves, Lines[i][0]);
-                if(Number_Of_Repeat_Start==1)
+                if (Number_Of_Repeat_Start == 1)
                 {
                     Number_Of_Repeat_End = PointExistTimes(ref Lines, ref Curves, Lines[i][1]);
-                    if(Number_Of_Repeat_End==1)
+                    if (Number_Of_Repeat_End == 1)
                     {
                         Number_Of_Asolated_Objects++;
                     }
-                    else if(Number_Of_Repeat_End==2)
+                    else if (Number_Of_Repeat_End == 2)
                     {
                         Number_Of_Semiconnected_Objects++;
                         index = i;
@@ -49,7 +49,7 @@ namespace Track_Project
                     }
 
                 }
-                else if(Number_Of_Repeat_Start==2)
+                else if (Number_Of_Repeat_Start == 2)
                 {
                     Number_Of_Repeat_End = PointExistTimes(ref Lines, ref Curves, Lines[i][1]);
                     if (Number_Of_Repeat_End == 1)
@@ -72,12 +72,12 @@ namespace Track_Project
                     Error = true;
                 }
             }
-            for(int i=0; i<Curves.Count && Error==false; i++)
+            for (int i = 0; i < Curves.Count && Error == false; i++)
             {
                 Number_Of_Repeat_Start = PointExistTimes(ref Lines, ref Curves, Curves[i][0]);
                 if (Number_Of_Repeat_Start == 1)
                 {
-                    Number_Of_Repeat_End = PointExistTimes(ref Lines, ref Curves, Curves[i][Curves[i].Count-1]);
+                    Number_Of_Repeat_End = PointExistTimes(ref Lines, ref Curves, Curves[i][Curves[i].Count - 1]);
                     if (Number_Of_Repeat_End == 1)
                     {
                         Number_Of_Asolated_Objects++;
@@ -97,7 +97,7 @@ namespace Track_Project
                 }
                 else if (Number_Of_Repeat_Start == 2)
                 {
-                    Number_Of_Repeat_End = PointExistTimes(ref Lines, ref Curves, Curves[i][Curves[i].Count-1]);
+                    Number_Of_Repeat_End = PointExistTimes(ref Lines, ref Curves, Curves[i][Curves[i].Count - 1]);
                     if (Number_Of_Repeat_End == 1)
                     {
                         Number_Of_Semiconnected_Objects++;
@@ -123,7 +123,7 @@ namespace Track_Project
             {
                 return ConstantsAndTypes.TypesOfTrack.OpenTracK;
             }
-            else if ((Number_Of_Asolated_Objects==1 && Number_Of_Objects ==1) || Number_Of_Semiconnected_Objects==2 )
+            else if ((Number_Of_Asolated_Objects == 1 && Number_Of_Objects == 1) || Number_Of_Semiconnected_Objects == 2)
             {
                 return ConstantsAndTypes.TypesOfTrack.SemiClosedTrack;
             }
@@ -131,7 +131,7 @@ namespace Track_Project
             {
                 return ConstantsAndTypes.TypesOfTrack.ClosedTrack;
             }
-            
+
         }
         /// <summary>
         /// Returns the number in which exist a point in the track
@@ -141,8 +141,8 @@ namespace Track_Project
         /// <param name="point"></param>
         /// <returns></returns>
         public static int PointExistTimes(ref List<List<Point>> Lines, ref List<List<Point>> Curves, Point point)
-        {            
-            return (Lines.Where(s => s.Exists(k => k == point)).ToList().Count)+ (Curves.Where(s => s.Exists(k => k == point)).ToList().Count);
+        {
+            return (Lines.Where(s => s.Exists(k => k == point)).ToList().Count) + (Curves.Where(s => s.Exists(k => k == point)).ToList().Count);
         }
         /// <summary>
         /// 
@@ -151,7 +151,7 @@ namespace Track_Project
         public static void DeleteRepeatPoints(ref List<List<Point>> Curves)
         {
             List<Point> Buffer = new List<Point>();
-            for (int i =0; i<Curves.Count; i++)
+            for (int i = 0; i < Curves.Count; i++)
             {
                 Buffer.AddRange(Curves[i].Distinct().ToList());
                 Curves.RemoveAt(i);
@@ -171,15 +171,15 @@ namespace Track_Project
         public static List<Point> PointNextObject(List<List<Point>> Lines, ref List<List<Point>> Curves, Point point, Point mirror, ConstantsAndTypes.TypesOfTrack type)
         {
             List<Point> Buffer = new List<Point>();
-             if (Lines.Where((s => s.Contains(point) && !s.Contains(mirror))).ToList().Count>0)
+            if (Lines.Where((s => s.Contains(point) && !s.Contains(mirror))).ToList().Count > 0)
             {
-                Buffer=Lines.Where(s => s.Contains(point) && !s.Contains(mirror)).ToList()[0];
+                Buffer = Lines.Where(s => s.Contains(point) && !s.Contains(mirror)).ToList()[0];
                 if (Buffer[0] != point)
-                     Buffer.Reverse();
+                    Buffer.Reverse();
             }
-            else if(Curves.Where((s => s.Contains(point) && !s.Contains(mirror))).ToList().Count > 0)
+            else if (Curves.Where((s => s.Contains(point) && !s.Contains(mirror))).ToList().Count > 0)
             {
-                Buffer= Curves.Where(s => s.Contains(point) && !s.Contains(mirror)).ToList()[0];
+                Buffer = Curves.Where(s => s.Contains(point) && !s.Contains(mirror)).ToList()[0];
                 if (Buffer[0] != point)
                     Buffer.Reverse();
             }

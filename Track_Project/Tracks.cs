@@ -7,7 +7,11 @@ using System.Threading.Tasks;
 
 namespace Track_Project
 {
-    public class Tracks
+    public interface ICloneable<T>
+    {
+        T Clone();
+    }
+    public class Tracks : ICloneable
     {
         #region Properties
         private float thickness = 1;
@@ -30,7 +34,10 @@ namespace Track_Project
         }
         public Tracks(List<List<Point>> _Lines, List<List<Point>> _Curves, SolidBrush _Line_Color, string _Name)
         {
-            Lines.AddRange(_Lines);
+            foreach (List<Point> TMP_Line in _Lines)
+            {
+                Lines.Add(TMP_Line.ConvertAll(p => new Point(p.X, p.Y)));
+            }
             Curves.AddRange(_Curves);
             Line_Color = _Line_Color;
             Name = _Name;
@@ -71,7 +78,8 @@ namespace Track_Project
         /// <param name="_Lines"></param>
         public void Add_Lines(List<List<Point>> _Lines)
         {
-            Lines.AddRange(_Lines);
+            Lines.AddRange((_Lines as IEnumerable<List<Point>>).ToList());
+            //Lines.Concat(_Lines.ToList());
         }
         /// <summary>
         /// Add A point, it will apply the zoom and the screen offset
@@ -711,7 +719,7 @@ namespace Track_Project
         public void SetLines(List<List<Point>> _Lines)
         {
             Delete_All_Lines();
-            Lines.AddRange(_Lines);
+            Lines = Lines.Concat(_Lines.ToArray()).ToList();
         }
         /// <summary>
         /// Set the lines points with reference in order to have a better performance
@@ -720,7 +728,7 @@ namespace Track_Project
         public void SetLines(ref List<List<Point>> _Lines)
         {
             Delete_All_Lines();
-            Lines.AddRange(_Lines);
+            Lines.AddRange(_Lines.ToList());
         }
         /// <summary>
         /// Set the curves points
@@ -826,6 +834,13 @@ namespace Track_Project
         {
             return operations;
         }
+        public object Clone()
+        {
+            Tracks Clone_Track = new Tracks(Lines, Curves, Line_Color, Name);
+            return Clone_Track;
+        }
+
+
         #endregion
         #endregion
     }

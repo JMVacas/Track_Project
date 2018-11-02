@@ -14,7 +14,7 @@ namespace Track_Project
     public partial class Form2 : Form
     {
 
-        private Tracks track_;
+        private Tracks track_ = new Tracks();
         private List<Tracks> tracks= new List<Tracks>();
         private Point Origin;
         private PictureBox Paleta;
@@ -27,7 +27,7 @@ namespace Track_Project
         }
         public Form2(ref Tracks _track, ref List<Tracks> _tracks, Point _Origin, ref PictureBox _Paleta)
         {
-            track_ = _track;
+            track_= _track;
             track_.SetName("Track actual");
             tracks.AddRange(_tracks);
             Origin = _Origin;
@@ -54,11 +54,10 @@ namespace Track_Project
                 Track_Select_Box.SelectedItem = Track_Select_Box.Items[0];
 
             }
-            foreach (Tracks _track in tracks)
+            foreach (Tracks _tracky in tracks)
             {
-                Track_Select_Box.Items.Add(_track.GetName());
+                Track_Select_Box.Items.Add(_tracky.GetName());
             }
-            PopulateDataGridView(track_);
             Track_Select_Box.EndUpdate();
 
         }
@@ -92,9 +91,15 @@ namespace Track_Project
             if (Track_Select_Box.SelectedItem == null)
                 Track_Select_Box.SelectedItem = Track_Select_Box.Items[0];
             if (Track_Select_Box.SelectedItem.ToString() == track_.GetName())
-                Line_Data_CellEndEdit_Function(track_, e);
+            {
+                Form1._track = Line_Data_CellEndEdit_Function(track_, e);
+                track_ = Form1._track;
+            }
             else
-                Line_Data_CellEndEdit_Function(tracks[Track_Select_Box.SelectedIndex - 1], e);
+            {
+                Form1.tracks[Track_Select_Box.SelectedIndex - 1] = Line_Data_CellEndEdit_Function(tracks[Track_Select_Box.SelectedIndex - 1], e);
+                tracks[Track_Select_Box.SelectedIndex - 1] = Form1.tracks[Track_Select_Box.SelectedIndex - 1];
+            }
         }
 
         private void Add_Row_Click(object sender, EventArgs e)
@@ -184,12 +189,43 @@ namespace Track_Project
 
             }
         }
-        private void Line_Data_CellEndEdit_Function(Tracks track, DataGridViewCellEventArgs e)
+        private void Add_Row_Function(ref Tracks track)
+        {
+            if (tabControl1.SelectedTab.Name == Lines_Name)
+            {
+                Point[] points = new Point[PointsOfaLine] { Origin, Origin };
+                for (int i = 0; i < PointsOfaLine; i++)
+                {
+                    string[] rows = { track.GetLines().Count.ToString(), ((points[i].X - Origin.X) / ConstantsAndTypes.ADOPTSCALEFACTOR).ToString(), ((-points[i].Y + Origin.Y) / ConstantsAndTypes.ADOPTSCALEFACTOR).ToString() };
+                    Line_Data.Rows.Add(rows);
+                }
+                track.GetLines().Add(points.ToList());
+                Paleta.Refresh();
+            }
+            else if (tabControl1.SelectedTab.Name == Curves_Name)
+            {
+                Point[] points = new Point[PointsOfaCurve];
+
+                for (int i = 0; i < PointsOfaCurve; i++)
+                {
+                    points[i] = Origin;
+                    string[] rows = { track.GetCurves().Count.ToString(), ((points[i].X - Origin.X) / ConstantsAndTypes.ADOPTSCALEFACTOR).ToString(), ((-points[i].Y + Origin.Y) / ConstantsAndTypes.ADOPTSCALEFACTOR).ToString() };
+                    Curve_Data.Rows.Add(rows);
+                }
+                track.GetCurves().Add(points.ToList());
+                Paleta.Refresh();
+            }
+            else
+            {
+
+            }
+        }
+        private Tracks Line_Data_CellEndEdit_Function(Tracks track, DataGridViewCellEventArgs e)
         {
             try
             {
-                Convert.ToInt32(Line_Data.Rows[e.RowIndex].Cells[1].Value.ToString());
-                Convert.ToInt32(Line_Data.Rows[e.RowIndex].Cells[2].Value.ToString());
+                Convert.ToInt32(Math.Round(Convert.ToDouble(Line_Data.Rows[e.RowIndex].Cells[1].Value.ToString())* ConstantsAndTypes.ADOPTSCALEFACTOR));
+                Convert.ToInt32(Math.Round(Convert.ToDouble(Line_Data.Rows[e.RowIndex].Cells[2].Value.ToString())*ConstantsAndTypes.ADOPTSCALEFACTOR));
             }
             catch (FormatException ex)
             {
@@ -197,9 +233,12 @@ namespace Track_Project
                 Line_Data.Rows[e.RowIndex].Cells[2].Value = (-track.GetLines()[e.RowIndex / PointsOfaLine][e.RowIndex % 2].Y + Origin.Y) / ConstantsAndTypes.ADOPTSCALEFACTOR;
                 MessageBox.Show(this, "Por favor, introduzca un valor\ncorrecto en la celda\n" + ex.Message, "Error al introducir un valor", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-            Point point = new Point(Convert.ToInt32(Line_Data.Rows[e.RowIndex].Cells[1].Value.ToString()) + (Origin.X / Convert.ToInt32(ConstantsAndTypes.ADOPTSCALEFACTOR)), -Convert.ToInt32(Line_Data.Rows[e.RowIndex].Cells[2].Value.ToString()) + (Origin.Y / Convert.ToInt32(ConstantsAndTypes.ADOPTSCALEFACTOR)));
-            track.GetLines()[e.RowIndex / PointsOfaLine].RemoveAt(e.RowIndex % PointsOfaLine);
-            track.GetLines()[e.RowIndex / PointsOfaLine].Insert(e.RowIndex % PointsOfaLine, point);
+            Point point = new Point(Convert.ToInt32(Math.Round(Convert.ToDouble(Line_Data.Rows[e.RowIndex].Cells[1].Value.ToString()) * ConstantsAndTypes.ADOPTSCALEFACTOR)) + Origin.X , -Convert.ToInt32(Math.Round(Convert.ToDouble(Line_Data.Rows[e.RowIndex].Cells[2].Value.ToString()) * ConstantsAndTypes.ADOPTSCALEFACTOR)) + Origin.Y);
+            Tracks Line_Buffer = new Tracks();
+            Line_Buffer = (Tracks)track.Clone();
+            Line_Buffer.GetLines()[e.RowIndex / PointsOfaLine].RemoveAt(e.RowIndex % PointsOfaLine);
+            Line_Buffer.GetLines()[e.RowIndex / PointsOfaLine].Insert(e.RowIndex % PointsOfaLine, point);
+            track = (Tracks)Line_Buffer.Clone();
             AddLine addLine = new AddLine();
             int i = new int();
             bool exit = false;
@@ -221,9 +260,10 @@ namespace Track_Project
             catch(ArgumentOutOfRangeException)
             {
 
-            }
+            }           
             Paleta.Invalidate();
             Paleta.Update();
+            return track;
         }
         private void Delete_Row_Click_Function(Tracks track)
         {
@@ -231,7 +271,6 @@ namespace Track_Project
             {
                 if (track.GetLines().Count > 0)
                 {
-                    track.GetLines().RemoveAt(track.GetLines().Count - 1);
                     for (int i = 0; i < PointsOfaLine; i++)
                     {
                         Line_Data.Rows.RemoveAt(Line_Data.Rows.Count - 1);
@@ -306,6 +345,11 @@ namespace Track_Project
             PopulateDataGridView(track_);
             else
                 PopulateDataGridView(tracks[Track_Select_Box.SelectedIndex - 1]);
+        }
+
+        private void Track_Select_Box_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

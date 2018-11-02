@@ -181,6 +181,7 @@ namespace Track_Project
             this.Track_Select_Box.Name = "Track_Select_Box";
             this.Track_Select_Box.Size = new System.Drawing.Size(152, 21);
             this.Track_Select_Box.TabIndex = 4;
+            this.Track_Select_Box.SelectedIndexChanged += new System.EventHandler(this.Track_Select_Box_SelectedIndexChanged);
             this.Track_Select_Box.SelectedValueChanged += new System.EventHandler(this.Track_Select_Box_SelectedValueChanged);
             // 
             // form2BindingSource

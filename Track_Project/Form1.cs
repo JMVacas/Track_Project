@@ -24,12 +24,12 @@ namespace Track_Project
         const int Infinite_X = 214748360; const int Infinite_Y = 214748360;
         const int Min_Divide_Points = 5, Max_Divide_Points = 2000;
         private List<Point> Map_Points = new List<Point>();
-        private Point Origen = new Point(385, 208), Punto_Arrastre = new Point();
+        public Point Origen = new Point(385, 208), Punto_Arrastre = new Point();
         private Point Punto_Seleccionado_1 = new Point(), Punto_Seleccionado_2 = new Point(), Punto_Cero = new Point(), Mouse_Position = new Point();
         private bool Preview_Linea, View_Equal_Point;
         private int Index_x, Index_y, Posicion_x, Posicion_y;
-        private List<Tracks> tracks = new List<Tracks>();
-        private Tracks _track = new Tracks();
+        public static List<Tracks> tracks = new List<Tracks>();
+        public static Tracks _track = new Tracks();
         public Color Line_Color = Color.DarkRed;
         private readonly SolidBrush[] Tracks_Color = new SolidBrush[] { new SolidBrush(Color.Brown), new SolidBrush(Color.Aqua), new SolidBrush(Color.DarkGreen), new SolidBrush(Color.DarkMagenta), new SolidBrush(Color.DarkTurquoise), new SolidBrush(Color.DarkOrange), new SolidBrush(Color.FloralWhite), new SolidBrush(Color.ForestGreen), new SolidBrush(Color.Gold) };
         Double Zoom = 5;
@@ -352,10 +352,13 @@ namespace Track_Project
         {
             if (Track_Edit_Select.SelectedItem.ToString() != "Track actual")
             {
+
                 _track.Delete_All();
-                _track.Add_Lines(tracks[Track_Edit_Select.SelectedIndex].GetLines());
-                _track.Add_Curves(tracks[Track_Edit_Select.SelectedIndex].GetCurves());
+                //_track.Add_Lines(tracks[Track_Edit_Select.SelectedIndex].GetLines());
                 Line_Color = tracks[Track_Edit_Select.SelectedIndex].GetColor().Color;
+                _track = (Tracks)tracks[Track_Edit_Select.SelectedIndex].Clone();
+                //_track = (tracks[Track_Edit_Select.SelectedIndex] as Tracks);
+                
                 _track.SetName("Track actual");
                 Paleta.Invalidate();
                 Paleta.Update();

@@ -9,7 +9,9 @@
 //------------------------------------------------------------------------------
 
 namespace Track_Project {
-    using System;  
+    using System;
+    
+    
     /// <summary>
     ///   Clase de recurso fuertemente tipado, para buscar cadenas traducidas, etc.
     /// </summary>

@@ -15,6 +15,8 @@ namespace Track_Project
     {
         private Bitmap bitmap;
         private List<Point> points = new List<Point>();
+        private const int Pos_Y = 208;
+        private const int Pos_X = 385;
         public Form3()
         {
             Explorador explorador = new Explorador();
@@ -83,6 +85,18 @@ namespace Track_Project
                 buffer.Y = points[i].Y + Offset_Y;
                 points[i] = buffer;
             }
+            Refresh();
+        }
+
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            ConstantsAndTypes.ADOPTSCALEFACTOR = (double)numericUpDown1.Value;
+            Explorador explorador = new Explorador();
+            explorador.Abrir_Explorador(ref points);
             Refresh();
         }
     }

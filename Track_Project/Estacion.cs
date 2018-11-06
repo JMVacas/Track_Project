@@ -10,7 +10,7 @@ namespace Track_Project
     public class Estacion
     {
         public Point DefinedPoint;
-        public List<int> Tracks_Numbers;
+        public List<int> Tracks_Numbers = new List<int>();
         public List<string> Track_Name = new List<string>();
         public Estacion ()
         {
@@ -26,16 +26,17 @@ namespace Track_Project
             DefinedPoint = _DefinedPoint;
         }
 
-        public void AddRelatedTrack (string _Track_name)
+        public void AddRelatedTrack (int _Track_name)
         {
-            if (!Track_Name.Exists (s => s == _Track_name))
+            if (!Tracks_Numbers.Exists (s => s == _Track_name))
             {
-                Track_Name.Add(_Track_name);
+                Tracks_Numbers.Add(_Track_name);
             }
         }
         public void SetPoint(in Point point)
         {
             DefinedPoint = point;
         }
+
     }
 }

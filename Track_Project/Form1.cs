@@ -465,14 +465,14 @@ namespace Track_Project
                         case ConstantsAndTypes.TypesOfTrack.ClosedTrack:
                             MessageBox.Show(this, "Is a close track", "Closed track", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             Export_Points.AddRange(CodesysPoints(ref Selected));
-                            Explorador.Guardar_Explorador(ref Export_Points, Origen);
+                          //  Explorador.Guardar_Explorador(ref Export_Points, Origen);
                             break;
                         case ConstantsAndTypes.TypesOfTrack.SemiClosedTrack:
                             MessageBox.Show(this, "Is a semiclosed track", "Closed track", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             if (Open_Points.Count == 2)
                             {
                                 Export_Points.AddRange(CodesysPoints(ref Selected, ref Open_Points));
-                                Explorador.Guardar_Explorador(ref Export_Points, Origen);
+                          //      Explorador.Guardar_Explorador(ref Export_Points, Origen);
                             }
 
                             break;
@@ -521,6 +521,7 @@ namespace Track_Project
         {
             if (tracks.Count > 1)
             {
+                Estaciones.Clear();
                 List<Tracks> Using_Tracks = new List<Tracks>();
                 List<Point> Station_Points = new List<Point>();
                 List<Point> TMP_Station_Points = new List<Point>();
@@ -529,7 +530,7 @@ namespace Track_Project
                     tracks[i].SetType();
                 }
                 Using_Tracks.AddRange(tracks.FindAll(t => t.Type == ConstantsAndTypes.TypesOfTrack.SemiClosedTrack));
-                for (int i = 0; i<Using_Tracks.Count; i++)
+               /* for (int i = 0; i<Using_Tracks.Count; i++)
                 {
                     for (int j = Using_Tracks.Count -1; j>i; j--)
                     {
@@ -537,31 +538,37 @@ namespace Track_Project
                         {
                             Station_Points.Add(Using_Tracks[j].GetOrderPoints()[0]);
                         }
-                         else if (Using_Tracks[j].GetOrderPoints()[0] == Using_Tracks[i].GetOrderPoints()[Using_Tracks[i].GetOrderPoints().Count])
+                         else if (Using_Tracks[j].GetOrderPoints()[0] == Using_Tracks[i].GetOrderPoints()[Using_Tracks[i].GetOrderPoints().Count -1])
                         {
                             Station_Points.Add(Using_Tracks[j].GetOrderPoints()[0]);
                         }
-                        else if ((Using_Tracks[j].GetOrderPoints()[Using_Tracks[j].GetOrderPoints().Count] == Using_Tracks[i].GetOrderPoints()[0]))
+                        else if ((Using_Tracks[j].GetOrderPoints()[Using_Tracks[j].GetOrderPoints().Count -1] == Using_Tracks[i].GetOrderPoints()[0]))
                         {
-                            Station_Points.Add(Using_Tracks[j].GetOrderPoints()[Using_Tracks[j].GetOrderPoints().Count]);
+                            Station_Points.Add(Using_Tracks[j].GetOrderPoints()[Using_Tracks[j].GetOrderPoints().Count -1]);
                         }
-                        else if ((Using_Tracks[j].GetOrderPoints()[Using_Tracks[j].GetOrderPoints().Count] == Using_Tracks[i].GetOrderPoints()[Using_Tracks[i].GetOrderPoints().Count]))
+                        else if ((Using_Tracks[j].GetOrderPoints()[Using_Tracks[j].GetOrderPoints().Count -1] == Using_Tracks[i].GetOrderPoints()[Using_Tracks[i].GetOrderPoints().Count - 1]))
                         {
-                            Station_Points.Add(Using_Tracks[j].GetOrderPoints()[Using_Tracks[j].GetOrderPoints().Count]);
+                            Station_Points.Add(Using_Tracks[j].GetOrderPoints()[Using_Tracks[j].GetOrderPoints().Count -1]);
                         }
                     }
+                }*/
+                for (int i = 0; i<Using_Tracks.Count; i++)
+                {
+                    Station_Points.Add(Using_Tracks[i].GetOrderPoints()[0]);
+                    Station_Points.Add(Using_Tracks[i].GetOrderPoints()[Using_Tracks[i].GetOrderPoints().Count -1]);
                 }
                 TMP_Station_Points.AddRange(Station_Points.Distinct());
                 Station_Points.Clear();
                 Station_Points.AddRange(TMP_Station_Points);
-                Estacion Buffer_Station = new Estacion();
                 List<List<Point>> TMP_Lines = new List<List<Point>>();
                 bool Exist = new bool();
                 for (int i = 0; i<Station_Points.Count; i++)
                 {
+                    Estacion Buffer_Station = new Estacion();
                     Buffer_Station.SetPoint(Station_Points[i]);
                     for (int j = 0; j < Using_Tracks.Count; j++)
                     {
+                        TMP_Lines = new List<List<Point>>();
                         TMP_Lines.AddRange(Using_Tracks[j].GetLines());
                         foreach (List<Point> Line in TMP_Lines)
                         {
@@ -573,14 +580,21 @@ namespace Track_Project
                         }
                         if (Exist)
                         {
-                            Buffer_Station.AddRelatedTrack(Using_Tracks[i].GetName());
+                            Exist = false;
+                            Buffer_Station.AddRelatedTrack(j);
                         }
                     }
                     Estaciones.Add(Buffer_Station);
                 }
+                
+                Guardar_Estaciones(Using_Tracks, Origen, Estaciones);      
             }
         }
+        private void Guardar_Estaciones (List<Tracks> Using_Tracks, Point L_Origen, List<Estacion> L_Estaciones)
+        {
+            Explorador.Guardar_Explorador(Using_Tracks, L_Origen, L_Estaciones);
 
+        }
         private void Tracks_View_OnClickHandler(object sender, EventArgs e)
         {
             // var result = MessageBox.Show(this, "Doing this action will delete all the active work\n Do you want to continue", "Warning", MessageBoxButtons.OKCancel);

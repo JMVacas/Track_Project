@@ -117,9 +117,15 @@ namespace Track_Project
         private void Delete_Row_Click(object sender, EventArgs e)
         {
             if (Track_Select_Box.SelectedItem.ToString() == track_.GetName())
-                Delete_Row_Click_Function(track_);
+            {
+                Form1._track = Delete_Row_Click_Function(track_);
+                track_ = Form1._track;
+            }
             else
-                Delete_Row_Click_Function(tracks[Track_Select_Box.SelectedIndex - 1]);
+            {
+                Form1.tracks[Track_Select_Box.SelectedIndex - 1] = Delete_Row_Click_Function(tracks[Track_Select_Box.SelectedIndex - 1]);
+                tracks[Track_Select_Box.SelectedIndex - 1] = Form1.tracks[Track_Select_Box.SelectedIndex - 1];
+            }
 
         }
 
@@ -265,10 +271,11 @@ namespace Track_Project
             Paleta.Update();
             return track;
         }
-        private void Delete_Row_Click_Function(Tracks track)
+        private Tracks Delete_Row_Click_Function(Tracks track)
         {
             if (tabControl1.SelectedTab.Name == Lines_Name)
             {
+                track.GetLines().RemoveAt(track.GetLines().Count - 1);
                 if (track.GetLines().Count > 0)
                 {
                     for (int i = 0; i < PointsOfaLine; i++)
@@ -276,7 +283,8 @@ namespace Track_Project
                         Line_Data.Rows.RemoveAt(Line_Data.Rows.Count - 1);
                     }
                     Paleta.Refresh();
-                }
+                }              
+                
             }
             else if (tabControl1.SelectedTab.Name == Curves_Name)
             {
@@ -295,6 +303,7 @@ namespace Track_Project
             {
                 MessageBox.Show(this, "Error, The tab control name doesn`t exists", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            return track;
 
         }
         private void Curve_Data_CellEndEdit_Function(Tracks track, DataGridViewCellEventArgs e)

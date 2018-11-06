@@ -32,7 +32,10 @@
             this.Mapa = new System.Windows.Forms.PictureBox();
             this.Giro_Mapa_90 = new System.Windows.Forms.Button();
             this.Giro_Mapa_180 = new System.Windows.Forms.Button();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.Actualizar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.Mapa)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
             // Importar
@@ -78,11 +81,31 @@
             this.Giro_Mapa_180.UseVisualStyleBackColor = true;
             this.Giro_Mapa_180.Click += new System.EventHandler(this.Giro_Mapa_180_Click);
             // 
+            // numericUpDown1
+            // 
+            this.numericUpDown1.Location = new System.Drawing.Point(1124, 134);
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDown1.TabIndex = 4;
+            this.numericUpDown1.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
+            // 
+            // Actualizar
+            // 
+            this.Actualizar.Location = new System.Drawing.Point(1123, 173);
+            this.Actualizar.Name = "Actualizar";
+            this.Actualizar.Size = new System.Drawing.Size(75, 23);
+            this.Actualizar.TabIndex = 5;
+            this.Actualizar.Text = "Actualizar";
+            this.Actualizar.UseVisualStyleBackColor = true;
+            this.Actualizar.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Form3
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1254, 586);
+            this.Controls.Add(this.Actualizar);
+            this.Controls.Add(this.numericUpDown1);
             this.Controls.Add(this.Giro_Mapa_180);
             this.Controls.Add(this.Giro_Mapa_90);
             this.Controls.Add(this.Importar);
@@ -90,6 +113,7 @@
             this.Name = "Form3";
             this.Text = "Form3";
             ((System.ComponentModel.ISupportInitialize)(this.Mapa)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -101,5 +125,7 @@
         private System.Windows.Forms.Button Importar;
         private System.Windows.Forms.Button Giro_Mapa_90;
         private System.Windows.Forms.Button Giro_Mapa_180;
+        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.Button Actualizar;
     }
 }

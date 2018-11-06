@@ -17,7 +17,7 @@
             Next_Object,
             Finish_Object
         };
-        public const double ADOPTSCALEFACTOR = 7;
+        public static double ADOPTSCALEFACTOR = 7;
     }
 
 }

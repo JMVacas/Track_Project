@@ -172,7 +172,7 @@ namespace Track_Project
                 bitmap.Save(saveFileDialog1.FileName);
             }
         }
-        public static void Guardar_Explorador(ref List<List<System.Drawing.Point>> points, System.Drawing.Point Origin)
+        public static void Guardar_Explorador(List<Tracks> tracks , System.Drawing.Point Origin, List<Estacion> Estaciones)
         {
             SaveFileDialog saveFileDialog1 = new SaveFileDialog
             {
@@ -185,36 +185,129 @@ namespace Track_Project
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 FileStream fileStream = (FileStream)saveFileDialog1.OpenFile();
-                Save_Codesys(ref points, Origin, ref fileStream);
-                fileStream.Close();
-            }
-        }
-        private static void Save_Codesys(ref List<List<System.Drawing.Point>> points, System.Drawing.Point Origin, ref FileStream fileStream)
-        {
-            CodesysExportDialog codesysExportDialog = new CodesysExportDialog();
-            if (codesysExportDialog.ShowDialog() == DialogResult.OK)
-            {
-                string Orientation = codesysExportDialog.Orientation;
-                int Path_Number = codesysExportDialog.Path_Number;
-                for (int i = 0; i < points.Count; i++)
+                CodesysExportDialog codesysExportDialog = new CodesysExportDialog();
+                List<List<int>> indices = new List<List<int>>();
+                Get_All_Indexes(indices, Estaciones);
+                if (codesysExportDialog.ShowDialog() == DialogResult.OK)
                 {
-                    for (int j = 0; j < points[i].Count; j++)
+                    string Orientation = codesysExportDialog.Orientation;
+                    int Path_Number = codesysExportDialog.Path_Number;
+                   /* for (int i = 0; i < tracks.Count; i++)
                     {
-                        AddText(ref fileStream, "L_PATH_ARRAY[" + (i + 1) + "].PUNTOS[" + j + "].x:=" + Math.Round((points[i][j].X - (double)Origin.X) / ConstantsAndTypes.ADOPTSCALEFACTOR, 5).ToString(CultureInfo.CreateSpecificCulture("en-US")) + ";\r\n");
-                        AddText(ref fileStream, "L_PATH_ARRAY[" + (i + 1) + "].PUNTOS[" + j + "].y:=" + Math.Round((-points[i][j].Y + (double)Origin.Y) / ConstantsAndTypes.ADOPTSCALEFACTOR, 5).ToString(CultureInfo.CreateSpecificCulture("en-US")) + ";\r\n");
+                        Save_Codesys(tracks[i].GetOrderPoints(), Origin, ref fileStream, i);
+                    }*/
+                   for (int i = 0; i<Estaciones.Count; i++)
+                    {
+                        for (int j = 0; j < Estaciones[i].Tracks_Numbers.Count; j++)
+                        {
+                            tracks[Estaciones[i].Tracks_Numbers[j]].SetEstaciones(Estaciones);
+                            if (tracks[Estaciones[i].Tracks_Numbers[j]].estacion_FIN > i)
+                            { 
+                                Save_Codesys(tracks[Estaciones[i].Tracks_Numbers[j]].GetOrderPoints(), Origin, ref fileStream, i, tracks[Estaciones[i].Tracks_Numbers[j]].estacion_FIN, Orientation);
+                            }
+                        }
+                    
                     }
-                    AddText(ref fileStream, "L_PATH_ARRAY[" + (i + 1) + "].LENGTH:=" + points[i].Count + ";\r\n");
-                    AddText(ref fileStream, "L_PATH_ARRAY[" + (i + 1) + "].PATH_NUMBER:=" + (i + 1) + ";\r\n");
-                    AddText(ref fileStream, "L_PATH_ARRAY[" + (i + 1) + "].PATH_ORIENTATION:=" + Orientation + ";\r\n\n");
+                    AddText(ref fileStream, "\n(***COORDENADAS DE LAS ESTACIONES***)\n");
+                    for (int i = 0; i<Estaciones.Count; i++)
+                    {
+                        AddText(ref fileStream, "STATION_COORD[" + (i + 1) + "].x:=" + Math.Round((Estaciones[i].DefinedPoint.X - (double)Origin.X) / ConstantsAndTypes.ADOPTSCALEFACTOR, 5).ToString(CultureInfo.CreateSpecificCulture("en-US")) + ";\r\n");
+                        AddText(ref fileStream, "STATION_COORD[" + (i + 1) + "].y:=" + Math.Round((-Estaciones[i].DefinedPoint.Y + (double)Origin.Y) / ConstantsAndTypes.ADOPTSCALEFACTOR, 5).ToString(CultureInfo.CreateSpecificCulture("en-US")) + ";\r\n");
+                    }
+                    int[,] Matriz_De_Costes = new int[Estaciones.Count, Estaciones.Count];
+                    AddText(ref fileStream, "\n(***MATRIZ DE COSTES***)\n");
+                    for (int i = 0; i < Estaciones.Count; i++)
+                    {
+                        for (int j = 0; j< Estaciones.Count; j++)
+                        {
+                            if (i != j)
+                                Matriz_De_Costes[i, j] = 5000000;
+                            else
+                                Matriz_De_Costes[i, j] = 0;
+                        }
+                    }
+                   for (int i = 0; i<Estaciones.Count; i++)
+                    {
+                        for (int j =0 ; j<Estaciones[i].Tracks_Numbers.Count; j++ )
+                        {
+                            if (tracks[Estaciones[i].Tracks_Numbers[j]].estacion_FIN  != i)
+                                Matriz_De_Costes[i, tracks[Estaciones[i].Tracks_Numbers[j]].estacion_FIN] = tracks[Estaciones[i].Tracks_Numbers[j]].GetLongitud();
+                            else
+                                Matriz_De_Costes[i, tracks[Estaciones[i].Tracks_Numbers[j]].estacion_Inicio] = tracks[Estaciones[i].Tracks_Numbers[j]].GetLongitud();
+                        }
+                    }
+                    for (int i = 0; i < Estaciones.Count; i++)
+                    {
+                        for (int j = 0; j < Estaciones.Count; j++)
+                        {
+                            AddText(ref fileStream, "MATRIZ_DE_COSTE_INICIAL[" + (i + 1) + "][" + (j +1) + "]:=" + Matriz_De_Costes[i,j] + ";\r\n");
+                        }
+                        AddText(ref fileStream, "\n");
+                    }
+                    int[,] Matriz_De_Caminos = new int[Estaciones.Count, Estaciones.Count];
+                    AddText(ref fileStream, "\n(***MATRIZ DE CAMINOS***)\n");
+                    for (int i = 0; i < Estaciones.Count; i++)
+                    {
+                        for (int j = 0; j < Estaciones.Count; j++)
+                        {
+                            Matriz_De_Caminos[i, j] = 0;
+                        }
+                    }
+                    for (int i = 0; i < Estaciones.Count; i++)
+                    {
+                        for (int j = 0; j < Estaciones[i].Tracks_Numbers.Count; j++)
+                        {
+                            if (tracks[Estaciones[i].Tracks_Numbers[j]].estacion_FIN != i)
+                                Matriz_De_Caminos[i, tracks[Estaciones[i].Tracks_Numbers[j]].estacion_FIN] = tracks[Estaciones[i].Tracks_Numbers[j]].estacion_FIN + 1;
+                            else
+                                Matriz_De_Caminos[i, tracks[Estaciones[i].Tracks_Numbers[j]].estacion_Inicio] = tracks[Estaciones[i].Tracks_Numbers[j]].estacion_Inicio + 1;
+                        }
+                    }
+                    for (int i = 0; i < Estaciones.Count; i++)
+                    {
+                        for (int j = 0; j < Estaciones.Count; j++)
+                        {
+                            AddText(ref fileStream, "PATH_FROM_TO[" + (i + 1) + "][" + (j + 1) + "]:=" + Matriz_De_Caminos[i, j] + ";\r\n");
+                        }
+                        AddText(ref fileStream, "\n");
+                    }
+
                 }
+                    fileStream.Close();
 
             }
+        }
+        private static void Save_Codesys(List<System.Drawing.Point> points, System.Drawing.Point Origin, ref FileStream fileStream, int i, int indice, string Orientation)
+        {
+            AddText(ref fileStream, "(*** ESTACION " + (i + 1) + "-" + (indice + 1) + " ***)\r\n");
+            for (int j = 0; j < points.Count; j++)
+            {
+                AddText(ref fileStream, "O_PATH_ARRAY[" + (2*i + 1) + "].PUNTOS[" + j + "].x:=" + Math.Round((points[j].X - (double)Origin.X) / ConstantsAndTypes.ADOPTSCALEFACTOR, 5).ToString(CultureInfo.CreateSpecificCulture("en-US")) + ";\r\n");
+                AddText(ref fileStream, "O_PATH_ARRAY[" + (2*i + 1) + "].PUNTOS[" + j + "].y:=" + Math.Round((-points[j].Y + (double)Origin.Y) / ConstantsAndTypes.ADOPTSCALEFACTOR, 5).ToString(CultureInfo.CreateSpecificCulture("en-US")) + ";\r\n");                   
+            }
+            AddText(ref fileStream, "O_PATH_ARRAY[" + (2*i + 1) + "].PATH_NUMBER:=" + (2*i + 1) + ";\r\n");
+            AddText(ref fileStream, "O_PATH_ARRAY[" + (2*i + 1) + "].LENGTH:=" + points.Count + ";\r\n");
+            AddText(ref fileStream, "L_PATH_ARRAY[" + (2*i + 1) + "].PATH_ORIENTATION:=" + Orientation + ";\r\n\n");
+            int f = new int();
+            for (int j = points.Count -1; j >= 0; j--)
+            {
+                AddText(ref fileStream, "O_PATH_ARRAY[" + (2 * i + 2) + "].PUNTOS[" + j + "].x:=" + Math.Round((points[f].X - (double)Origin.X) / ConstantsAndTypes.ADOPTSCALEFACTOR, 5).ToString(CultureInfo.CreateSpecificCulture("en-US")) + ";\r\n");
+                AddText(ref fileStream, "O_PATH_ARRAY[" + (2 * i + 2) + "].PUNTOS[" + j + "].y:=" + Math.Round((-points[f].Y + (double)Origin.Y) / ConstantsAndTypes.ADOPTSCALEFACTOR, 5).ToString(CultureInfo.CreateSpecificCulture("en-US")) + ";\r\n");
+                f++;
+            }
+            AddText(ref fileStream, "O_PATH_ARRAY[" + (2 * i + 2) + "].PATH_NUMBER:=" + (2 * i + 2) + ";\r\n");
+            AddText(ref fileStream, "O_PATH_ARRAY[" + (2 * i + 1) + "].LENGTH:=" + points.Count + ";\r\n\n");
+            AddText(ref fileStream, "L_PATH_ARRAY[" + (2*i + 2) + "].PATH_ORIENTATION:=" + Orientation + ";\r\n\n");
         }
 
         private static void AddText(ref FileStream fileStream, string v)
         {
             byte[] info = new UTF8Encoding(true).GetBytes(v);
             fileStream.Write(info, 0, info.Length);
+        }
+
+        private static void Get_All_Indexes(List<List<int>> indices, List<Estacion> L_Estaciones)
+        {
         }
 
         #endregion
